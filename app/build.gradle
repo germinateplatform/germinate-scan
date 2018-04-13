@@ -1,0 +1,73 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        release {
+            // This will be filled with our top secret data...
+        }
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    compileSdkVersion 27
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        applicationId "uk.ac.hutton.android.germinatescan"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 27
+        versionName "1.18.04.13"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            // Mark the debug version
+            applicationIdSuffix '.debug'
+            versionNameSuffix ' Debug'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+
+    maven { url "http://dl.bintray.com/journeyapps/maven" }
+    maven { url "https://jitpack.io" }
+    maven { url "https://maven.google.com" }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.android.gms:play-services-maps:11.6.0'
+    compile 'com.google.android.gms:play-services-analytics:11.6.0'
+    compile 'com.heinrichreimersoftware:material-intro:1.6.2'
+    compile 'com.android.support:appcompat-v7:27.1.0'
+    compile 'com.android.support:recyclerview-v7:27.1.0'
+    compile 'com.android.support:cardview-v7:27.1.0'
+    compile 'com.android.support:palette-v7:27.1.0'
+    compile 'com.android.support:design:27.1.0'
+    compile 'com.andkulikov:transitionseverywhere:1.7.0'
+    // Supports Android 4.0.3 and later (API level 15)
+    compile 'com.journeyapps:zxing-android-embedded:3.2.0@aar'
+    compile 'com.google.zxing:core:3.2.0'
+    compile 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+}
+
+
+// Get the key store information from the properties file
+def props = new Properties()
+props.load(new FileInputStream(project.file("release.properties")))
+android.signingConfigs.release.storeFile rootProject.file(props.keyStore)
+android.signingConfigs.release.storePassword props.keyStorePassword
+android.signingConfigs.release.keyAlias props.keyAlias
+android.signingConfigs.release.keyPassword props.keyAliasPassword

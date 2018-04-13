@@ -1,0 +1,52 @@
+<!--
+  ~  Copyright 2018 Information and Computational Sciences,
+  ~  The James Hutton Institute.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+	  xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<item
+		android:id="@+id/menu_scan_barcode"
+		android:icon="@drawable/menu_barcode"
+		android:orderInCategory="100"
+		app:showAsAction="ifRoom"
+		android:title="@string/menu_scan_barcode"/>
+	<item
+		android:id="@+id/menu_take_picture"
+		android:icon="@drawable/menu_camera"
+		android:orderInCategory="100"
+		app:showAsAction="ifRoom"
+		android:title="@string/menu_take_picture"/>
+	<item
+		android:id="@+id/menu_export_database"
+		android:icon="@drawable/menu_save_dark"
+		android:orderInCategory="100"
+		app:showAsAction="ifRoom"
+		android:title="@string/menu_export_database"/>
+	<item
+		android:id="@+id/menu_clear_database"
+		android:icon="@drawable/menu_trash_dark"
+		android:orderInCategory="100"
+		app:showAsAction="ifRoom"
+		android:title="@string/menu_clear_database"/>
+	<item
+		android:id="@+id/menu_load_phenotypes"
+		android:icon="@drawable/menu_import"
+		android:orderInCategory="100"
+		app:showAsAction="ifRoom"
+		android:title="@string/menu_import_phenotypes"/>
+
+</menu>

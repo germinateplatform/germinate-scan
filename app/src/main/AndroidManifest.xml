@@ -1,0 +1,120 @@
+<!--
+  ~  Copyright 2018 Information and Computational Sciences,
+  ~  The James Hutton Institute.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<manifest
+	package="uk.ac.hutton.android.germinatescan"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+	<application
+		android:allowBackup="true"
+		android:icon="@drawable/ic_launcher"
+		android:label="@string/app_name"
+		android:theme="@style/AppThemeLight">
+
+		<provider
+			android:name="android.support.v4.content.FileProvider"
+			android:authorities="${applicationId}.provider"
+			android:exported="false"
+			android:grantUriPermissions="true">
+			<meta-data
+				android:name="android.support.FILE_PROVIDER_PATHS"
+				android:resource="@xml/provider_paths"/>
+		</provider>
+
+		<activity
+			android:name=".activity.BarcodeReader"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/app_name"
+			android:windowSoftInputMode="stateHidden">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+
+		<activity
+			android:name=".activity.MapActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/activity_map"/>
+
+		<activity
+			android:name=".activity.ChangelogActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/activity_changelog">
+		</activity>
+
+		<activity
+			android:name=".activity.ExportSettingsActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/activity_export_settings"/>
+
+		<activity
+			android:name=".activity.AboutActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/activity_about"/>
+
+		<activity
+			android:name=".activity.DatasetActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/activity_datasets"/>
+
+		<activity
+			android:name=".activity.PreferencesActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/activity_settings"/>
+
+		<activity
+			android:name=".activity.ImageDetailActivity"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:label="@string/activity_images"/>
+
+		<activity
+			android:name=".activity.IntroductionActivity"
+			android:configChanges="orientation|screenSize"/>
+
+		<activity
+			android:name=".activity.PhenotypeActivity"
+			android:configChanges="orientation|screenSize"/>
+
+		<activity
+			android:name=".activity.BarcodeSelectionActivity"
+			android:configChanges="orientation|screenSize"/>
+
+		<activity android:name=".activity.ApacheLicenseActivity"/>
+
+		<meta-data
+			android:name="com.google.android.maps.v2.API_KEY"
+			android:value="@string/google_maps_api_key"/>
+
+		<meta-data
+			android:name="com.google.android.gms.version"
+			android:value="@integer/google_play_services_version"/>
+
+		<!-- Google Analytics Version v4 needs this value for easy tracking -->
+		<meta-data
+			android:name="com.google.android.gms.analytics.globalConfigResource"
+			android:resource="@xml/global_tracker"/>
+
+	</application>
+
+</manifest>

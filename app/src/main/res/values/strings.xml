@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~  Copyright 2018 Information and Computational Sciences,
+  ~  The James Hutton Institute.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<resources>
+	<string name="app_name" translatable="false">Germinate Scan</string>
+	<string name="app_name_without_spaces" translatable="false">GerminateScan</string>
+
+	<string name="app_unknown_version_number">Unknown</string>
+
+	<string name="introduction_welcome_title">Welcome to Germinate Scan</string>
+	<string name="introduction_welcome_text">We\'ll guide you through a few steps to get Germinate Scan up and running. This should only take a
+		minute or two.
+	</string>
+	<string name="introduction_settings_title">Other settings</string>
+	<string name="introduction_settings_text">All other settings can be found under the \"Settings\" item in the navigation drawer on the left.\n\nNow let\'s get started!</string>
+
+	<string name="app_url">https://ics.hutton.ac.uk/germinate-scan</string>
+	<string name="app_url_online_help">https://github.com/germinateplatform/germinate-scan/wiki</string>
+
+	<string name="activity_settings">Settings</string>
+	<string name="activity_map">Overview Map</string>
+	<string name="activity_about">About</string>
+	<string name="activity_datasets">Datasets</string>
+	<string name="activity_export_settings">Export Format</string>
+	<string name="activity_images">Images</string>
+	<string name="activity_changelog">Changelog</string>
+
+	<string name="menu_visit_homepage">Visit homepage</string>
+	<string name="menu_online_help">Online help</string>
+	<string name="menu_datasets">Datasets</string>
+	<string name="menu_settings">Settings</string>
+	<string name="menu_map">Overview Map</string>
+	<string name="menu_about">About</string>
+
+
+	<string name="general_date_format">dd/MM/yyyy HH:mm:ss</string>
+	<string name="general_yes">Yes</string>
+	<string name="general_no">No</string>
+	<string name="general_accept">Accept</string>
+	<string name="general_close">Close</string>
+	<string name="general_save">Save</string>
+	<string name="general_cancel">Cancel</string>
+	<string name="general_select">Select</string>
+	<string name="general_active">Active</string>
+	<string name="general_add">Add</string>
+	<string name="general_delete">Delete</string>
+
+	<string name="dataset_initial">Initial dataset</string>
+	<string name="dataset_select">Please select a dataset</string>
+
+	<string name="drawer_open">Open navigation drawer</string>
+	<string name="drawer_close">Close navigation drawer</string>
+
+	<string name="toast_photo_saved_to">Image saved to: %1$s</string>
+	<string name="toast_file_saved_to">File saved to: %1$s</string>
+
+	<string name="toast_no_data">There is no date to save.</string>
+	<string name="toast_no_barcodes_with_location">No barcodes with valid location found.</string>
+	<string name="toast_no_export_properties">No export format defined.</string>
+	<string name="toast_exception">An error occurred: %1$s</string>
+	<string name="toast_permission_missing_storage">Write access to external storage has been denied.</string>
+	<string name="toast_permission_missing_camera">Camera access has been denied.</string>
+	<string name="toast_permission_explain_gps">Your location is used to tag barcodes and images.</string>
+
+	<string name="accessibility_germinate_mobile_logo">Germinate Scan Logo</string>
+	<string name="accessibility_shadow">Shadow</string>
+
+	<string name="dialog_title_reset_database">Reset database</string>
+	<string name="dialog_message_reset_database">You changed the number of barcodes per row (prev. value: %1$d). Changing this value requires a reset
+		of the internal database.\n\nDo you want to proceed?
+	</string>
+	<string name="dialog_message_reset_database_short">Are you sure you want to reset the database?</string>
+
+	<string name="dialog_list_save_image_barcode">Use last scanned barcode as file name</string>
+	<string name="dialog_list_save_image_barcode_first">Use first barcode in row as file name</string>
+	<string name="dialog_list_save_image_timestamp">Tag with current timestamp</string>
+	<string name="dialog_list_save_image_location">Tag with current location</string>
+	<string name="dialog_title_save_image">Save image</string>
+
+	<string name="dialog_list_delete_barcode">Delete barcode</string>
+	<string name="dialog_list_delete_row">Delete row</string>
+	<string name="dialog_list_show_images">Show associated images</string>
+
+	<string name="dialog_title_add_export_property">Add export property</string>
+
+	<string name="dialog_title_export_option">Choose export option</string>
+
+	<string name="dialog_title_download_warning">Warning</string>
+	<string name="dialog_message_download_warning">The voice feedback feature requires a text-to-speech (TTS) software to be available on your device.
+		If no TTS software isn\'t available, Android will attempt to download one. Make sure you are using a suitable network connection.\n\nDo you
+		want to enable this feature?
+	</string>
+
+	<string name="dialog_title_delete_image">Delete image</string>
+	<string name="dialog_message_delete_image">Are you sure you want to delete this image?</string>
+
+	<string name="dialog_title_eula_type">Choose EULA type</string>
+	
+	<string name="dialog_title_add_dataset">Add dataset</string>
+	<string name="dialog_message_add_dataset">Enter the name of the dataset</string>
+
+	<string name="dialog_title_delete_dataset">Delete dataset</string>
+	<string name="dialog_message_delete_dataset">Delete this dataset: %1$s</string>
+
+	<string name="dialog_title_rename_dataset">Rename dataset</string>
+
+	<string name="label_eula_commercial">EULA for commercial users</string>
+	<string name="label_eula_consumer">EULA for consumers</string>
+
+	<string name="menu_clear_database">Reset database</string>
+	<string name="menu_export_database">Export database</string>
+	<string name="menu_take_picture">Take picture</string>
+	<string name="menu_scan_barcode">Scan barcode</string>
+	<string name="menu_options">Options</string>
+	<string name="menu_map_satellite">Satellite view</string>
+	<string name="menu_map_map">Map view</string>
+	<string name="menu_export_add">Add</string>
+	<string name="menu_export_clear">Clear selection</string>
+	<string name="menu_map_follow_me">Follow my location</string>
+	<string name="menu_map_not_follow_me">Don\'t follow my location</string>
+	<string name="menu_open_image">Open image</string>
+	<string name="menu_import_clipboard">Import from clipboard</string>
+	<string name="menu_import_finish">Finish</string>
+	<string name="menu_import_phenotypes">Load traits</string>
+
+	<string name="menu_delete_image">Delete image</string>
+
+	<string name="menu_add_dataset">Add dataset</string>
+
+	<string name="about_text">
+		<![CDATA[<body><div id="main"><h1>About</h1><p><a href="%1$s">Germinate Scan</a> was written, designed and developed by <i>Sebastian Raubach</i> and <i>Paul Shaw</i> from the <a href="http://ics.hutton.ac.uk/">Information &amp; Computational Sciences Group</a> at <a href="http://www.hutton.ac.uk">The James Hutton Institute</a>, Dundee, Scotland.</p><p>For help and assistance in using this tool please contact <a href="mailto:germinate@hutton.ac.uk">germinate@hutton.ac.uk</a>.</p></div></body>]]></string>
+	<string name="preferences_title_general">General settings</string>
+	<string name="preferences_title_appearance">Appearance</string>
+	<string name="preferences_title_misc">Miscellaneous</string>
+	<string name="preferences_theme_title">Theme</string>
+	<string name="preferences_theme_summary_off">Currently: Light theme</string>
+	<string name="preferences_theme_summary_on">Currently: Dark theme</string>
+	<string name="preferences_nr_of_barcodes_title">Number of barcodes</string>
+	<string name="preferences_nr_of_barcodes_summary">Currently: %1$d</string>
+	<string name="preferences_delete_row_token_title">Delete row token</string>
+	<string name="preferences_delete_row_token_summary">Currently: %1$s</string>
+	<string name="preferences_delete_cell_token_title">Delete barcode token</string>
+	<string name="preferences_delete_cell_token_summary">Currently: %1$s</string>
+	<string name="preferences_null_token_title">Null/skip token</string>
+	<string name="preferences_null_token_summary">Currently: %1$s</string>
+	<string name="preferences_eula_title">Show EULA</string>
+	<string name="preferences_eula_summary">Show the end-user license agreement</string>
+	<string name="preferences_changelog_title">Show Changelog</string>
+	<string name="preferences_changelog_summary">Show the latest changes</string>
+	<string name="preferences_export_title">Export format</string>
+	<string name="preferences_export_summary">Select the format of the export output</string>
+	<string name="preferences_url_external_title">Open URLs in browser?</string>
+	<string name="preferences_url_external_summary">Should scanned barcodes containing URLs be opened in a browser?</string>
+	<string name="preferences_read_back_title">Voice feedback?</string>
+	<string name="preferences_ga_opt_out_title">Share statistics</string>
+	<string name="preferences_ga_opt_out_message">We will only use this info to analyse and improve the services offered through this app. For more
+		details see our EULA.
+	</string>
+
+	<string name="latitude_value">Lat.: %1$s</string>
+	<string name="longitude_value">Long.: %1$s</string>
+
+	<string name="location_unknown">\?</string>
+
+	<string name="map_current_location">Current location</string>
+
+	<string name="location_latitude">Latitude: %1$f</string>
+	<string name="location_longitude">Longitude: %1$f</string>
+	<string name="location_altitude">Altitude: %1$f</string>
+	<string name="location_time">Time: %1$s</string>
+	<string name="location_description">Barcode: %1$s</string>
+
+	<string name="dialog_title_disclaimer">EULA</string>
+
+	<string name="barcode_property_id">Id</string>
+	<string name="barcode_property_timestamp">Timestamp</string>
+	<string name="barcode_property_latitute">Latitude</string>
+	<string name="barcode_property_longitude">Longitude</string>
+	<string name="barcode_property_altitude">Altitude</string>
+	<string name="barcode_property_barcode">Barcode</string>
+	<string name="barcode_property_null_token" translatable="false">NULL</string>
+
+	<string name="barcode_example_title">Example:</string>
+	<string name="barcode_example_id" translatable="false">1</string>
+	<string name="barcode_example_latitute" translatable="false">56.45680855</string>
+	<string name="barcode_example_longitude" translatable="false">-3.06972116</string>
+	<string name="barcode_example_altitude" translatable="false">29</string>
+	<string name="barcode_example_barcode">Example Barcode</string>
+
+	<string name="introduction_message">Start scanning with your paired external bluetooth scanner or use the action bar icon (barcode) to scan using
+		your device\'s camera.
+	</string>
+	<string name="introduction_message_screen_lock">Please note, that your device\'s screen needs to stay turned on if you are using an external
+		bluetooth scanner.
+	</string>
+
+	<string name="label_no_images">Nothing to see here… No, really. There are no images for this barcode.</string>
+	<string name="label_export_matrix_format">Export in matrix format?</string>
+	<string name="label_export_option_save">Save on device</string>
+	<string name="label_export_option_send">Send file</string>
+
+	<string name="email_subject_export">Germinate Scan file</string>
+	<string name="email_message_export">Please find attached the exported file from Germinate Scan.</string>
+
+	<string name="intent_title_send_file">Send file as</string>
+
+	<string name="ga_tracking_id" translatable="false">UA-73714833-1</string>
+
+	<string name="ga_event_category_scan" translatable="false">Scan</string>
+	<string name="ga_event_action_scan" translatable="false">Scan</string>
+	<string name="ga_event_action_delete" translatable="false">Delete</string>
+
+	<string name="ga_event_category_preferences" translatable="false">Preferences</string>
+	<string name="ga_event_action_delete_row_token" translatable="false">Delete row token changed</string>
+	<string name="ga_event_action_null_token" translatable="false">Null token changed</string>
+	<string name="ga_event_action_nr_barcodes" translatable="false">Number of barcodes changed</string>
+	<string name="ga_event_action_theme_changed" translatable="false">Theme changed</string>
+	<string name="ga_event_action_read_back_changed" translatable="false">Voice feedback changed</string>
+	<string name="ga_event_action_show_eula" translatable="false">Show EULA</string>
+	<string name="ga_event_action_show_changelog" translatable="false">Show Changelog</string>
+	<string name="ga_event_action_eula_type" translatable="false">EULA type selected</string>
+
+	<string name="ga_event_label_eula_type_consumer" translatable="false">Consumer</string>
+	<string name="ga_event_label_eula_type_commercial" translatable="false">Commercial</string>
+
+	<string name="ga_event_action_eula_accepted" translatable="false">Accepted</string>
+	<string name="ga_event_action_eula_declined" translatable="false">Declined</string>
+
+	<string name="ga_event_category_database" translatable="false">Database</string>
+	<string name="ga_event_action_export" translatable="false">Export</string>
+	<string name="ga_event_action_reset" translatable="false">Reset</string>
+
+	<string name="ga_event_category_other" translatable="false">Other</string>
+	<string name="ga_event_action_take_picture" translatable="false">Take picture</string>
+	<string name="ga_event_action_scan_camera" translatable="false">Scan camera</string>
+
+	<string name="ga_event_category_eula" translatable="false">EULA</string>
+	<string name="ga_event_action_accept" translatable="false">Accepted</string>
+	<string name="ga_event_action_declined" translatable="false">Declined</string>
+
+	<string name="ga_event_category_exception" translatable="false">Exception</string>
+
+	<string name="ga_event_category_version" translatable="false">Version number</string>
+
+	<string name="ga_event_unit_ms" translatable="false">[ms]</string>
+
+	<string name="eula_intro_select">In order to use Germinate Scan we need you to agree to one of our End User Licence Agreements (EULA). We have a
+		EULA for
+		both consumers/private users and commercial users. The EULA sets out our legal obligations to our end users.
+	</string>
+
+	<string name="dialog_title_phenotype">Import from clipboard</string>
+	<string name="dialog_message_phenotype">Do you want to import phenotypes from the clipboard?</string>
+	<string name="dialog_title_phenotype_warning">Warning</string>
+	<string name="dialog_message_phenotype_warning">Continuing will reset your database. If you want to save your data, make sure to export it
+		first.\n\nDo you want to continue?
+	</string>
+
+	<string name="hint_phenotype_input">Type in traits</string>
+
+	<string name="google_play_url" translatable="false">https://play.google.com/store/apps/details?id=uk.ac.hutton.ics.germinatescan</string>
+	<string name="share_chooser_title">Share</string>
+
+	<string name="contact_email_subject" translatable="false">Germinate Scan</string>
+	<string name="contact_email_address" translatable="false">cropgeeksapps@hutton.ac.uk</string>
+	<string name="contact_email_dialog_title">Send email</string>
+
+	<string name="license_view_option_title">Choose an option</string>
+	<string name="license_view_option_view_license">View license</string>
+	<string name="license_view_option_view_github">View on GitHub</string>
+
+	<string name="about_tab_information">About</string>
+	<string name="about_tab_team">Team</string>
+	<string name="about_tab_license">License</string>
+
+	<string name="introduction_barcodes_text">Germinate Scan works by associating between 1 and 5 barcodes with each other in one row. This can be
+		used for various scenarios. Here are some examples:
+	</string>
+	<string name="introduction_barcodes_example_1_title">One: Photo tagging</string>
+	<string name="introduction_barcodes_example_1_text">Scan the item, then take a photo of it. The photo will be tagget with the item identifier as
+		well as the location and timestamp.
+	</string>
+	<string name="introduction_barcodes_example_2_title">Two: Categorization</string>
+	<string name="introduction_barcodes_example_2_text">Scan the item, then scan a category. This could be a seed package and its location in the seed
+		store.
+	</string>
+	<string name="introduction_barcodes_example_3_title">Three: Phenotyping</string>
+	<string name="introduction_barcodes_example_3_text">Scan the plant, then the trait and finally the phenotype. Select the \"Load traits\" menu item
+		to start semi-automated phenotyping mode.
+	</string>
+	<string name="introduction_barcodes_example_4_title">Four</string>
+	<string name="introduction_barcodes_example_4_text">We also support 4 barcodes. We currently can\'t think of any good use-cases, so please let us
+		know if you\'re using 4 barcodes per row.
+	</string>
+	<string name="introduction_barcodes_example_5_title">Five</string>
+	<string name="introduction_barcodes_example_5_text">We also support 5 barcodes. We currently can\'t think of any good use-cases, so please let us
+		know if you\'re using 5 barcodes per row.
+	</string>
+
+	<string name="dialog_title_after_intro_reset">Export/Revert</string>
+	<string name="dialog_message_after_intro_reset">You selected a different number of barcodes than what you had selected before. How do you want to proceed?</string>
+	<string name="dialog_list_export_and_reset">Export existing data and reset database</string>
+	<string name="dialog_list_cancel">Revert barcode number change</string>
+
+	<string name="title_activity_barcode_selection">Barcode selection</string>
+	
+	<string name="dialog_title_traits_importer">Traits imported</string>
+	<string name="dialog_message_traits_imported">Now you can scan the first plant, then continue by scoring the first phenotype. The next trait will automatically be loaded. Once all traits are scored, scan the next plant.</string>
+
+	<string name="tts_plant_complete">Phenotyping of %1$s complete.</string>
+</resources>

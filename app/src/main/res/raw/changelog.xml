@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Copyright 2018 Information and Computational Sciences,
+  ~  The James Hutton Institute.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<changelog bulletedList="true">
+
+	<changelogversion versionName="1.18.04.14" changeDate="13/04/2018">
+		<changelogtext>It's been a while, but we didn't forget you. Here's a new update that includes a big new feature.</changelogtext>
+		<changelogimprovement>Support for multiple datasets: You can now switch between multiple datasets without having to export and reset the database first. So you can have one dataset using the phenotyping mode and another one using the image tagging mode. Switch between datasets in the side menu.</changelogimprovement>
+		<changelogbug>A number of bugs have been fixed in this release.</changelogbug>
+	</changelogversion>
+
+	<changelogversion versionName="1.17.05.17" changeDate="17/05/2017">
+		<changelogtext>Finally, a big update! Hooray! And it's a good one.</changelogtext>
+		<changelogtext>Completely rewrote About screen to bring it in line with Buntata.</changelogtext>
+		<changelogimprovement>Added an introduction screen that will explain the features to new users and guide them through the process of setting everything up.</changelogimprovement>
+		<changelogbug>Fixed Google Map not showing up.</changelogbug>
+		<changelogimprovement>Introduced new phenotyping mode. You can pre-load traits and Germinate Scan will automatically fill them in while you're out phenotyping.</changelogimprovement>
+	</changelogversion>
+
+	<changelogversion versionName="1.17.04.13" changeDate="13/04/2017">
+		<changelogimprovement>Added the option to open scanned URLs in the browser.</changelogimprovement>
+	</changelogversion>
+
+	<changelogversion versionName="1.2.0" changeDate="11/02/2016">
+		<changelogtext>Long time no see. About time for a new release...</changelogtext>
+		<changelogimprovement>Added new export format options to the settings dialog.</changelogimprovement>
+		<changelogimprovement>Added option to send exported data by e-mail.</changelogimprovement>
+		<changelogimprovement>Added runtime permission support for Android Marshmallow.</changelogimprovement>
+		<changelogtext>Theme improvements.</changelogtext>
+	</changelogversion>
+
+	<changelogversion versionName="1.1.1" changeDate="17/04/2015">
+		<changelogbug>Fixed grid view not adapting to newly selected column number.</changelogbug>
+		<changelogtext>Updated barcode scanning library. Requires LESS permissions now. Now that's something you don't see very often...</changelogtext>
+		<changelogtext>Minor bug fixes.</changelogtext>
+	</changelogversion>
+
+	<changelogversion versionName="1.1.0" changeDate="20/03/2015">
+		<changelogtext>Main view is now based on a grid rather than a list.</changelogtext>
+		<changelogimprovement>Association of images with individual barcodes is now possible.</changelogimprovement>
+		<changelogimprovement>Deletion of individual barcodes by long clicking is now possible.</changelogimprovement>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.8" changeDate="18/03/2015">
+		<changelogimprovement>Added image activity that shows images associated with barcodes (long click barcode).</changelogimprovement>
+		<changelogimprovement>Added ripple animation to main list view on Lollipop.</changelogimprovement>
+		<changelogbug>Fixed data export formatting issue.</changelogbug>
+		<changelogtext>Code optimization and bug fixes.</changelogtext>
+		<changelogbug>Fixed EULA not showing up.</changelogbug>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.7" changeDate="06/03/2015">
+		<changelogimprovement>Added voice feedback. Text-to-speech (TTS) is used to read out scanned barcodes.</changelogimprovement>
+		<changelogimprovement>Added example to export format view.</changelogimprovement>
+		<changelogtext>Updated application icon and banner.</changelogtext>
+		<changelogbug>Fixed TTS not working when using internal camera.</changelogbug>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.6" changeDate="17/02/2015">
+		<changelogimprovement>Added option to delete last barcode.</changelogimprovement>
+		<changelogimprovement>Added option to make the map not follow user location.</changelogimprovement>
+		<changelogtext>Map now zooms in on start to show markers.</changelogtext>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.5" changeDate="11/02/2015">
+		<changelogimprovement>Added initial Material Design theme.</changelogimprovement>
+		<changelogimprovement>Added export format options.</changelogimprovement>
+		<changelogimprovement>Added more options for tagging images.</changelogimprovement>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.4" changeDate="19/01/2015">
+		<changelogimprovement>Added link to online help documentation.</changelogimprovement>
+		<changelogimprovement>Added missing image resources.</changelogimprovement>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.3" changeDate="15/01/2015">
+		<changelogimprovement>Added option to switch between satellite and map view on Google Maps.</changelogimprovement>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.2" changeDate="13/01/2015">
+		<changelogbug>Minor bug fixes.</changelogbug>
+	</changelogversion>
+
+	<changelogversion versionName="1.0.1" changeDate="13/12/2014">
+		<changelogbug>Fixed Google Maps.</changelogbug>
+		<changelogtext>Updated app icon.</changelogtext>
+	</changelogversion>
+
+	<changelogversion versionName="1.0" changeDate="09/12/2014">
+		<changelogtext>Initial release of Germinate Scan.</changelogtext>
+	</changelogversion>
+
+</changelog>

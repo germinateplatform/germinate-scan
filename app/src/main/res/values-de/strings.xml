@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~  Copyright 2018 Information and Computational Sciences,
+  ~  The James Hutton Institute.
+  ~
+  ~  Licensed under the Apache License, Version 2.0 (the "License");
+  ~  you may not use this file except in compliance with the License.
+  ~  You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~  Unless required by applicable law or agreed to in writing, software
+  ~  distributed under the License is distributed on an "AS IS" BASIS,
+  ~  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  See the License for the specific language governing permissions and
+  ~  limitations under the License.
+  -->
+
+<resources>
+	<string name="app_url">https://ics.hutton.ac.uk/germinate-scan</string>
+	<string name="app_url_online_help">https://github.com/germinateplatform/germinate-scan/wiki</string>
+
+	<string name="introduction_welcome_title">Willkommen zu Germinate Scan</string>
+	<string name="introduction_welcome_text">Wir leiten dich durch ein paar Schritte um Germinate Scan einzustellen. Dies sollte nur eine oder zwei
+		Minuten dauern.
+	</string>
+	<string name="introduction_settings_title">Andere Einstellungen</string>
+	<string name="introduction_settings_text">Alle anderen Einstellungen befinden sich unter \"Einstellungen\" im Navigation Drawer auf der linken Seite.\n\nAlso, los geht\'s!</string>
+
+	<string name="app_unknown_version_number">Unbekannt</string>
+
+	<string name="activity_settings">Einstellungen</string>
+	<string name="activity_map">Übersichtskarte</string>
+	<string name="activity_datasets">Datenätze</string>
+	<string name="activity_about">Über</string>
+	<string name="activity_export_settings">Export-Format</string>
+
+	<string name="menu_visit_homepage">Homepage besuchen</string>
+	<string name="menu_online_help">Online-Hilfe</string>
+	<string name="menu_datasets">Datenätze</string>
+	<string name="menu_settings">Einstellungen</string>
+	<string name="menu_map">Übersichtskarte</string>
+	<string name="menu_about">Über</string>
+	<string name="activity_images">Bilder</string>
+
+	<string name="general_date_format">dd.MM.yyyy HH:mm:ss</string>
+	<string name="general_yes">Ja</string>
+	<string name="general_no">Nein</string>
+	<string name="general_accept">Akzeptieren</string>
+	<string name="general_close">Schließen</string>
+	<string name="general_save">Speichern</string>
+	<string name="general_cancel">Abbrechen</string>
+	<string name="general_select">Wählen</string>
+	<string name="general_active">Activ</string>
+	<string name="general_add">Hinzufügen</string>
+	<string name="general_delete">Löschen</string>
+
+	<string name="dataset_initial">Initialer Datensatz</string>
+	<string name="dataset_select">Bitte Datensatz auswählen</string>
+
+	<string name="drawer_open">Navigationsschublade öffnen</string>
+	<string name="drawer_close">Navigationsschublade schließen</string>
+
+	<string name="toast_photo_saved_to">Bild gespeichert nach: %1$s</string>
+	<string name="toast_file_saved_to">Datei gespeichert nach: %1$s</string>
+
+	<string name="toast_no_data">Keine Daten zum Speichern vorhanden.</string>
+	<string name="toast_no_barcodes_with_location">Keine Barcodes mit gültigem Standort gefunden.</string>
+	<string name="toast_no_export_properties">Kein Export-Format definiert.</string>
+	<string name="toast_exception">Ein Fehler ist aufgetreten: %1$s</string>
+	<string name="toast_permission_missing_storage">Schreibzugriff auf externen Speicher wurde verweigert.</string>
+
+	<string name="accessibility_germinate_mobile_logo">Germinate Scan Logo</string>
+	<string name="accessibility_shadow">Schatten</string>
+
+	<string name="dialog_title_reset_database">Datenbank zurücksetzen</string>
+	<string name="dialog_message_reset_database">Die Anzahl an Barcodes pro Reihe wurde geändert (vorher: %1$d). Eine Änderung dieses Wertes erfordert
+		die Zurücksetzung der internen Datenbank.\n\nTrotzdem fortsetzen?
+	</string>
+	<string name="dialog_message_reset_database_short">Soll die Datenbank wirklich zurückgesetzt werden?</string>
+
+	<string name="dialog_list_save_image_barcode">Zuletzt gescannten Barcodes als Dateinamen verwenden</string>
+	<string name="dialog_list_save_image_barcode_first">Ersten Barcode in Zeile als Dateinamen verwenden</string>
+	<string name="dialog_list_save_image_timestamp">Mit aktuellem Zeitstempel markieren</string>
+	<string name="dialog_list_save_image_location">Mit aktuellem Standort markieren</string>
+	<string name="dialog_title_save_image">Bild speichern</string>
+
+	<string name="dialog_list_delete_barcode">Barcode löschen</string>
+	<string name="dialog_list_delete_row">Reihe löschen</string>
+	<string name="dialog_list_show_images">Zugehörige Bilder anzeigen</string>
+
+	<string name="dialog_title_add_export_property">Export-Option hinzufügen</string>
+
+	<string name="dialog_title_download_warning">Warnung</string>
+	<string name="dialog_message_download_warning">Das Stimm-Feedback Feature setzt voraus, dass eine Text-to-Speech (TTS) Software auf dem Gerät
+		verfügbar ist. Falls keine TTS Software gefunden wird, versucht Android eine herunterzuladen. Bitte stellen Sie sicher, dass die
+		Netzwerkverbindung geeignet ist..\n\nSoll das Feature aktiviert werden?
+	</string>
+
+	<string name="dialog_title_delete_image">Bild löschen</string>
+	<string name="dialog_message_delete_image">Soll dieses Bild wirklich gelöscht werden?</string>
+
+	<string name="dialog_title_delete_dataset">Datensatz löschen</string>
+	<string name="dialog_message_delete_dataset">Diesen Datensatz löschen: %1$s</string>
+
+	<string name="dialog_title_rename_dataset">Datensatz umbenennen</string>
+
+	<string name="menu_clear_database">Datenbank zurücksetzen</string>
+	<string name="menu_export_database">Datenbank exportieren</string>
+	<string name="menu_take_picture">Fotoaufnahme machen</string>
+	<string name="menu_scan_barcode">Barcode scannen</string>
+	<string name="menu_options">Optionen</string>
+	<string name="menu_map_satellite">Satellitenansicht</string>
+	<string name="menu_map_map">Kartenansicht</string>
+	<string name="menu_export_add">Hinzufügen</string>
+	<string name="menu_export_clear">Auswahl zurücksetzen</string>
+	<string name="menu_map_follow_me">Meinem Standort folgen</string>
+	<string name="menu_map_not_follow_me">Meinem Standort nicht folgen</string>
+	<string name="menu_open_image">Bild öffnen</string>
+	<string name="menu_import_clipboard">Von Zwischenablage importieren</string>
+	<string name="menu_delete_image">Bild löschen</string>
+	<string name="menu_import_finish">Abschließen</string>
+	<string name="menu_import_phenotypes">Merkmale laden</string>
+	<string name="menu_add_dataset">Datensatz hinzufügen</string>
+
+	<string name="about_text">
+		<![CDATA[<body><div id="main"><h1>Über</h1><p><a href="%1$s">Germinate Scan</a> wurde geschrieben, entwickelt und entworfen von <i>Sebastian Raubach</i> und <i>Paul Shaw</i> von der <a href="http://ics.hutton.ac.uk/">Information &amp; Computational Sciences Group</a> am <a href="http://www.hutton.ac.uk">The James Hutton Institute</a>, Dundee, Scotland.</p><p>Für Hilfe bei der Benutzung des Tools, schreiben Sie an: <a href="mailto:germinate@hutton.ac.uk">germinate@hutton.ac.uk</a>.</p></div></body>]]></string>
+
+	<string name="preferences_title_general">Allgemeine Einstellungen</string>
+	<string name="preferences_title_appearance">Erscheinungsbild</string>
+	<string name="preferences_title_misc">Sonstiges</string>
+	<string name="preferences_theme_title">Theme</string>
+	<string name="preferences_theme_summary_off">Aktuell: Helles Theme</string>
+	<string name="preferences_theme_summary_on">Aktuell: Dunkles Theme</string>
+	<string name="preferences_nr_of_barcodes_title">Anzahl an Barcodes</string>
+	<string name="preferences_nr_of_barcodes_summary">Aktuell: %1$d</string>
+	<string name="preferences_delete_row_token_title">Reihen-Lösch-Token</string>
+	<string name="preferences_delete_row_token_summary">Aktuell: %1$s</string>
+	<string name="preferences_delete_cell_token_title">Barcode-Lösch-Token</string>
+	<string name="preferences_delete_cell_token_summary">Aktuell: %1$s</string>
+	<string name="preferences_null_token_title">Null/Überschpring-Token</string>
+	<string name="preferences_null_token_summary">Aktuell: %1$s</string>
+	<string name="preferences_eula_title">EULA anzeigen</string>
+	<string name="preferences_eula_summary">Endbenutzer-Lizenzvertrag anzeigen</string>
+	<string name="preferences_export_title">Export-Format</string>
+	<string name="preferences_export_summary">Format der exportierten Daten auswählen</string>
+	<string name="preferences_read_back_title">Sprach-Feedback</string>
+	<string name="preferences_url_external_title">URLs im Browser öffnen?</string>
+	<string name="preferences_url_external_summary">Sollen gescannte Barcodes die URLs beinhalten im Browser geöffnet werden?</string>
+
+	<string name="latitude_value">Lat.: %1$s</string>
+	<string name="longitude_value">Long.: %1$s</string>
+
+	<string name="location_unknown">\?</string>
+
+	<string name="map_current_location">Aktueller Standort</string>
+
+	<string name="location_latitude">Breitengrad: %1$f</string>
+	<string name="location_longitude">Längengrad: %1$f</string>
+	<string name="location_altitude">Höhe: %1$f</string>
+	<string name="location_time">Zeit: %1$s</string>
+	<string name="location_description">Barcode: %1$s</string>
+
+	<string name="dialog_title_disclaimer">EULA</string>
+
+	<string name="barcode_property_id">Id</string>
+	<string name="barcode_property_timestamp">Zeitpunkt</string>
+	<string name="barcode_property_latitute">Breitengrad</string>
+	<string name="barcode_property_longitude">Längengrad</string>
+	<string name="barcode_property_altitude">Höhe</string>
+	<string name="barcode_property_barcode">Barcode</string>
+
+	<string name="barcode_example_title">Beispiel:</string>
+	<string name="barcode_example_barcode">Beispiel Barcode</string>
+
+	<string name="introduction_message">So einfach geht\'s: Scannen Sie Barcodes mit einem verbundenen externen Bluetooth Barcode-Scanner oder klicken
+		Sie auf das Actionbar Symbol (Barcode) um die Kamera Ihres Gerätes zu verwenden.
+	</string>
+	<string name="introduction_message_screen_lock">Hinweis: Der Bildschirm des Gerätes muss eingeschaltet bleiben falls ein externer Bluetooth
+		Barcode-Scanner verwendet wird.
+	</string>
+
+	<string name="label_no_images">Hier gibt\'s nichts zu sehen… Nein, ernsthaft. Für diesen Barcode gibt es keine Bilder.</string>
+	<string name="dialog_title_eula_type">EULA-Typ wählen</string>
+	<string name="dialog_title_export_option">Exportoption wählen</string>
+	<string name="email_subject_export">Germinate Scan Datei</string>
+	<string name="email_message_export">Im Anhang befindet sich die von Germinate Scan exportierte Datei.</string>
+	<string name="intent_title_send_file">Datei senden als</string>
+	<string name="label_eula_commercial">EULA für kommerzielle Nutzer</string>
+	<string name="label_eula_consumer">EULA für Verbraucher</string>
+	<string name="label_export_matrix_format">Im Matrixformat exportieren?</string>
+	<string name="label_export_option_save">Auf Gerät speichern</string>
+	<string name="label_export_option_send">Datei versenden</string>
+	<string name="toast_permission_missing_camera">Zugriff auf die Kamera wurde verweigert.</string>
+	<string name="activity_changelog">Changelog</string>
+	<string name="preferences_changelog_title">Changelog anzeigen</string>
+	<string name="preferences_changelog_summary">Zeigt die letzten Änderungen an</string>
+	<string name="toast_permission_explain_gps">Ihr Standort wird benutzt um Barcodes und Bilder zu taggen.</string>
+	<string name="preferences_ga_opt_out_title">Teilen von Statistiken</string>
+	<string name="preferences_ga_opt_out_message">Wir werden diese Informationen nur zur Analyse und Verbesserung der durch diese App angebotenen
+		Dienste verwenden. Mehr Informationen befinden sich in der EULA.
+	</string>
+
+	<string name="eula_intro_select">Um Germinate Scan verwenden zu können müssen Sie einer unserer Endbenutzer Lizenz Vereinbarungen (EULA)
+		zustimmen. Wir
+		haben eine EULA für Verbraucher/private Anwender und gewerbliche Nutzer. Die EULA regelt unsere gesetzlichen Verpflichtungen für unsere
+		Endbenutzer.
+	</string>
+
+	<string name="dialog_title_phenotype">Von Zwischenablage importieren</string>
+	<string name="dialog_message_phenotype">Sollen Phänotypen von der Zwischenablage importiert werden?</string>
+	<string name="dialog_title_phenotype_warning">Warnung</string>
+	<string name="dialog_message_phenotype_warning">Durch Fortfahren wird die Datenbank zurückgesetzt. Um ihre Daten zu sichern, stellen Sie bitte
+		sicher, dass sie exportiert wurden.\n\nWollen Sie fortfahren?
+	</string>
+
+	<string name="dialog_title_add_dataset">Datensatz hinzufügen</string>
+	<string name="dialog_message_add_dataset">Namen des Datensatzes eingeben</string>
+
+	<string name="hint_phenotype_input">Eigenschaft eingeben</string>
+
+	<string name="share_chooser_title">Teilen</string>
+
+	<string name="contact_email_dialog_title">E-Mail senden</string>
+
+	<string name="license_view_option_title">Wählen Sie eine Option</string>
+	<string name="license_view_option_view_license">Lizenz ansehen</string>
+	<string name="license_view_option_view_github">Auf GitHub ansehen</string>
+
+	<string name="about_tab_information">Über</string>
+	<string name="about_tab_team">Team</string>
+	<string name="about_tab_license">Lizenz</string>
+
+	<string name="introduction_barcodes_text">Germinate Scan arbeitet auf mit dem Prinzip 1 bis 5 Barcodes miteinander zu assoziieren. Dies kann für
+		verschiedenste Szenarien eingesetzt werden. Hier sind einige Beispiele:
+	</string>
+	<string name="introduction_barcodes_example_1_title">Eins: Photo-Tagging</string>
+	<string name="introduction_barcodes_example_1_text">Scanne das Object, dann nimm ein Photo davon. Das photo wird mit der Objektkennung als auch
+		der Position und Zeit markiert.
+	</string>
+	<string name="introduction_barcodes_example_2_title">Zwei: Kategorisierung</string>
+	<string name="introduction_barcodes_example_2_text">Scanne das Object, dann eine Kategorie. Dies könnte ein Saatgutpaket und dann dessen Lage in
+		der Saatbank sein.
+	</string>
+	<string name="introduction_barcodes_example_3_title">Drei: Phänotypisierung</string>
+	<string name="introduction_barcodes_example_3_text">Scanne die Pflanze, dann die Eigenschaft und schließlich den Phänotypen. Wähle dann die
+		Menüoption \"Merkmale laden\" um den halbautomatischen Phänotypmodus zu aktivieren.
+	</string>
+	<string name="introduction_barcodes_example_4_title">Vier</string>
+	<string name="introduction_barcodes_example_4_text">Wir unterstützen auch 4 Barcodes. Bisher haben wir kein gutes Anwendungsbeispiel gefunden;
+		bitte lasst uns wissen wenn ihr 4 Barcodes pro Zeile benutzt.
+	</string>
+	<string name="introduction_barcodes_example_5_title">Fünf</string>
+	<string name="introduction_barcodes_example_5_text">Wir unterstützen auch 5 Barcodes. Bisher haben wir kein gutes Anwendungsbeispiel gefunden;
+		bitte lasst uns wissen wenn ihr 5 Barcodes pro Zeile benutzt.
+	</string>
+
+	<string name="dialog_title_after_intro_reset">Exportieren/Rückgängig machen</string>
+	<string name="dialog_message_after_intro_reset">Die ausgewählte Anzahl an Barcodes stimmt nicht mit der zuvor gewählten überein. Wie soll fortgefahren werden?</string>
+	<string name="dialog_list_export_and_reset">Existierende Daten exportieren und Datenbank zurücksetzen</string>
+	<string name="dialog_list_cancel">Barcodeanzahländerung rückgängig machen</string>
+
+	<string name="title_activity_barcode_selection">Barcodeauswahl</string>
+
+	<string name="dialog_title_traits_importer">Merkmale importiert</string>
+	<string name="dialog_message_traits_imported">Jetzt kann die erste Pflanze gescannt werden, danach wird das erste Merkmal bewertet. Das nächste Markmal wird dann automatisch eingefügt. Wenn alle Markmale bewertet wurden kann die nächste Pflanze gescannt werden.</string>
+
+	<string name="tts_plant_complete">Phänotypisierung von %1$s abgeschlossen.</string>
+</resources>
