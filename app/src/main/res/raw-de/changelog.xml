@@ -18,10 +18,11 @@
 
 <changelog bulletedList="true">
 
-	<changelogversion versionName="1.18.04.14" changeDate="13/04/2018">
+	<changelogversion versionName="1.18.04.16" changeDate="16/04/2018">
 		<changelogtext>Es ist eine Weile her, aber wir haben euch nicht vergessen. Hier ist ein neues Update mit einer großen neuen Funktion.</changelogtext>
 		<changelogimprovement>Wir unterstützen nun mehrere Datensätze auf einmal ohne, dass die Datenbank vorher exportiert und zurückgesetzt werden muss. Ihr könnt also einen Datensatz im Phänotypmodus und einen anderen im Bildtaggingmodus haben. Wechsel zwischen Datensätzen im Seitenmenü.</changelogimprovement>
 		<changelogbug>In dieser Version wurden einige Bugs beseitigt.</changelogbug>
+		<changelogimprovement>Wir haben eine neue Webseite für Germinate Scan erstellt. Schau sie dir doch mal an: [a href="https://ics.hutton.ac.uk/get-germinate-scan"]https://ics.hutton.ac.uk/get-germinate-scan[/a]</changelogimprovement>
 	</changelogversion>
 
 	<changelogversion versionName="1.17.05.17" changeDate="17.05.2017">

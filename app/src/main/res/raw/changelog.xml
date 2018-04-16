@@ -18,10 +18,11 @@
 
 <changelog bulletedList="true">
 
-	<changelogversion versionName="1.18.04.14" changeDate="13/04/2018">
+	<changelogversion versionName="1.18.04.16" changeDate="16/04/2018">
 		<changelogtext>It's been a while, but we didn't forget you. Here's a new update that includes a big new feature.</changelogtext>
 		<changelogimprovement>Support for multiple datasets: You can now switch between multiple datasets without having to export and reset the database first. So you can have one dataset using the phenotyping mode and another one using the image tagging mode. Switch between datasets in the side menu.</changelogimprovement>
 		<changelogbug>A number of bugs have been fixed in this release.</changelogbug>
+		<changelogimprovement>We've set up a shiny new website for Germinate Scan. Why not go and check it out? [a href="https://ics.hutton.ac.uk/get-germinate-scan"]https://ics.hutton.ac.uk/get-germinate-scan[/a]</changelogimprovement>
 	</changelogversion>
 
 	<changelogversion versionName="1.17.05.17" changeDate="17/05/2017">
