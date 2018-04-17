@@ -39,7 +39,7 @@ public class RowDatabaseWriter extends DatabaseWriter
 	@Override
 	public File write()
 	{
-		long datasetId = new PreferenceUtils(context).getInt(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
+		long datasetId = new PreferenceUtils(context).getLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
 		BarcodeManager barcodeManager = new BarcodeManager(context, datasetId);
 
 		List<Barcode> items = barcodeManager.getAll();
