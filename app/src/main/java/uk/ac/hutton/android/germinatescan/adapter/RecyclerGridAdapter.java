@@ -36,12 +36,12 @@ import uk.ac.hutton.android.germinatescan.util.*;
  */
 public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapter.ViewHolder>
 {
-	private final Context        context;
+	private final BarcodeReader  context;
 	private final List<Barcode>  items;
 	private final int            nrOfColumns;
 	private       BarcodeManager barcodeManager;
 
-	public RecyclerGridAdapter(Context context, long datasetId, List<Barcode> items)
+	public RecyclerGridAdapter(BarcodeReader context, long datasetId, List<Barcode> items)
 	{
 		this.context = context;
 		this.items = items;
@@ -73,6 +73,10 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 			holder.date.setText(theBarcode.getFormattedTimestamp());
 			holder.lat.setText(theBarcode.getLatitudeString());
 			holder.lng.setText(theBarcode.getLongitudeString());
+
+			boolean hasImages = !CollectionUtils.isEmpty(theBarcode.getImages());
+
+			holder.hasImage.setVisibility(hasImages ? View.VISIBLE : View.GONE);
 		}
 
 		holder.lat.setVisibility(LocationUtils.isEmpty(holder.lat.getText().toString()) ? View.GONE : View.VISIBLE);
@@ -157,16 +161,16 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 		int index = items.indexOf(barcode);
 		int size = items.size();
 
-        /* Convert it to a null/skip token first */
+		/* Convert it to a null/skip token first */
 		barcode.setBarcode("");
 
-        /* Then get the whole row */
+		/* Then get the whole row */
 		List<Barcode> row = getItemsInRow(barcode);
 
 		if (row.size() < 1)
 			return;
 
-        /* And check if they are all null/skip tokens */
+		/* And check if they are all null/skip tokens */
 		boolean emptyRow = true;
 
 		for (Barcode b : row)
@@ -207,18 +211,20 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 
 	public class ViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener
 	{
-		private final TextView barcode;
-		private final TextView date;
-		private final TextView lat;
-		private final TextView lng;
+		private final TextView  barcode;
+		private final TextView  date;
+		private final TextView  lat;
+		private final TextView  lng;
+		private final ImageView hasImage;
 
 		public ViewHolder(final View itemView)
 		{
 			super(itemView);
-			barcode = (TextView) itemView.findViewById(R.id.barcode_item_barcode);
-			date = (TextView) itemView.findViewById(R.id.barcode_item_date);
-			lat = (TextView) itemView.findViewById(R.id.barcode_item_lat);
-			lng = (TextView) itemView.findViewById(R.id.barcode_item_lng);
+			barcode = itemView.findViewById(R.id.barcode_item_barcode);
+			date = itemView.findViewById(R.id.barcode_item_date);
+			lat = itemView.findViewById(R.id.barcode_item_lat);
+			lng = itemView.findViewById(R.id.barcode_item_lng);
+			hasImage = itemView.findViewById(R.id.barcode_has_images);
 
 			itemView.setOnLongClickListener(this);
 		}
@@ -234,6 +240,7 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 			ArrayAdapter<String> dialogAdapter = new ArrayAdapter<>(context, android.R.layout.select_dialog_item);
 			dialogAdapter.add(context.getString(R.string.dialog_list_delete_barcode));
 			dialogAdapter.add(context.getString(R.string.dialog_list_delete_row));
+			dialogAdapter.add(context.getString(R.string.dialog_list_take_photo));
 
 			if (hasImages)
 			{
@@ -256,7 +263,11 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 							break;
 
 						case 2:
-							BarcodeReader.INSTANCE.showImages(v, item);
+							context.takePicture(item);
+							break;
+
+						case 3:
+							context.showImages(v, item);
 							break;
 					}
 				}

@@ -74,9 +74,9 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	public static BarcodeReader INSTANCE;
 	public boolean resetDatabase = false;
 	/* FIELDS */
-	private File         photo;
-	private Location     location;
-	private TextToSpeech tts;
+	private File                      photo;
+	private Location                  location;
+	private TextToSpeech              tts;
 	private PreferenceUtils           prefs;
 	private GridSpacingItemDecoration decoration;
 	private String toSpeak = null;
@@ -96,6 +96,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	private BarcodeManager barcodeManager;
 	private ImageManager   imageManager;
 	private Dataset        dataset;
+
+	private Barcode barcodeForImage = null;
 
 	private boolean override = false;
 
@@ -133,7 +135,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 			datasetManager.add(d);
 			prefs.putLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, d.getId());
 		}
-		else {
+		else
+		{
 			long datasetId = prefs.getLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
 			d = new DatasetManager(this, datasetId).getById(datasetId);
 		}
@@ -190,10 +193,10 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		{
 		}
 
-        /* Track the version of the app */
+		/* Track the version of the app */
 		GoogleAnalyticsUtils.trackEvent(this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_version), versionNumber);
 
-        /* Request to keep the screen on */
+		/* Request to keep the screen on */
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -214,7 +217,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 			long datasetId = prefs.getLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
 			Dataset dataset = new DatasetManager(this, datasetId).getById(datasetId);
 
-			if(dataset.getBarcodesPerRow() < 1)
+			if (dataset.getBarcodesPerRow() < 1)
 			{
 				startActivityForResult(new Intent(getApplicationContext(), BarcodeSelectionActivity.class), REQUEST_CODE_INTRO);
 				return;
@@ -406,24 +409,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 
 			case R.id.menu_take_picture:
 				/* Take a picture */
-				if (ContextCompat.checkSelfPermission(BarcodeReader.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-						|| ContextCompat.checkSelfPermission(BarcodeReader.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-				{
-					List<String> permission = new ArrayList<>();
-
-					/* Request the permission */
-					if (!deniedPermissions.contains(Manifest.permission.CAMERA))
-						permission.add(Manifest.permission.CAMERA);
-					if (!deniedPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
-						permission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-					if (permission.size() > 0)
-						ActivityCompat.requestPermissions(this, permission.toArray(new String[permission.size()]), REQUEST_CODE_CAMERA_PICTURE_PERMISSIONS);
-
-					return true;
-				}
-
-				takePicture();
+				takePicture(null);
 				break;
 
 			case R.id.menu_clear_database:
@@ -439,8 +425,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 
 			case R.id.menu_scan_barcode:
 				scanBarcodePrePermission();
-
-				return true;
+				break;
 
 			case R.id.menu_load_phenotypes:
 				if (adapter.getItemCount() > 0)
@@ -463,8 +448,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				{
 					startActivityForResult(new Intent(getApplicationContext(), PhenotypeActivity.class), REQUEST_CODE_IMPORT_PHENOTYPES);
 				}
-
-				return true;
+				break;
 		}
 
 		return true;
@@ -474,7 +458,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	{
 		if (ContextCompat.checkSelfPermission(BarcodeReader.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
 		{
-					/* Request the permission */
+			/* Request the permission */
 			if (!deniedPermissions.contains(Manifest.permission.CAMERA))
 				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA_SCAN_PERMISSIONS);
 
@@ -501,7 +485,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		/* Export the database to a file */
 		if (ContextCompat.checkSelfPermission(BarcodeReader.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
 		{
-					/* Request the permission */
+			/* Request the permission */
 			if (!deniedPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
 				ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE_STORAGE_PERMISSIONS);
 
@@ -567,7 +551,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		/* Prepare the intent */
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-        /* Place where to store camera taken picture */
+		/* Place where to store camera taken picture */
 		photo = FileUtils.createFile(this, dataset.getId(), ReferenceFolder.images, FileExtension.jpg);
 
 		Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", photo);
@@ -576,6 +560,30 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		startActivityForResult(takePictureIntent, REQUEST_PHOTO);
 
 		GoogleAnalyticsUtils.trackEvent(this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_other), getString(R.string.ga_event_action_take_picture));
+	}
+
+	public void takePicture(Barcode barcode)
+	{
+		barcodeForImage = barcode;
+
+		if (ContextCompat.checkSelfPermission(BarcodeReader.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+				|| ContextCompat.checkSelfPermission(BarcodeReader.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+		{
+			List<String> permission = new ArrayList<>();
+
+			/* Request the permission */
+			if (!deniedPermissions.contains(Manifest.permission.CAMERA))
+				permission.add(Manifest.permission.CAMERA);
+			if (!deniedPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+				permission.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+			if (permission.size() > 0)
+				ActivityCompat.requestPermissions(this, permission.toArray(new String[permission.size()]), REQUEST_CODE_CAMERA_PICTURE_PERMISSIONS);
+		}
+		else
+		{
+			takePicture();
+		}
 	}
 
 	@Override
@@ -590,7 +598,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 			/* Set the text */
 			hiddenInput.setText(scanResult.getContents());
 
-            /* Create an enter key event */
+			/* Create an enter key event */
 			KeyEvent event = new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER);
 			onKey(hiddenInput, KeyEvent.KEYCODE_ENTER, event);
 		}
@@ -601,119 +609,117 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		}
 		else if (requestCode == REQUEST_PHOTO && resultCode == Activity.RESULT_OK)
 		{
-			final ImagePreferences[] imgPrefs;
-			final CharSequence[] items;
-			final boolean[] selectedItems;
-			/* Depending on if there are barcodes or not, create the options */
-			if (adapter.getItemCount() > 0)
+			if (barcodeForImage != null)
 			{
-				imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION, ImagePreferences.USE_BARCODE_AS_FILENAME, ImagePreferences.USE_FIRST_BARCODE_IN_ROW_AS_FILENAME};
+				movePhoto(barcodeForImage);
+
+				Image image = new Image(null, photo.getAbsolutePath());
+
+				barcodeForImage.addImage(image);
+				imageManager.add(barcodeForImage, image);
+
+				barcodeForImage = null;
 			}
 			else
 			{
-				imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION};
+
+				final ImagePreferences[] imgPrefs;
+				final CharSequence[] items;
+				final boolean[] selectedItems;
+				/* Depending on if there are barcodes or not, create the options */
+				if (adapter.getItemCount() > 0)
+					imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION, ImagePreferences.USE_BARCODE_AS_FILENAME, ImagePreferences.USE_FIRST_BARCODE_IN_ROW_AS_FILENAME};
+				else
+					imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION};
+
+				items = new CharSequence[imgPrefs.length];
+				for (int i = 0; i < imgPrefs.length; i++)
+				{
+					items[i] = imgPrefs[i].getDisplayName();
+				}
+
+				selectedItems = prefs.getImagePreferences(imgPrefs);
+
+				/* Show an alert dialog */
+				new AlertDialog.Builder(this).setTitle(R.string.dialog_title_save_image).setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which, boolean isChecked)
+					{
+						/* Remember which option the user checked */
+						if (isChecked && imgPrefs.length == 4 && (which == 2 || which == 3))
+						{
+							int other = 5 - which;
+
+							selectedItems[other] = false;
+							prefs.putBoolean(imgPrefs[other].getPreferenceKey(), false);
+
+							final AlertDialog alert = (AlertDialog) dialog;
+							final ListView list = alert.getListView();
+							list.setItemChecked(other, false);
+						}
+
+						selectedItems[which] = isChecked;
+						prefs.putBoolean(imgPrefs[which].getPreferenceKey(), isChecked);
+					}
+				}).setPositiveButton(R.string.general_save, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						/*  */
+						Barcode associatedBarcode = null;
+						if (selectedItems.length > 2 && selectedItems[2])
+						{
+							List<Barcode> rows = adapter.getItems();
+							associatedBarcode = rows.get(rows.size() - 1);
+						}
+						else if (selectedItems.length > 3 && selectedItems[3])
+						{
+							List<Barcode> rows = adapter.getItems();
+							associatedBarcode = rows.get(rows.size() - 1);
+							associatedBarcode = adapter.getItemsInRow(associatedBarcode).get(0);
+						}
+
+						if (associatedBarcode != null)
+						{
+							movePhoto(associatedBarcode);
+						}
+						else
+						{
+							/* Geotag the image */
+							GeoUtils.geoTag(photo.getAbsolutePath(), location, new Date(System.currentTimeMillis()), null);
+
+							SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, photo.getAbsolutePath()), Snackbar.LENGTH_LONG);
+						}
+
+						Image image = new Image(null, photo.getAbsolutePath());
+
+						if (associatedBarcode != null)
+						{
+							associatedBarcode.addImage(image);
+							imageManager.add(associatedBarcode, image);
+						}
+					}
+				}).setNegativeButton(R.string.general_cancel, new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						photo.delete();
+					}
+				}).show();
 			}
 
-			items = new CharSequence[imgPrefs.length];
-			for (int i = 0; i < imgPrefs.length; i++)
-			{
-				items[i] = imgPrefs[i].getDisplayName();
-			}
-
-			selectedItems = prefs.getImagePreferences(imgPrefs);
-
-            /* Show an alert dialog */
-			new AlertDialog.Builder(this).setTitle(R.string.dialog_title_save_image).setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which, boolean isChecked)
-				{
-					/* Remember which option the user checked */
-					if (isChecked && imgPrefs.length == 4 && (which == 2 || which == 3))
-					{
-						int other = 5 - which;
-
-						selectedItems[other] = false;
-						prefs.putBoolean(imgPrefs[other].getPreferenceKey(), false);
-
-						final AlertDialog alert = (AlertDialog) dialog;
-						final ListView list = alert.getListView();
-						list.setItemChecked(other, false);
-					}
-
-					selectedItems[which] = isChecked;
-					prefs.putBoolean(imgPrefs[which].getPreferenceKey(), isChecked);
-				}
-			}).setPositiveButton(R.string.general_save, new DialogInterface.OnClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{
-					/*  */
-					Barcode associatedBarcode = null;
-					if (selectedItems.length > 2 && selectedItems[2])
-					{
-						List<Barcode> rows = adapter.getItems();
-						associatedBarcode = rows.get(rows.size() - 1);
-					}
-					else if (selectedItems.length > 3 && selectedItems[3])
-					{
-						List<Barcode> rows = adapter.getItems();
-						associatedBarcode = rows.get(rows.size() - 1);
-						associatedBarcode = adapter.getItemsInRow(associatedBarcode).get(0);
-					}
-
-					if (associatedBarcode != null)
-					{
-						String filename = associatedBarcode.getBarcode();
-
-//						filename = filename.replaceAll("\\W+", "");
-
-						File newFile = FileUtils.createFile(BarcodeReader.this, dataset.getId(), ReferenceFolder.images, FileExtension.jpg, filename);
-
-						photo.renameTo(newFile);
-
-                        /* Geotag the image */
-						GeoUtils.geoTag(newFile.getAbsolutePath(), location, new Date(System.currentTimeMillis()), associatedBarcode.getStringForImageTag());
-
-						SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, newFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
-
-						photo = newFile;
-					}
-					else
-					{
-						/* Geotag the image */
-						GeoUtils.geoTag(photo.getAbsolutePath(), location, new Date(System.currentTimeMillis()), null);
-
-						SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, photo.getAbsolutePath()), Snackbar.LENGTH_LONG);
-					}
-
-					Image image = new Image(null, photo.getAbsolutePath());
-
-					if (associatedBarcode != null)
-					{
-						associatedBarcode.addImage(image);
-					}
-
-					imageManager.add(associatedBarcode, image);
-
-				}
-			}).setNegativeButton(R.string.general_cancel, new DialogInterface.OnClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{
-					photo.delete();
-				}
-			}).show();
-
-            /* Notify the Android gallery */
+			/* Notify the Android gallery */
 			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 			Uri contentUri = Uri.fromFile(photo);
 			mediaScanIntent.setData(contentUri);
 			this.sendBroadcast(mediaScanIntent);
 
 			super.onActivityResult(requestCode, resultCode, data);
+
+			updateGrid();
 		}
 		else if (requestCode == REQUEST_DATA_SOURCE && resultCode == Activity.RESULT_OK)
 		{
@@ -771,9 +777,9 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 					LayoutInflater factory = LayoutInflater.from(this);
 					View content = factory.inflate(R.layout.helper_dialog_message_list, null);
 
-					TextView tv = (TextView) content.findViewById(R.id.dialog_title);
+					TextView tv = content.findViewById(R.id.dialog_title);
 					tv.setText(R.string.dialog_message_after_intro_reset);
-					ListView lv = (ListView) content.findViewById(R.id.dialog_list);
+					ListView lv = content.findViewById(R.id.dialog_list);
 					lv.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items));
 
 					final AlertDialog dialog = new AlertDialog.Builder(this)
@@ -811,6 +817,22 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		{
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	private void movePhoto(Barcode barcode)
+	{
+		String filename = barcode.getBarcode();
+
+		File newFile = FileUtils.createFile(BarcodeReader.this, dataset.getId(), ReferenceFolder.images, FileExtension.jpg, filename);
+
+		photo.renameTo(newFile);
+
+		/* Geotag the image */
+		GeoUtils.geoTag(newFile.getAbsolutePath(), location, new Date(System.currentTimeMillis()), barcode.getStringForImageTag());
+
+		SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, newFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
+
+		photo = newFile;
 	}
 
 	private void updateGrid()

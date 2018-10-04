@@ -29,9 +29,9 @@
 	<color name="medium_gray">#808080</color>
 	<color name="dark_gray">#333333</color>
 
-	<color name="color_primary">#008000</color>
-	<color name="color_primary_dark">#005900</color>
-	<color name="color_accent">#00ACC1</color>
+	<color name="color_primary">#009432</color>
+	<color name="color_primary_dark">#005a1e</color>
+	<color name="color_accent">#a3cb38</color>
 
 	<color name="image_detail_text_background">#aa000000</color>
 

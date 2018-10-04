@@ -43,7 +43,7 @@ public enum ImagePreferences
 	@Override
 	public String toString()
 	{
-			/* Check if we already got the string resource before */
+		/* Check if we already got the string resource before */
 		if (StringUtils.isEmpty(displayName))
 		{
 			displayName = BarcodeReader.INSTANCE.getString(nameResource);

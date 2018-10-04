@@ -37,4 +37,6 @@
 	<attr name="drawerMenuSettings" format="reference"/>
 	<attr name="drawerMenuMap" format="reference"/>
 	<attr name="drawerMenuAbout" format="reference"/>
+
+	<attr name="menuIconCamera" format="reference"/>
 </resources>

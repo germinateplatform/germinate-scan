@@ -214,6 +214,10 @@ public class ExportSettingsActivity extends ThemedActivity
 		});
 
         /* Show the AlertDialog */
-		new AlertDialog.Builder(this).setTitle(R.string.dialog_title_add_export_property).setView(lv).setPositiveButton(R.string.general_close, null).show();
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.dialog_title_add_export_property)
+				.setView(lv)
+				.setPositiveButton(R.string.general_close, null)
+				.show();
 	}
 }

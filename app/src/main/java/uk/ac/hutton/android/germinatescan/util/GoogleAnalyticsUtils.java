@@ -21,8 +21,6 @@ import android.content.*;
 
 import com.google.android.gms.analytics.*;
 
-import uk.ac.hutton.android.germinatescan.activity.*;
-
 /**
  * Utility class for Google Analytics. Contains methods to track events.
  *
@@ -75,7 +73,7 @@ public class GoogleAnalyticsUtils
 		}
 
         /* If we're using the debug version, don't track to Google Analytics */
-		String packageName = BarcodeReader.INSTANCE.getPackageName();
+		String packageName = context.getPackageName();
 		/* Also, if the user disabled tracking, we don't track to Google Analytics */
 		if (packageName != null && packageName.endsWith(".debug") || !new PreferenceUtils(context).getBoolean(PreferenceUtils.PREFS_GA_OPT_OUT, true))
 		{
