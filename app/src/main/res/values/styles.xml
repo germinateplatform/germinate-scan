@@ -34,6 +34,7 @@
 		<item name="drawerMenuSettings">@drawable/drawer_menu_settings_dark</item>
 		<item name="drawerMenuMap">@drawable/drawer_menu_map_dark</item>
 		<item name="drawerMenuAbout">@drawable/drawer_menu_about_dark</item>
+		<item name="menuIconCamera">@drawable/menu_camera</item>
 		<item name="android:editTextBackground">@drawable/theme_edit_text</item>
 		<item name="actionDelete">@drawable/menu_trash_dark</item>
 	</style>
@@ -56,6 +57,7 @@
 		<item name="drawerMenuSettings">@drawable/drawer_menu_settings_light</item>
 		<item name="drawerMenuMap">@drawable/drawer_menu_map_light</item>
 		<item name="drawerMenuAbout">@drawable/drawer_menu_about_light</item>
+		<item name="menuIconCamera">@drawable/menu_camera_light</item>
 		<item name="android:editTextBackground">@drawable/theme_edit_text</item>
 		<item name="actionDelete">@drawable/menu_trash_light</item>
 		<item name="android:itemTextAppearance">@style/MenuItemStyle</item>

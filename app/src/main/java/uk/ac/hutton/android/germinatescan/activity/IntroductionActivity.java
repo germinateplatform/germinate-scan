@@ -53,7 +53,7 @@ public class IntroductionActivity extends IntroActivity
 		addSlide(new SimpleSlide.Builder()
 				.title(R.string.introduction_welcome_title)
 				.description(R.string.introduction_welcome_text)
-				.image(R.drawable.ic_launcher_2x)
+				.image(R.mipmap.ic_launcher_3x)
 				.background(R.color.color_primary)
 				.backgroundDark(R.color.color_primary_dark)
 				.permission(Manifest.permission.INTERNET)

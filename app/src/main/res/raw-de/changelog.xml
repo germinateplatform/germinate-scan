@@ -18,6 +18,11 @@
 
 <changelog bulletedList="true">
 
+	<changelogversion versionName="1.18.10.04" changeDate="04/10/2018">
+		<changelogimprovement>Es ist nun möglich nachträglich Fotos zu einem bestimmten Barcode hinzuzufügen. Dafür einfach lange auf einen Barcode tippen.</changelogimprovement>
+		<changelogimpreovement>Wir haben ein neues Logo! Ist es nicht hübsch? Zusammen mit dem neuen Logo wurde auch das Farbschema der App leicht angepasst.</changelogimpreovement>
+	</changelogversion>
+
 	<changelogversion versionName="1.18.04.16" changeDate="16/04/2018">
 		<changelogtext>Es ist eine Weile her, aber wir haben euch nicht vergessen. Hier ist ein neues Update mit einer großen neuen Funktion.</changelogtext>
 		<changelogimprovement>Wir unterstützen nun mehrere Datensätze auf einmal ohne, dass die Datenbank vorher exportiert und zurückgesetzt werden muss. Ihr könnt also einen Datensatz im Phänotypmodus und einen anderen im Bildtaggingmodus haben. Wechsel zwischen Datensätzen im Seitenmenü.</changelogimprovement>

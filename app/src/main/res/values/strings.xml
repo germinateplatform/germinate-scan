@@ -95,6 +95,7 @@
 
 	<string name="dialog_list_delete_barcode">Delete barcode</string>
 	<string name="dialog_list_delete_row">Delete row</string>
+	<string name="dialog_list_take_photo">Take picture</string>
 	<string name="dialog_list_show_images">Show associated images</string>
 
 	<string name="dialog_title_add_export_property">Add export property</string>

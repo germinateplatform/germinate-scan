@@ -88,6 +88,7 @@
 
 	<string name="dialog_list_delete_barcode">Barcode löschen</string>
 	<string name="dialog_list_delete_row">Reihe löschen</string>
+	<string name="dialog_list_take_photo">Fotoaufnahme machen</string>
 	<string name="dialog_list_show_images">Zugehörige Bilder anzeigen</string>
 
 	<string name="dialog_title_add_export_property">Export-Option hinzufügen</string>
