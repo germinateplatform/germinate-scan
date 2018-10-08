@@ -18,9 +18,9 @@
 
 <changelog bulletedList="true">
 
-	<changelogversion versionName="1.18.10.04" changeDate="04/10/2018">
+	<changelogversion versionName="1.18.10.08" changeDate="08/10/2018">
 		<changelogimprovement>We added the option to take an image for a specific barcode in retrospect rather than just being able to assign a photo to the last barcode. Long-press a barcode to do so.</changelogimprovement>
-		<changelogimpreovement>We've got a new logo! Isn't it pretty? Along with the new logo, we've slightly changed the app's theme, i.e. colours will be slightly different.</changelogimpreovement>
+		<changelogimprovement>We've got a new logo! Isn't it pretty? Along with the new logo, we've slightly changed the app's theme, i.e. colours will be slightly different.</changelogimprovement>
 	</changelogversion>
 
 	<changelogversion versionName="1.18.04.16" changeDate="16/04/2018">
