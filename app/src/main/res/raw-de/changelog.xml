@@ -18,9 +18,9 @@
 
 <changelog bulletedList="true">
 
-	<changelogversion versionName="1.18.10.04" changeDate="04/10/2018">
+	<changelogversion versionName="1.18.10.08" changeDate="08/10/2018">
 		<changelogimprovement>Es ist nun möglich nachträglich Fotos zu einem bestimmten Barcode hinzuzufügen. Dafür einfach lange auf einen Barcode tippen.</changelogimprovement>
-		<changelogimpreovement>Wir haben ein neues Logo! Ist es nicht hübsch? Zusammen mit dem neuen Logo wurde auch das Farbschema der App leicht angepasst.</changelogimpreovement>
+		<changelogimprovement>Wir haben ein neues Logo! Ist es nicht hübsch? Zusammen mit dem neuen Logo wurde auch das Farbschema der App leicht angepasst.</changelogimprovement>
 	</changelogversion>
 
 	<changelogversion versionName="1.18.04.16" changeDate="16/04/2018">
