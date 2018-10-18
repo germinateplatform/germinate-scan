@@ -609,107 +609,96 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		}
 		else if (requestCode == REQUEST_PHOTO && resultCode == Activity.RESULT_OK)
 		{
-			if (barcodeForImage != null)
-			{
-				movePhoto(barcodeForImage);
-
-				Image image = new Image(null, photo.getAbsolutePath());
-
-				barcodeForImage.addImage(image);
-				imageManager.add(barcodeForImage, image);
-
-				barcodeForImage = null;
-			}
+			final ImagePreferences[] imgPrefs;
+			final CharSequence[] items;
+			final boolean[] selectedItems;
+			/* Depending on if there are barcodes or not, create the options */
+			if (adapter.getItemCount() < 1 || barcodeForImage != null)
+				imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION};
 			else
+				imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION, ImagePreferences.USE_BARCODE_AS_FILENAME, ImagePreferences.USE_FIRST_BARCODE_IN_ROW_AS_FILENAME};
+
+			items = new CharSequence[imgPrefs.length];
+			for (int i = 0; i < imgPrefs.length; i++)
 			{
+				items[i] = imgPrefs[i].getDisplayName();
+			}
 
-				final ImagePreferences[] imgPrefs;
-				final CharSequence[] items;
-				final boolean[] selectedItems;
-				/* Depending on if there are barcodes or not, create the options */
-				if (adapter.getItemCount() > 0)
-					imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION, ImagePreferences.USE_BARCODE_AS_FILENAME, ImagePreferences.USE_FIRST_BARCODE_IN_ROW_AS_FILENAME};
-				else
-					imgPrefs = new ImagePreferences[]{ImagePreferences.TAG_TIMESTAMP, ImagePreferences.TAG_LOCATION};
+			selectedItems = prefs.getImagePreferences(imgPrefs);
 
-				items = new CharSequence[imgPrefs.length];
-				for (int i = 0; i < imgPrefs.length; i++)
+			/* Show an alert dialog */
+			new AlertDialog.Builder(this).setTitle(R.string.dialog_title_save_image).setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which, boolean isChecked)
 				{
-					items[i] = imgPrefs[i].getDisplayName();
-				}
-
-				selectedItems = prefs.getImagePreferences(imgPrefs);
-
-				/* Show an alert dialog */
-				new AlertDialog.Builder(this).setTitle(R.string.dialog_title_save_image).setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which, boolean isChecked)
+					/* Remember which option the user checked */
+					if (isChecked && imgPrefs.length == 4 && (which == 2 || which == 3))
 					{
-						/* Remember which option the user checked */
-						if (isChecked && imgPrefs.length == 4 && (which == 2 || which == 3))
-						{
-							int other = 5 - which;
+						int other = 5 - which;
 
-							selectedItems[other] = false;
-							prefs.putBoolean(imgPrefs[other].getPreferenceKey(), false);
+						selectedItems[other] = false;
+						prefs.putBoolean(imgPrefs[other].getPreferenceKey(), false);
 
-							final AlertDialog alert = (AlertDialog) dialog;
-							final ListView list = alert.getListView();
-							list.setItemChecked(other, false);
-						}
-
-						selectedItems[which] = isChecked;
-						prefs.putBoolean(imgPrefs[which].getPreferenceKey(), isChecked);
+						final AlertDialog alert = (AlertDialog) dialog;
+						final ListView list = alert.getListView();
+						list.setItemChecked(other, false);
 					}
-				}).setPositiveButton(R.string.general_save, new DialogInterface.OnClickListener()
+
+					selectedItems[which] = isChecked;
+					prefs.putBoolean(imgPrefs[which].getPreferenceKey(), isChecked);
+				}
+			}).setPositiveButton(R.string.general_save, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which)
 				{
-					@Override
-					public void onClick(DialogInterface dialog, int which)
+					/*  */
+					Barcode associatedBarcode = null;
+					if(barcodeForImage != null)
 					{
-						/*  */
-						Barcode associatedBarcode = null;
-						if (selectedItems.length > 2 && selectedItems[2])
-						{
-							List<Barcode> rows = adapter.getItems();
-							associatedBarcode = rows.get(rows.size() - 1);
-						}
-						else if (selectedItems.length > 3 && selectedItems[3])
-						{
-							List<Barcode> rows = adapter.getItems();
-							associatedBarcode = rows.get(rows.size() - 1);
-							associatedBarcode = adapter.getItemsInRow(associatedBarcode).get(0);
-						}
+						associatedBarcode = barcodeForImage;
+						barcodeForImage = null;
+					}
+					if (selectedItems.length > 2 && selectedItems[2])
+					{
+						List<Barcode> rows = adapter.getItems();
+						associatedBarcode = rows.get(rows.size() - 1);
+					}
+					else if (selectedItems.length > 3 && selectedItems[3])
+					{
+						List<Barcode> rows = adapter.getItems();
+						associatedBarcode = rows.get(rows.size() - 1);
+						associatedBarcode = adapter.getItemsInRow(associatedBarcode).get(0);
+					}
 
-						if (associatedBarcode != null)
-						{
-							movePhoto(associatedBarcode);
-						}
-						else
-						{
-							/* Geotag the image */
-							GeoUtils.geoTag(photo.getAbsolutePath(), location, new Date(System.currentTimeMillis()), null);
-
-							SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, photo.getAbsolutePath()), Snackbar.LENGTH_LONG);
-						}
+					if (associatedBarcode != null)
+					{
+						movePhoto(associatedBarcode);
 
 						Image image = new Image(null, photo.getAbsolutePath());
 
-						if (associatedBarcode != null)
-						{
-							associatedBarcode.addImage(image);
-							imageManager.add(associatedBarcode, image);
-						}
+						associatedBarcode.addImage(image);
+						imageManager.add(associatedBarcode, image);
+
+						updateGrid();
 					}
-				}).setNegativeButton(R.string.general_cancel, new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which)
+					else
 					{
-						photo.delete();
+						/* Geotag the image */
+						GeoUtils.geoTag(photo.getAbsolutePath(), location, new Date(System.currentTimeMillis()), null);
+
+						SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, photo.getAbsolutePath()), Snackbar.LENGTH_LONG);
 					}
-				}).show();
-			}
+				}
+			}).setNegativeButton(R.string.general_cancel, new DialogInterface.OnClickListener()
+			{
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					photo.delete();
+				}
+			}).show();
 
 			/* Notify the Android gallery */
 			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -718,8 +707,6 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 			this.sendBroadcast(mediaScanIntent);
 
 			super.onActivityResult(requestCode, resultCode, data);
-
-			updateGrid();
 		}
 		else if (requestCode == REQUEST_DATA_SOURCE && resultCode == Activity.RESULT_OK)
 		{
@@ -823,12 +810,29 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	{
 		String filename = barcode.getBarcode();
 
-		File newFile = FileUtils.createFile(BarcodeReader.this, dataset.getId(), ReferenceFolder.images, FileExtension.jpg, filename);
+		boolean tagDate = prefs.getBoolean(ImagePreferences.TAG_TIMESTAMP.getPreferenceKey(), true);
+		boolean tagLocation = prefs.getBoolean(ImagePreferences.TAG_LOCATION.getPreferenceKey(), true);
+
+		String prefix = null;
+		Date date = null;
+		Location location = null;
+
+		if(tagDate)
+		{
+			prefix = FileUtils.getDate();
+			date = new Date(System.currentTimeMillis());
+		}
+		if(tagLocation)
+		{
+			location = this.location;
+		}
+
+		File newFile = FileUtils.createFile(BarcodeReader.this, prefix, dataset.getId(), ReferenceFolder.images, FileExtension.jpg, filename);
 
 		photo.renameTo(newFile);
 
 		/* Geotag the image */
-		GeoUtils.geoTag(newFile.getAbsolutePath(), location, new Date(System.currentTimeMillis()), barcode.getStringForImageTag());
+		GeoUtils.geoTag(newFile.getAbsolutePath(), location, date, barcode.getStringForImageTag());
 
 		SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, newFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
 

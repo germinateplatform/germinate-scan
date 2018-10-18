@@ -144,7 +144,11 @@ public class FileUtils
 	 */
 	public static File createFile(Context activ, String filename, Long datasetId, ReferenceFolder folder, FileExtension ext, String postfix)
 	{
-		filename = filename + (postfix == null ? "" : "_" + postfix);
+		if(!StringUtils.isEmpty(filename))
+			filename = filename + (postfix == null ? "" : "_" + postfix);
+		else
+			filename = postfix == null ? "" : postfix;
+
 		File file = new File(getPathToReferenceFolder(activ, datasetId, folder), filename + "." + ext.name());
 
 		int counter = 1;
