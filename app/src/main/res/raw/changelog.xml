@@ -18,6 +18,18 @@
 
 <changelog bulletedList="true">
 
+	<changelogversion versionName="1.18.12.07" changeDate="07/12/2018">
+		<changelogbug>Fixed a bug where sharing a file via Android intents wasn't working on newer Android versions.</changelogbug>
+		<changelogbug>Fixed voice feedback not working when using the camera-based barcode scanner.</changelogbug>
+		<changelogimprovement>Added suffix to exported files that contains the name of the dataset.</changelogimprovement>
+		<changelogbug>Fixed issues introduced between versions with stored parameters of the wrong data type.</changelogbug>
+	</changelogversion>
+
+	<changelogversion versionName="1.18.10.18" changeDate="18/10/2018">
+		<changelogbug>Germinate Scan now respects the user preferences regarding image tagging.</changelogbug>
+		<changelogimprovement>The user preference regarding image tagging is now applied to the filename as well as the metadata.</changelogimprovement>
+	</changelogversion>
+
 	<changelogversion versionName="1.18.10.08" changeDate="08/10/2018">
 		<changelogimprovement>We added the option to take an image for a specific barcode in retrospect rather than just being able to assign a photo to the last barcode. Long-press a barcode to do so.</changelogimprovement>
 		<changelogimprovement>We've got a new logo! Isn't it pretty? Along with the new logo, we've slightly changed the app's theme, i.e. colours will be slightly different.</changelogimprovement>

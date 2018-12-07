@@ -18,6 +18,18 @@
 
 <changelog bulletedList="true">
 
+	<changelogversion versionName="1.18.12.07" changeDate="07/12/2018">
+		<changelogbug>Fehler beim Teilen von exportierten Daten via Android's internem System auf neueren Versionen behoben.</changelogbug>
+		<changelogbug>Fehler beim Abspielen der Sprachwiedergabe beim benutzen des Kamera-Barcodescanners behoben.</changelogbug>
+		<changelogimprovement>Der Name des aktuellen Datensatzes wird nun an den Dateinamen von exportierten Daten angehangen.</changelogimprovement>
+		<changelogbug>Fehler beim Speichern/Laden von internen Parametern behoben der zwischen Versionen entstanden ist.</changelogbug>
+	</changelogversion>
+
+	<changelogversion versionName="1.18.10.18" changeDate="18/10/2018">
+		<changelogbug>Germinate Scan respektiert nun die Benutzerwahl was das Tagging der Bilder angeht.</changelogbug>
+		<changelogimprovement>Die Benutzerwahl was das Tagging angeht wird nun auch auf den Dateinamen der Bilder angewandt statt nur der Metadata.</changelogimprovement>
+	</changelogversion>
+
 	<changelogversion versionName="1.18.10.08" changeDate="08/10/2018">
 		<changelogimprovement>Es ist nun möglich nachträglich Fotos zu einem bestimmten Barcode hinzuzufügen. Dafür einfach lange auf einen Barcode tippen.</changelogimprovement>
 		<changelogimprovement>Wir haben ein neues Logo! Ist es nicht hübsch? Zusammen mit dem neuen Logo wurde auch das Farbschema der App leicht angepasst.</changelogimprovement>

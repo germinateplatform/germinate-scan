@@ -41,6 +41,8 @@ public class RowDatabaseWriter extends DatabaseWriter
 	{
 		long datasetId = new PreferenceUtils(context).getLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
 		BarcodeManager barcodeManager = new BarcodeManager(context, datasetId);
+		DatasetManager dsManager = new DatasetManager(context, datasetId);
+		String datasetName = dsManager.getById(datasetId).getName().replace(" ", "-");
 
 		List<Barcode> items = barcodeManager.getAll();
 
@@ -50,7 +52,7 @@ public class RowDatabaseWriter extends DatabaseWriter
 			return null;
 		}
 
-		File file = FileUtils.createFile(context, datasetId, FileUtils.ReferenceFolder.output, FileUtils.FileExtension.tsv);
+		File file = FileUtils.createFile(context, datasetId, FileUtils.ReferenceFolder.output, FileUtils.FileExtension.txt, datasetName);
 
 		BufferedWriter bw = null;
 		try

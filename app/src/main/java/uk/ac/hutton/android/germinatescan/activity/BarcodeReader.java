@@ -71,15 +71,17 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	private static final int    REQUEST_CODE_IMPORT_PHENOTYPES          = 106;
 
 	/* INSTANCE */
-	public static BarcodeReader INSTANCE;
-	public boolean resetDatabase = false;
+	public static BarcodeReader             INSTANCE;
+	public        boolean                   resetDatabase = false;
 	/* FIELDS */
-	private File                      photo;
-	private Location                  location;
-	private TextToSpeech              tts;
-	private PreferenceUtils           prefs;
-	private GridSpacingItemDecoration decoration;
-	private String toSpeak = null;
+	private       File                      photo;
+	private       Location                  location;
+	private       TextToSpeech              tts;
+	private       ArrayDeque<String>        ttsQueue      = new ArrayDeque<>();
+	private       boolean                   ttsInit       = false;
+	private       PreferenceUtils           prefs;
+	private       GridSpacingItemDecoration decoration;
+	private       String                    toSpeak       = null;
 
 	/* COLLECTIONS */
 	private List<String> preloadedPhenotypes;
@@ -110,7 +112,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	{
 		/* Load persistent url of web service */
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(BarcodeReader.INSTANCE);
-		return preferences.getInt(PreferenceUtils.PREF_BARCODES, PreferenceUtils.DEFAULT_PREF_NR_BARCODES);
+		return PreferenceUtils.getInt(preferences, PreferenceUtils.PREF_BARCODES, PreferenceUtils.DEFAULT_PREF_NR_BARCODES);
 	}
 
 	@Override
@@ -347,6 +349,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		}
 		else if (!enableReadBack && tts != null)
 		{
+			ttsQueue.clear();
+			ttsInit = false;
 			tts.shutdown();
 			tts = null;
 		}
@@ -358,6 +362,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		/* Shut down TTS if it is enabled */
 		if (tts != null)
 		{
+			ttsQueue.clear();
+			ttsInit = false;
 			tts.shutdown();
 			tts = null;
 		}
@@ -524,13 +530,19 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 							SnackbarUtils.showSuccess(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_file_saved_to, exportedFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
 							break;
 						case 1:
-							Intent intent = new Intent(Intent.ACTION_SEND);
-							intent.setType("message/rfc822");
-							intent.putExtra(Intent.EXTRA_SUBJECT, BarcodeReader.this.getString(R.string.email_subject_export));
-							intent.putExtra(Intent.EXTRA_TEXT, BarcodeReader.this.getString(R.string.email_message_export));
-							Uri uri = Uri.fromFile(exportedFile);
-							intent.putExtra(Intent.EXTRA_STREAM, uri);
-							startActivity(Intent.createChooser(intent, BarcodeReader.this.getString(R.string.intent_title_send_file)));
+							/* Ask Android to share it for us */
+							ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(BarcodeReader.this);
+							/* Use the provider to make the file available to the other app (Android requirement) */
+							String providerName = getPackageName() + ".provider";
+							Uri uri = FileProvider.getUriForFile(BarcodeReader.this, providerName, exportedFile);
+
+							builder.setType("message/rfc822")
+								   .setChooserTitle(R.string.intent_title_send_file)
+								   .setStream(uri)
+								   .setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
+								   .setText(BarcodeReader.this.getString(R.string.email_message_export));
+
+							startActivity(builder.getIntent());
 							break;
 					}
 				}
@@ -655,7 +667,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				{
 					/*  */
 					Barcode associatedBarcode = null;
-					if(barcodeForImage != null)
+					if (barcodeForImage != null)
 					{
 						associatedBarcode = barcodeForImage;
 						barcodeForImage = null;
@@ -817,12 +829,12 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		Date date = null;
 		Location location = null;
 
-		if(tagDate)
+		if (tagDate)
 		{
 			prefix = FileUtils.getDate();
 			date = new Date(System.currentTimeMillis());
 		}
-		if(tagLocation)
+		if (tagLocation)
 		{
 			location = this.location;
 		}
@@ -1156,6 +1168,16 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		if (status != TextToSpeech.SUCCESS)
 		{
 			Log.e("TTS", "Initilization Failed!");
+			ttsInit = false;
+
+		}
+		else
+		{
+			ttsInit = true;
+			for (int i = 0; i < ttsQueue.size(); i++)
+			{
+				speak(ttsQueue.pollFirst());
+			}
 		}
 	}
 
@@ -1206,7 +1228,22 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	 *
 	 * @param message The message
 	 */
-	private void speak(String message)
+	private void speak(final String message)
+	{
+		if (tts != null)
+		{
+			if (!ttsInit)
+			{
+				ttsQueue.addLast(message);
+			}
+			else
+			{
+				reallySpeak(message);
+			}
+		}
+	}
+
+	private void reallySpeak(String message)
 	{
 		if (tts != null)
 		{

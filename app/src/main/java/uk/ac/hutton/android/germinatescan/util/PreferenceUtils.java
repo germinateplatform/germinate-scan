@@ -158,28 +158,28 @@ public class PreferenceUtils
 		return preferences.getString(pref, "");
 	}
 
-	/**
-	 * Returns the value of the given preference as an integer
-	 *
-	 * @param pref     The preference key as specified by one of the class constants as an integer
-	 * @param fallback The fallback value if the property isn't set
-	 * @return The value of the preference
-	 */
-	public int getInt(String pref, int fallback)
+	public static long getLong(SharedPreferences prefs, String key, long fallback)
 	{
-		return preferences.getInt(pref, fallback);
+		try
+		{
+			return prefs.getLong(key, fallback);
+		}
+		catch (ClassCastException e)
+		{
+			return prefs.getInt(key, (int) fallback);
+		}
 	}
 
-	/**
-	 * Returns the value of the given preference as a long
-	 *
-	 * @param pref     The preference key as specified by one of the class constants as a long
-	 * @param fallback The fallback value if the property isn't set
-	 * @return The value of the preference
-	 */
-	public long getLong(String pref, long fallback)
+	public static int getInt(SharedPreferences prefs, String key, int fallback)
 	{
-		return preferences.getLong(pref, fallback);
+		try
+		{
+			return prefs.getInt(key, fallback);
+		}
+		catch (ClassCastException e)
+		{
+			return (int) prefs.getLong(key, fallback);
+		}
 	}
 
 	/**
@@ -323,5 +323,43 @@ public class PreferenceUtils
 			objects.add(value);
 		}
 		return objects;
+	}
+
+	/**
+	 * Returns the value of the given preference as an integer
+	 *
+	 * @param pref     The preference key as specified by one of the class constants as an integer
+	 * @param fallback The fallback value if the property isn't set
+	 * @return The value of the preference
+	 */
+	public int getInt(String pref, int fallback)
+	{
+		try
+		{
+			return preferences.getInt(pref, fallback);
+		}
+		catch (ClassCastException e)
+		{
+			return (int) preferences.getLong(pref, fallback);
+		}
+	}
+
+	/**
+	 * Returns the value of the given preference as a long
+	 *
+	 * @param pref     The preference key as specified by one of the class constants as a long
+	 * @param fallback The fallback value if the property isn't set
+	 * @return The value of the preference
+	 */
+	public long getLong(String pref, long fallback)
+	{
+		try
+		{
+			return preferences.getLong(pref, fallback);
+		}
+		catch (ClassCastException e)
+		{
+			return preferences.getInt(pref, (int) fallback);
+		}
 	}
 }

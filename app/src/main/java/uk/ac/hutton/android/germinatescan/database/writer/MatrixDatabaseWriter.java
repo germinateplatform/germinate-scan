@@ -45,8 +45,10 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 	public File write()
 	{
 		int nrOfColumns = new DatasetManager(context, datasetId).getById(datasetId).getBarcodesPerRow();
-		long datasetId = new PreferenceUtils(context).getInt(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
+		long datasetId = new PreferenceUtils(context).getLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
 		BarcodeManager barcodeManager = new BarcodeManager(context, datasetId);
+		DatasetManager dsManager = new DatasetManager(context, datasetId);
+		String datasetName = dsManager.getById(datasetId).getName().replace(" ", "-");
 
 		Barcode.BarcodeMap map = barcodeManager.getAllAsRows(nrOfColumns);
 
@@ -56,7 +58,7 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 			return null;
 		}
 
-		File file = FileUtils.createFile(context, datasetId, FileUtils.ReferenceFolder.output, FileUtils.FileExtension.tsv);
+		File file = FileUtils.createFile(context, datasetId, FileUtils.ReferenceFolder.output, FileUtils.FileExtension.txt, datasetName);
 
 		BufferedWriter bw = null;
 		try
