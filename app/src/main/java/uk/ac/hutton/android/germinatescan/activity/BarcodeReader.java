@@ -536,7 +536,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 							String providerName = getPackageName() + ".provider";
 							Uri uri = FileProvider.getUriForFile(BarcodeReader.this, providerName, exportedFile);
 
-							builder.setType("message/rfc822")
+							builder.setType("text/html")
 								   .setChooserTitle(R.string.intent_title_send_file)
 								   .setStream(uri)
 								   .setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
