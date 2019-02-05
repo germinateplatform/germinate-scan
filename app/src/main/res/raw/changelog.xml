@@ -17,6 +17,9 @@
   -->
 
 <changelog bulletedList="true">
+	<changelogversion versionName="1.19.02.05" changeDate="05/02/2019">
+		<changelogbug>Fixed an issue with the export and sharing of datasets via Android intents.</changelogbug>
+	</changelogversion>
 
 	<changelogversion versionName="1.18.12.07" changeDate="07/12/2018">
 		<changelogbug>Fixed a bug where sharing a file via Android intents wasn't working on newer Android versions.</changelogbug>

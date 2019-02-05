@@ -17,6 +17,9 @@
   -->
 
 <changelog bulletedList="true">
+	<changelogversion versionName="1.19.02.05" changeDate="05/02/2019">
+		<changelogbug>Fehler beim Teilen von exportierten Daten via Android's internem System.</changelogbug>
+	</changelogversion>
 
 	<changelogversion versionName="1.18.12.07" changeDate="07/12/2018">
 		<changelogbug>Fehler beim Teilen von exportierten Daten via Android's internem System auf neueren Versionen behoben.</changelogbug>
