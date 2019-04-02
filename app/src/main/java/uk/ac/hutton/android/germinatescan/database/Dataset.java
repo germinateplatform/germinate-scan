@@ -17,7 +17,12 @@
 
 package uk.ac.hutton.android.germinatescan.database;
 
+import com.google.gson.*;
+import com.google.gson.reflect.*;
+
 import java.util.*;
+
+import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
  * @author Sebastian Raubach
@@ -25,11 +30,15 @@ import java.util.*;
 
 public class Dataset extends DatabaseObject
 {
-	public static final String FIELD_NAME = "name";
-	public static final String FIELD_BARCODES_PER_ROW = "barcodes_per_row";
+	public static final String FIELD_NAME                 = "name";
+	public static final String FIELD_BARCODES_PER_ROW     = "barcodes_per_row";
+	public static final String FIELD_PRELOADED_PHENOTYPES = "preloaded_phenotypes";
+	public static final String FIELD_CURRENT_PHENOTYPE    = "current_phenotype";
 
-	private String name;
-	private int barcodesPerRow;
+	private String       name;
+	private int          barcodesPerRow;
+	private List<String> preloadedPhenotypes;
+	private Integer      currentPhenotype;
 
 	public Dataset(String name)
 	{
@@ -71,6 +80,55 @@ public class Dataset extends DatabaseObject
 	public Dataset setBarcodesPerRow(int barcodesPerRow)
 	{
 		this.barcodesPerRow = barcodesPerRow;
+		return this;
+	}
+
+	public List<String> getPreloadedPhenotypes()
+	{
+		return preloadedPhenotypes;
+	}
+
+	public Dataset setPreloadedPhenotypes(List<String> preloadedPhenotypes)
+	{
+		this.preloadedPhenotypes = preloadedPhenotypes;
+		return this;
+	}
+
+	public String getPreloadedPhenotypesAsString()
+	{
+		if (!CollectionUtils.isEmpty(preloadedPhenotypes))
+			return new Gson().toJson(preloadedPhenotypes);
+		else
+			return null;
+	}
+
+	public Dataset setPreloadedPhenotypesAsString(String preloadedPhenotypesAsString)
+	{
+		if (!StringUtils.isEmpty(preloadedPhenotypesAsString))
+		{
+			try
+			{
+				preloadedPhenotypes = new Gson().fromJson(preloadedPhenotypesAsString, new TypeToken<List<String>>()
+				{
+				}.getType());
+			}
+			catch (JsonParseException e)
+			{
+				preloadedPhenotypes = null;
+			}
+		}
+
+		return this;
+	}
+
+	public Integer getCurrentPhenotype()
+	{
+		return currentPhenotype;
+	}
+
+	public Dataset setCurrentPhenotype(Integer currentPhenotype)
+	{
+		this.currentPhenotype = currentPhenotype;
 		return this;
 	}
 }

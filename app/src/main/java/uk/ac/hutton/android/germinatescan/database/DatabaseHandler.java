@@ -52,7 +52,6 @@ public class DatabaseHandler extends SQLiteOpenHelper
 			+ KEY_MAIN_LNG + " REAL, " + KEY_MAIN_ALT + " REAL, " + KEY_MAIN_BARCODE + " TEXT, " + KEY_MAIN_ROW + " INTEGER, " + KEY_MAIN_COL + " INTEGER)";
 	private static final String CREATE_IMAGE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_IMAGES + " (" + KEY_IMAGES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_IMAGES_PATH + " TEXT, " + KEY_IMAGES_MAIN_ID
 			+ " INTEGER, FOREIGN KEY (" + KEY_IMAGES_MAIN_ID + ") REFERENCES " + TABLE_MAIN + " (" + KEY_MAIN_ID + "));" + ")";
-	public static DatabaseHandler INSTANCE;
 	private Context context;
 
 

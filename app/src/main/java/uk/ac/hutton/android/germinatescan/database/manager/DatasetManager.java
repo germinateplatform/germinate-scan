@@ -18,6 +18,7 @@
 package uk.ac.hutton.android.germinatescan.database.manager;
 
 import android.content.*;
+import android.database.*;
 
 import java.io.*;
 import java.text.*;
@@ -41,11 +42,52 @@ public class DatasetManager extends AbstractManager<Dataset>
 			+ Barcode.FIELD_LONGITUDE + " REAL, " + Barcode.FIELD_ALTITUDE + " REAL, " + Barcode.FIELD_BARCODE + " TEXT, " + Barcode.FIELD_ROW + " INTEGER, " + Barcode.FIELD_COL + " INTEGER)";
 	private static final String CREATE_IMAGE_TABLE    = "CREATE TABLE IF NOT EXISTS " + TABLE_IMAGES + " (" + Image.FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Image.FIELD_PATH + " TEXT, " + Image.FIELD_MAIN_ID
 			+ " INTEGER, FOREIGN KEY (" + Image.FIELD_MAIN_ID + ") REFERENCES " + TABLE_MAIN + " (" + Barcode.FIELD_ID + "));" + ")";
-	private static final String CREATE_DATASETS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_DATASETS + " (" + Dataset.FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Dataset.FIELD_NAME + " TEXT, " + Dataset.FIELD_BARCODES_PER_ROW + " INTEGER, " + Dataset.FIELD_CREATED_ON + " datetime DEFAULT NULL, " + Dataset.FIELD_UPDATED_ON + " timestamp NULL DEFAULT NULL )";
+	private static final String CREATE_DATASETS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_DATASETS + " (" + Dataset.FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + Dataset.FIELD_NAME + " TEXT, " + Dataset.FIELD_BARCODES_PER_ROW + " INTEGER, " + Dataset.FIELD_PRELOADED_PHENOTYPES + " TEXT, " + Dataset.FIELD_CURRENT_PHENOTYPE + " INTEGER DEFAULT 0, " + Dataset.FIELD_CREATED_ON + " datetime DEFAULT NULL, " + Dataset.FIELD_UPDATED_ON + " timestamp NULL DEFAULT NULL )";
+
+	private static Set<Long> versionChecked = new TreeSet<>();
 
 	public DatasetManager(Context context, long datasourceId)
 	{
 		super(context, datasourceId);
+
+		if (datasourceId >= 0 && !versionChecked.contains(datasourceId))
+		{
+			checkVersion();
+			versionChecked.add(datasourceId);
+		}
+	}
+
+	private void checkVersion()
+	{
+		try
+		{
+			open();
+
+			Cursor res = database.rawQuery("PRAGMA table_info(" + TABLE_DATASETS + ")", null);
+			res.moveToFirst();
+			boolean exists = false;
+			do
+			{
+				String currentColumn = res.getString(1);
+				if (currentColumn.equals(Dataset.FIELD_PRELOADED_PHENOTYPES))
+				{
+					exists = true;
+					break;
+				}
+			} while (res.moveToNext());
+
+			res.close();
+
+			if (!exists)
+			{
+				database.execSQL("ALTER TABLE " + TABLE_DATASETS + " ADD COLUMN " + Dataset.FIELD_PRELOADED_PHENOTYPES + " TEXT");
+				database.execSQL("ALTER TABLE " + TABLE_DATASETS + " ADD COLUMN " + Dataset.FIELD_CURRENT_PHENOTYPE + " INTEGER DEFAULT 0");
+			}
+		}
+		finally
+		{
+			close();
+		}
 	}
 
 	@Override
@@ -128,6 +170,8 @@ public class DatasetManager extends AbstractManager<Dataset>
 				ContentValues values = new ContentValues();
 				values.put(Dataset.FIELD_NAME, dataset.getName());
 				values.put(Dataset.FIELD_BARCODES_PER_ROW, dataset.getBarcodesPerRow());
+				values.put(Dataset.FIELD_CURRENT_PHENOTYPE, dataset.getCurrentPhenotype());
+				values.put(Dataset.FIELD_PRELOADED_PHENOTYPES, dataset.getPreloadedPhenotypesAsString());
 				values.put(Dataset.FIELD_CREATED_ON, dataset.getCreatedOn() != null ? dataset.getCreatedOn().getTime() : null);
 				values.put(Dataset.FIELD_UPDATED_ON, dataset.getUpdatedOn() != null ? dataset.getUpdatedOn().getTime() : null);
 
@@ -175,6 +219,8 @@ public class DatasetManager extends AbstractManager<Dataset>
 			values.put(Dataset.FIELD_ID, dataset.getId());
 			values.put(Dataset.FIELD_NAME, dataset.getName());
 			values.put(Dataset.FIELD_BARCODES_PER_ROW, dataset.getBarcodesPerRow());
+			values.put(Dataset.FIELD_CURRENT_PHENOTYPE, dataset.getCurrentPhenotype());
+			values.put(Dataset.FIELD_PRELOADED_PHENOTYPES, dataset.getPreloadedPhenotypesAsString());
 			values.put(Dataset.FIELD_CREATED_ON, dataset.getCreatedOn() != null ? dataset.getCreatedOn().getTime() : null);
 			values.put(Dataset.FIELD_UPDATED_ON, dataset.getUpdatedOn() != null ? dataset.getUpdatedOn().getTime() : null);
 
@@ -242,6 +288,8 @@ public class DatasetManager extends AbstractManager<Dataset>
 			values.put(Dataset.FIELD_ID, dataset.getId());
 			values.put(Dataset.FIELD_NAME, dataset.getName());
 			values.put(Dataset.FIELD_BARCODES_PER_ROW, dataset.getBarcodesPerRow());
+			values.put(Dataset.FIELD_CURRENT_PHENOTYPE, dataset.getCurrentPhenotype());
+			values.put(Dataset.FIELD_PRELOADED_PHENOTYPES, dataset.getPreloadedPhenotypesAsString());
 
 			// Inserting Row
 			database.insert(getTableName(), null, values);
@@ -250,42 +298,6 @@ public class DatasetManager extends AbstractManager<Dataset>
 		{
 			close();
 		}
-
-//		try
-//		{
-//			open();
-//
-//			List<Dataset> datasets = getAll();
-//			Dataset dataset;
-//
-//			if (CollectionUtils.isEmpty(datasets))
-//			{
-//				dataset = new Dataset(1L, "Initial dataset");
-//			}
-//			else
-//			{
-//				dataset = datasets.get(0);
-//			}
-//
-//			database.execSQL("DROP TABLE IF EXISTS " + TABLE_MAIN);
-//			database.execSQL("DROP TABLE IF EXISTS " + TABLE_IMAGES);
-//			database.execSQL("DROP TABLE IF EXISTS " + TABLE_DATASETS);
-//
-//			database.execSQL(CREATE_MAIN_TABLE);
-//			database.execSQL(CREATE_IMAGE_TABLE);
-//			database.execSQL(CREATE_DATASETS_TABLE);
-//
-//			ContentValues values = new ContentValues();
-//			values.put(Dataset.FIELD_ID, dataset.getId());
-//			values.put(Dataset.FIELD_NAME, dataset.getName());
-//
-//			// Inserting Row
-//			database.insert(getTableName(), null, values);
-//		}
-//		finally
-//		{
-//			close();
-//		}
 	}
 
 	private static class Parser extends DatabaseObjectParser<Dataset>
@@ -295,7 +307,9 @@ public class DatasetManager extends AbstractManager<Dataset>
 		{
 			return new Dataset(cursor.getLong(Dataset.FIELD_ID), new Date(cursor.getLong(Dataset.FIELD_CREATED_ON)), new Date(cursor.getLong(Dataset.FIELD_UPDATED_ON)))
 					.setName(cursor.getString(Dataset.FIELD_NAME))
-					.setBarcodesPerRow(cursor.getInt(Dataset.FIELD_BARCODES_PER_ROW));
+					.setBarcodesPerRow(cursor.getInt(Dataset.FIELD_BARCODES_PER_ROW))
+					.setCurrentPhenotype(cursor.getInt(Dataset.FIELD_CURRENT_PHENOTYPE))
+					.setPreloadedPhenotypesAsString(cursor.getString(Dataset.FIELD_PRELOADED_PHENOTYPES));
 		}
 
 		static final class Inst

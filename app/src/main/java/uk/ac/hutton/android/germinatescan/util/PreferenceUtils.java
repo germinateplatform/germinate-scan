@@ -53,8 +53,6 @@ public class PreferenceUtils
 	public static final String PREFS_VOICE_FEEDBACK_WARNING       = "Prefs.Voice.Feedback.Warning";
 	public static final String PREFS_GA_OPT_OUT                   = "Prefs.Google.Analytics.Opt.Out";
 	public static final String PREFS_URL_OPEN_EXTERNAL            = "Prefs.Url.Open.External";
-	public static final String PREFS_PRELOADED_PHENOTYPES         = "Prefs.Preloaded.Phenotypes";
-	public static final String PREFS_PRELOADED_PHENOTYPES_COUNTER = "Prefs.Preloaded.Phenotypes.Counter";
 	public static final String PREFS_SELECTED_DATASET_ID          = "Prefs.Dataset.Id";
 
 	public static final String PREFS_LAST_VERSION = "Prefs.Last.Version.Code";

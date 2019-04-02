@@ -444,7 +444,9 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 								@Override
 								public void onClick(DialogInterface dialog, int which)
 								{
-									startActivityForResult(new Intent(getApplicationContext(), PhenotypeActivity.class), REQUEST_CODE_IMPORT_PHENOTYPES);
+									Intent intent = new Intent(BarcodeReader.this, PhenotypeActivity.class);
+									intent.putExtra(PhenotypeActivity.EXTRA_DATASET_ID, dataset.getId());
+									startActivityForResult(intent, REQUEST_CODE_IMPORT_PHENOTYPES);
 								}
 							})
 							.setNegativeButton(R.string.general_no, null)
@@ -452,7 +454,9 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				}
 				else
 				{
-					startActivityForResult(new Intent(getApplicationContext(), PhenotypeActivity.class), REQUEST_CODE_IMPORT_PHENOTYPES);
+					Intent intent = new Intent(BarcodeReader.this, PhenotypeActivity.class);
+					intent.putExtra(PhenotypeActivity.EXTRA_DATASET_ID, dataset.getId());
+					startActivityForResult(intent, REQUEST_CODE_IMPORT_PHENOTYPES);
 				}
 				break;
 		}
@@ -722,8 +726,6 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		}
 		else if (requestCode == REQUEST_DATA_SOURCE && resultCode == Activity.RESULT_OK)
 		{
-			prefs.remove(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES);
-			prefs.remove(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES_COUNTER);
 			override = true;
 		}
 		/* Return from preferences */
@@ -737,7 +739,9 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		{
 			resetDatabase();
 
-			preloadedPhenotypes = data.getStringArrayListExtra(PhenotypeActivity.EXTRA_LIST);
+			DatasetManager datasetManager = new DatasetManager(this, dataset.getId());
+			dataset = datasetManager.getById(dataset.getId());
+			preloadedPhenotypes = dataset.getPreloadedPhenotypes();
 
 			updateHandler();
 		}
@@ -954,9 +958,6 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 
 		updateWelcomeMessageVisibility();
 
-		prefs.remove(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES);
-		prefs.remove(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES_COUNTER);
-
 		updateHandler();
 	}
 
@@ -965,7 +966,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		boolean restored = false;
 		if (preloadedPhenotypes == null)
 		{
-			preloadedPhenotypes = prefs.getListObject(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES, String.class);
+			preloadedPhenotypes = dataset.getPreloadedPhenotypes();
 			restored = true;
 		}
 
@@ -976,7 +977,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 
 			if (restored)
 			{
-				counter = prefs.getInt(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES_COUNTER, 0);
+				counter = dataset.getCurrentPhenotype();
 				if (adapter.getItemCount() > 0)
 					currentPlant = adapter.getItemsInRow(adapter.getItem(adapter.getItemCount() - 1)).get(0).getBarcode();
 			}
@@ -989,7 +990,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 						.show();
 			}
 
-			handler = new PhenotypeBarcodeHandler(this, preloadedPhenotypes, currentPlant, counter)
+			handler = new PhenotypeBarcodeHandler(this, dataset, preloadedPhenotypes, currentPlant, counter)
 			{
 				@Override
 				protected Barcode getCurrentPlant()

@@ -33,6 +33,8 @@ import java.util.*;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.adapter.*;
+import uk.ac.hutton.android.germinatescan.database.*;
+import uk.ac.hutton.android.germinatescan.database.manager.*;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -40,7 +42,7 @@ import uk.ac.hutton.android.germinatescan.util.*;
  */
 public class PhenotypeActivity extends ThemedActivity
 {
-	public static final String EXTRA_LIST = "PHENOTYPE_LIST";
+	public static final String EXTRA_DATASET_ID = "DATASET_ID";
 
 	@BindView(R.id.phenotype_text)
 	EditText     phenotypeInput;
@@ -51,6 +53,8 @@ public class PhenotypeActivity extends ThemedActivity
 
 	private ItemTouchHelper            helper;
 	private StringReorderDeleteAdapter adapter;
+	private DatasetManager             datasetManager;
+	private Dataset                    dataset;
 
 	@Override
 	protected Integer getLayoutId()
@@ -70,6 +74,19 @@ public class PhenotypeActivity extends ThemedActivity
 		super.onCreate(savedInstanceState);
 
 		ButterKnife.bind(this);
+
+		Bundle extras = getIntent().getExtras();
+
+		if (extras != null)
+		{
+			long datasetId = extras.getLong(EXTRA_DATASET_ID, -1l);
+
+			if (datasetId != -1)
+			{
+				datasetManager = new DatasetManager(getApplicationContext(), datasetId);
+				dataset = datasetManager.getById(datasetId);
+			}
+		}
 
 		adapter = new StringReorderDeleteAdapter(this, new ArrayList<String>(), new StringReorderDeleteAdapter.OnStartDragListener()
 		{
@@ -174,7 +191,14 @@ public class PhenotypeActivity extends ThemedActivity
 		List<String> items = adapter.getItems();
 
 		if (!CollectionUtils.isEmpty(items))
-			data.putStringArrayListExtra(EXTRA_LIST, new ArrayList<>(items));
+		{
+			dataset.setPreloadedPhenotypes(items);
+		}
+		else
+		{
+			dataset.setPreloadedPhenotypes(null);
+		}
+		datasetManager.update(dataset);
 
 		if (getParent() == null)
 		{

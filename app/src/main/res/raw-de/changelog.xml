@@ -17,6 +17,10 @@
   -->
 
 <changelog bulletedList="true">
+	<changelogversion versionName="1.19.04.02" changeDate="02/04/2019">
+		<changelogbug>In dieser Version wurde ein Fehler im Phänotypisierungsmodus behoben wo Merkmale im Voraus geladen werden können um den Prozess zu beschleunigen.</changelogbug>
+	</changelogversion>
+
 	<changelogversion versionName="1.19.02.05" changeDate="05/02/2019">
 		<changelogbug>Fehler beim Teilen von exportierten Daten via Android's internem System.</changelogbug>
 	</changelogversion>

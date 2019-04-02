@@ -23,6 +23,7 @@ import java.util.*;
 
 import uk.ac.hutton.android.germinatescan.activity.*;
 import uk.ac.hutton.android.germinatescan.database.*;
+import uk.ac.hutton.android.germinatescan.database.manager.*;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -33,20 +34,23 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 {
 	private final List<String> preloadedPhenotypes;
 
-	private String currentPlant;
-	private int counter = 0;
+	private String         currentPlant;
+	private int            counter = 0;
+	private DatasetManager datasetManager;
+	private Dataset        dataset;
 
 	private PreferenceUtils pref;
 
-	public PhenotypeBarcodeHandler(GerminateScanActivity context, List<String> preloadedPhenotypes, String currentPlant, int counter)
+	public PhenotypeBarcodeHandler(GerminateScanActivity context, Dataset dataset, List<String> preloadedPhenotypes, String currentPlant, int counter)
 	{
 		super(context);
 		this.preloadedPhenotypes = preloadedPhenotypes;
 		this.currentPlant = currentPlant;
 		this.counter = counter;
+		this.dataset = dataset;
+		this.datasetManager = new DatasetManager(context, dataset.getId());
 
 		pref = new PreferenceUtils(context);
-		pref.putListObject(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES, preloadedPhenotypes);
 	}
 
 	@Override
@@ -114,7 +118,8 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 				result.add(phenotype);
 			}
 
-			pref.putInt(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES_COUNTER, counter);
+			dataset.setCurrentPhenotype(counter);
+			datasetManager.update(dataset);
 
 			return result;
 		}
@@ -137,7 +142,8 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 		counter -= 2;
 		counter = MathUtils.modulo(counter, preloadedPhenotypes.size()) + 1;
 
-		pref.putInt(PreferenceUtils.PREFS_PRELOADED_PHENOTYPES_COUNTER, counter);
+		dataset.setCurrentPhenotype(counter);
+		datasetManager.update(dataset);
 	}
 
 	protected abstract Barcode getCurrentPlant();
