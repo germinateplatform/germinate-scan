@@ -45,19 +45,19 @@
 
 			<TextView
 				android:id="@+id/barcode_item_date"
-				android:textColor="?attr/textColor"
+				android:textColor="?attr/textColorSecondary"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"/>
 
 			<TextView
 				android:id="@+id/barcode_item_lat"
-				android:textColor="?attr/textColor"
+				android:textColor="?attr/textColorSecondary"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"/>
 
 			<TextView
 				android:id="@+id/barcode_item_lng"
-				android:textColor="?attr/textColor"
+				android:textColor="?attr/textColorSecondary"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"/>
 		</LinearLayout>

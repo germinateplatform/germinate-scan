@@ -31,9 +31,13 @@ import uk.ac.hutton.android.germinatescan.database.*;
 
 public class BarcodeManager extends AbstractManager<Barcode>
 {
+	private DatasetManager datasetManager;
+
 	public BarcodeManager(Context context, long datasourceId)
 	{
 		super(context, datasourceId);
+
+		this.datasetManager = new DatasetManager(context, datasourceId);
 	}
 
 	@Override
@@ -46,6 +50,14 @@ public class BarcodeManager extends AbstractManager<Barcode>
 	protected String getTableName()
 	{
 		return DatasetManager.TABLE_MAIN;
+	}
+
+	@Override
+	public void delete(Barcode item)
+	{
+		super.delete(item);
+
+		datasetManager.setUpdatedOn(datasetId, new Date());
 	}
 
 	/**
@@ -81,6 +93,8 @@ public class BarcodeManager extends AbstractManager<Barcode>
 		{
 			add(barcode);
 		}
+
+		datasetManager.setUpdatedOn(datasetId, new Date());
 	}
 
 	/**
@@ -117,6 +131,8 @@ public class BarcodeManager extends AbstractManager<Barcode>
 		{
 			close();
 		}
+
+		datasetManager.setUpdatedOn(datasetId, new Date());
 	}
 
 	public Barcode.BarcodeMap getAllAsRows(int nrOfColumns)

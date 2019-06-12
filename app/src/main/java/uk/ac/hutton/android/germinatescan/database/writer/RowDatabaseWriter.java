@@ -80,7 +80,7 @@ public class RowDatabaseWriter extends DatabaseWriter
             /* Write each Barcode */
 			for (Barcode item : items)
 			{
-				bw.write(item.toStringForExport());
+				bw.write(item.toStringForExport(false));
 				bw.newLine();
 			}
 

@@ -23,13 +23,14 @@ import android.os.*;
 import android.support.design.widget.*;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
+import android.text.*;
 import android.view.*;
 import android.widget.*;
 
 import java.util.*;
 
 import butterknife.*;
-import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.adapter.*;
 import uk.ac.hutton.android.germinatescan.database.*;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
@@ -93,6 +94,7 @@ public class DatasetActivity extends ThemedActivity
 		{
 			case R.id.menu_add_dataset:
 				final EditText name = new EditText(this);
+				name.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
 				new AlertDialog.Builder(this)
 						.setTitle(R.string.dialog_title_add_dataset)

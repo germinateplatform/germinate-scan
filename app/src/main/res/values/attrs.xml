@@ -27,6 +27,7 @@
 	<attr name="dividerColor" format="reference|color"/>
 	<attr name="drawerBackgroundColor" format="reference|color"/>
 	<attr name="textColor" format="reference|color"/>
+	<attr name="textColorSecondary" format="reference|color"/>
 	<attr name="inputTextColor" format="reference|color"/>
 
 	<attr name="actionDelete" format="reference"/>

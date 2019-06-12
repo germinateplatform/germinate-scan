@@ -36,24 +36,25 @@ import uk.ac.hutton.android.germinatescan.database.*;
  */
 public class PreferenceUtils
 {
-	public static final String PREF_THEME                         = "Prefs.Appearance.Theme";
-	public static final String PREF_BARCODES                      = "Prefs.Barcodes.Nr";
-	public static final String PREFS_DELETE_ROW_TOKEN             = "Prefs.Delete.Row.Token";
-	public static final String PREFS_DELETE_CELL_TOKEN            = "Prefs.Delete.Cell.Token";
-	public static final String PREFS_NULL_TOKEN                   = "Prefs.Null.Token";
-	public static final String PREFS_SHOW_EULA                    = "Prefs.Show.Eula";
-	public static final String PREFS_EULA_ACCEPTED                = "Prefs.Eula.Accepted";
-	public static final String PREFS_EULA_TYPE                    = "Prefs.Eula.Type";
-	public static final String PREFS_SHOW_CHANGELOG               = "Prefs.Show.Changelog";
-	public static final String PREFS_MAP_TYPE                     = "Prefs.Map.Type";
-	public static final String PREFS_MAP_FOLLOW_ME                = "Prefs.Map.Follow.Me";
-	public static final String PREFS_EXPORT_BARCODE_PROPERTIES    = "Prefs.Export.Barcode.Properties";
-	public static final String PREFS_EXPORT_MATRIX_FORMAT         = "Prefs.Export.Format.Matrix";
-	public static final String PREFS_VOICE_FEEDBACK               = "Prefs.Voice.Feedback";
-	public static final String PREFS_VOICE_FEEDBACK_WARNING       = "Prefs.Voice.Feedback.Warning";
-	public static final String PREFS_GA_OPT_OUT                   = "Prefs.Google.Analytics.Opt.Out";
-	public static final String PREFS_URL_OPEN_EXTERNAL            = "Prefs.Url.Open.External";
-	public static final String PREFS_SELECTED_DATASET_ID          = "Prefs.Dataset.Id";
+	public static final String PREF_THEME                                 = "Prefs.Appearance.Theme";
+	public static final String PREF_BARCODES                              = "Prefs.Barcodes.Nr";
+	public static final String PREFS_DELETE_ROW_TOKEN                     = "Prefs.Delete.Row.Token";
+	public static final String PREFS_DELETE_CELL_TOKEN                    = "Prefs.Delete.Cell.Token";
+	public static final String PREFS_NULL_TOKEN                           = "Prefs.Null.Token";
+	public static final String PREFS_SHOW_EULA                            = "Prefs.Show.Eula";
+	public static final String PREFS_EULA_ACCEPTED                        = "Prefs.Eula.Accepted";
+	public static final String PREFS_EULA_TYPE                            = "Prefs.Eula.Type";
+	public static final String PREFS_SHOW_CHANGELOG                       = "Prefs.Show.Changelog";
+	public static final String PREFS_MAP_TYPE                             = "Prefs.Map.Type";
+	public static final String PREFS_MAP_FOLLOW_ME                        = "Prefs.Map.Follow.Me";
+	public static final String PREFS_EXPORT_BARCODE_PROPERTIES            = "Prefs.Export.Barcode.Properties";
+	public static final String PREFS_EXPORT_MATRIX_FORMAT                 = "Prefs.Export.Format.Matrix";
+	public static final String PREFS_EXPORT_MATRIX_SINGLE_TIME_GPS_PERROW = "Prefs.Export.Format.Matrix.Single.Time.Gps.PerRow";
+	public static final String PREFS_VOICE_FEEDBACK                       = "Prefs.Voice.Feedback";
+	public static final String PREFS_VOICE_FEEDBACK_WARNING               = "Prefs.Voice.Feedback.Warning";
+	public static final String PREFS_GA_OPT_OUT                           = "Prefs.Google.Analytics.Opt.Out";
+	public static final String PREFS_URL_OPEN_EXTERNAL                    = "Prefs.Url.Open.External";
+	public static final String PREFS_SELECTED_DATASET_ID                  = "Prefs.Dataset.Id";
 
 	public static final String PREFS_LAST_VERSION = "Prefs.Last.Version.Code";
 
@@ -111,7 +112,11 @@ public class PreferenceUtils
 		}
 		if (!preferences.contains(PREFS_EXPORT_MATRIX_FORMAT))
 		{
-			editor.putBoolean(PREFS_EXPORT_MATRIX_FORMAT, false);
+			editor.putBoolean(PREFS_EXPORT_MATRIX_FORMAT, true);
+		}
+		if (!preferences.contains(PREFS_EXPORT_MATRIX_SINGLE_TIME_GPS_PERROW))
+		{
+			editor.putBoolean(PREFS_EXPORT_MATRIX_SINGLE_TIME_GPS_PERROW, true);
 		}
 		if (!preferences.contains(PREFS_SAVE_IMAGE_TAG_LOCATION))
 		{

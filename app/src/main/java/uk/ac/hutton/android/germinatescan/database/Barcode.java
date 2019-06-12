@@ -36,16 +36,16 @@ import uk.ac.hutton.android.germinatescan.util.*;
  */
 public class Barcode extends DatabaseObject
 {
-	public static final String FIELD_TIMESTAMP = "time";
-	public static final String FIELD_LATITUDE  = "latitude";
-	public static final String FIELD_LONGITUDE = "longitude";
-	public static final String FIELD_ALTITUDE  = "altitude";
-	public static final String FIELD_BARCODE   = "barcode";
-	public static final String FIELD_ROW       = "row";
-	public static final String FIELD_COL       = "col";
-	public static final SimpleDateFormat DATE_FORMAT    = new SimpleDateFormat(BarcodeReader.INSTANCE.getString(R.string.general_date_format), Locale.getDefault());
-	private static final DecimalFormat    DECIMAL_FORMAT = new DecimalFormat("###.####");
-	private static final int INVALID_LOCATION_VALUE = -300000;
+	public static final  String           FIELD_TIMESTAMP        = "time";
+	public static final  String           FIELD_LATITUDE         = "latitude";
+	public static final  String           FIELD_LONGITUDE        = "longitude";
+	public static final  String           FIELD_ALTITUDE         = "altitude";
+	public static final  String           FIELD_BARCODE          = "barcode";
+	public static final  String           FIELD_ROW              = "row";
+	public static final  String           FIELD_COL              = "col";
+	public static final  SimpleDateFormat DATE_FORMAT            = new SimpleDateFormat(BarcodeReader.INSTANCE.getString(R.string.general_date_format), Locale.getDefault());
+	private static final DecimalFormat    DECIMAL_FORMAT         = new DecimalFormat("###.####");
+	private static final int              INVALID_LOCATION_VALUE = -300000;
 
 	private String timestamp;
 	private Double latitude  = null;
@@ -153,7 +153,8 @@ public class Barcode extends DatabaseObject
 
 	public Barcode setLatitude(Double latitude)
 	{
-		this.latitude = latitude; return this;
+		this.latitude = latitude;
+		return this;
 	}
 
 	public Barcode setLatitude(Location location)
@@ -198,7 +199,8 @@ public class Barcode extends DatabaseObject
 
 	public Barcode setLongitude(Double longitude)
 	{
-		this.longitude = longitude; return this;
+		this.longitude = longitude;
+		return this;
 	}
 
 	public Barcode setAltitude(Double altitude)
@@ -382,7 +384,7 @@ public class Barcode extends DatabaseObject
 	 *
 	 * @return The {@link Barcode} in the format used for data export
 	 */
-	public String toStringForExport()
+	public String toStringForExport(boolean justBarcode)
 	{
 		if (isNullBarcode())
 		{
@@ -391,23 +393,33 @@ public class Barcode extends DatabaseObject
 
 		List<BarcodeProperty> props = BarcodeProperty.getUsedProperties();
 
-        /* Check if props is empty to prevent IndexOutOfBoundsException later on */
+		/* Check if props is empty to prevent IndexOutOfBoundsException later on */
 		if (props.isEmpty())
 		{
 			return "";
 		}
 
-        /* Start with the first one here, so we don't need to have any 'if's in the for loop */
-		StringBuilder result = new StringBuilder(getBarcodeProperty(props.get(0)));
-
-		for (int i = 1; i < props.size(); i++)
+		if (justBarcode)
 		{
-			/* Append the rest with the delimiter in between */
-			result.append(BarcodeReader.DELIMITER)
-				  .append(getBarcodeProperty(props.get(i)));
+			if (props.contains(BarcodeProperty.BARCODE))
+				return getBarcodeProperty(BarcodeProperty.BARCODE);
+			else
+				return "";
 		}
+		else
+		{
+			/* Start with the first one here, so we don't need to have any 'if's in the for loop */
+			StringBuilder result = new StringBuilder(getBarcodeProperty(props.get(0)));
 
-		return result.toString();
+			for (int i = 1; i < props.size(); i++)
+			{
+				/* Append the rest with the delimiter in between */
+				result.append(BarcodeReader.DELIMITER)
+					  .append(getBarcodeProperty(props.get(i)));
+			}
+
+			return result.toString();
+		}
 	}
 
 	public String getStringForImageTag()
@@ -584,7 +596,7 @@ public class Barcode extends DatabaseObject
 				}
 				catch (IllegalArgumentException e)
 				{
-				/* Do nothing here */
+					/* Do nothing here */
 				}
 			}
 

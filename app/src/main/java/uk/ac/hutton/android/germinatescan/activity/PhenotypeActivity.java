@@ -18,8 +18,8 @@
 package uk.ac.hutton.android.germinatescan.activity;
 
 import android.app.*;
-import android.content.*;
 import android.content.ClipboardManager;
+import android.content.*;
 import android.os.*;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
@@ -31,7 +31,7 @@ import android.widget.*;
 import java.util.*;
 
 import butterknife.*;
-import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.adapter.*;
 import uk.ac.hutton.android.germinatescan.database.*;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
@@ -223,7 +223,7 @@ public class PhenotypeActivity extends ThemedActivity
 					{
 						ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 						ClipData data = clipboard.getPrimaryClip();
-						if (data.getItemCount() > 0)
+						if (data != null && data.getItemCount() > 0)
 						{
 							ClipData.Item item = data.getItemAt(0);
 							String value = item.getText().toString();

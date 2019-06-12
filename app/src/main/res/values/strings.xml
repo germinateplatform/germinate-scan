@@ -213,6 +213,7 @@
 
 	<string name="label_no_images">Nothing to see here… No, really. There are no images for this barcode.</string>
 	<string name="label_export_matrix_format">Export in matrix format?</string>
+	<string name="label_export_matrix_single_time_gps_perrow">Export single timestamp and GPS per row?</string>
 	<string name="label_export_option_save">Save on device</string>
 	<string name="label_export_option_send">Send file</string>
 
@@ -294,7 +295,7 @@
 		used for various scenarios. Here are some examples:
 	</string>
 	<string name="introduction_barcodes_example_1_title">One: Photo tagging</string>
-	<string name="introduction_barcodes_example_1_text">Scan the item, then take a photo of it. The photo will be tagget with the item identifier as
+	<string name="introduction_barcodes_example_1_text">Scan the item, then take a photo of it. The photo will be tagged with the item identifier as
 		well as the location and timestamp.
 	</string>
 	<string name="introduction_barcodes_example_2_title">Two: Categorization</string>

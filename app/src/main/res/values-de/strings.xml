@@ -191,6 +191,7 @@
 	<string name="label_eula_commercial">EULA für kommerzielle Nutzer</string>
 	<string name="label_eula_consumer">EULA für Verbraucher</string>
 	<string name="label_export_matrix_format">Im Matrixformat exportieren?</string>
+	<string name="label_export_matrix_single_time_gps_perrow">Zeitstempel und GPS nur einmal pro Reihe exportieren?</string>
 	<string name="label_export_option_save">Auf Gerät speichern</string>
 	<string name="label_export_option_send">Datei versenden</string>
 	<string name="toast_permission_missing_camera">Zugriff auf die Kamera wurde verweigert.</string>

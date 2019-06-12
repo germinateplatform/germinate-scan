@@ -21,7 +21,6 @@ import android.content.*;
 import android.database.*;
 
 import java.io.*;
-import java.text.*;
 import java.util.*;
 
 import uk.ac.hutton.android.germinatescan.database.*;
@@ -290,6 +289,8 @@ public class DatasetManager extends AbstractManager<Dataset>
 			values.put(Dataset.FIELD_BARCODES_PER_ROW, dataset.getBarcodesPerRow());
 			values.put(Dataset.FIELD_CURRENT_PHENOTYPE, dataset.getCurrentPhenotype());
 			values.put(Dataset.FIELD_PRELOADED_PHENOTYPES, dataset.getPreloadedPhenotypesAsString());
+			values.put(Dataset.FIELD_CREATED_ON, dataset.getCreatedOn() != null ? dataset.getCreatedOn().getTime() : null);
+			values.put(Dataset.FIELD_UPDATED_ON, dataset.getUpdatedOn() != null ? dataset.getUpdatedOn().getTime() : null);
 
 			// Inserting Row
 			database.insert(getTableName(), null, values);
@@ -300,10 +301,26 @@ public class DatasetManager extends AbstractManager<Dataset>
 		}
 	}
 
+	public void setUpdatedOn(long datasetId, Date date)
+	{
+		try {
+			open();
+
+			ContentValues values = new ContentValues();
+			values.put(Dataset.FIELD_UPDATED_ON, date != null ? date.getTime() : null);
+
+			database.update(getTableName(), values, Barcode.FIELD_ID + " = ?", new String[]{Long.toString(datasetId)});
+		}
+		finally
+		{
+			close();
+		}
+	}
+
 	private static class Parser extends DatabaseObjectParser<Dataset>
 	{
 		@Override
-		public Dataset parse(Context context, long datasourceId, DatabaseInternal.AdvancedCursor cursor) throws ParseException
+		public Dataset parse(Context context, long datasourceId, DatabaseInternal.AdvancedCursor cursor)
 		{
 			return new Dataset(cursor.getLong(Dataset.FIELD_ID), new Date(cursor.getLong(Dataset.FIELD_CREATED_ON)), new Date(cursor.getLong(Dataset.FIELD_UPDATED_ON)))
 					.setName(cursor.getString(Dataset.FIELD_NAME))

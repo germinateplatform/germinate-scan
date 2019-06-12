@@ -51,21 +51,30 @@ public class ExportSettingsActivity extends ThemedActivity
 	{
 		super.onCreate(savedInstanceState);
 
-		list = (ListView) findViewById(R.id.export_settings_list);
-		example = (TextView) findViewById(R.id.export_settings_example);
+		list = findViewById(R.id.export_settings_list);
+		example = findViewById(R.id.export_settings_example);
 		/* The SwitchCompat used to switch between matrix and row export format */
-		SwitchCompat matrixSwitch = (SwitchCompat) findViewById(R.id.matrix_export_switch);
+		SwitchCompat matrixSwitch = findViewById(R.id.matrix_export_switch);
+		SwitchCompat timeGpsPerRow = findViewById(R.id.single_time_gps_perrow_switch);
 
 		final PreferenceUtils prefs = new PreferenceUtils(this);
 
-		matrixSwitch.setChecked(prefs.getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_FORMAT, false));
-
+		matrixSwitch.setChecked(prefs.getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_FORMAT, true));
 		matrixSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
 		{
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
 			{
 				prefs.putBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_FORMAT, isChecked);
+			}
+		});
+		timeGpsPerRow.setChecked(prefs.getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_SINGLE_TIME_GPS_PERROW, true));
+		timeGpsPerRow.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+		{
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+			{
+				prefs.putBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_SINGLE_TIME_GPS_PERROW, isChecked);
 			}
 		});
 

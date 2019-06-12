@@ -60,6 +60,8 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 
 		File file = FileUtils.createFile(context, datasetId, FileUtils.ReferenceFolder.output, FileUtils.FileExtension.txt, datasetName);
 
+		boolean singleTimeGps = new PreferenceUtils(context).getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_SINGLE_TIME_GPS_PERROW, true);
+
 		BufferedWriter bw = null;
 		try
 		{
@@ -75,8 +77,9 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 
             /* Write the headers */
 			boolean first = true;
-			for (int col = 0; col < nrOfColumns; col++)
+			if (singleTimeGps)
 			{
+				// Write all properties for the first column
 				for (int i = 0; i < props.size(); i++)
 				{
 					if (first)
@@ -85,6 +88,28 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 						bw.write(delimiter + props.get(i).toString());
 
 					first = false;
+				}
+
+				// Only the barcode for the remaining columns
+				if (props.contains(Barcode.BarcodeProperty.BARCODE))
+				{
+					for (int col = 1; col < nrOfColumns; col++)
+						bw.write(delimiter + Barcode.BarcodeProperty.BARCODE.toString());
+				}
+			}
+			else
+			{
+				for (int col = 0; col < nrOfColumns; col++)
+				{
+					for (int i = 0; i < props.size(); i++)
+					{
+						if (first)
+							bw.write(props.get(i).toString());
+						else
+							bw.write(delimiter + props.get(i).toString());
+
+						first = false;
+					}
 				}
 			}
 
@@ -97,10 +122,10 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 
 				if (!CollectionUtils.isEmpty(barcodes))
 				{
-					bw.write(barcodes.get(0).toStringForExport());
+					bw.write(barcodes.get(0).toStringForExport(false));
 					for (int i = 1; i < barcodes.size(); i++)
 					{
-						bw.write(delimiter + barcodes.get(i).toStringForExport());
+						bw.write(delimiter + barcodes.get(i).toStringForExport(singleTimeGps));
 					}
 
 					bw.newLine();

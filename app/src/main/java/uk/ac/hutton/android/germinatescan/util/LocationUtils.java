@@ -99,26 +99,17 @@ public class LocationUtils
 				}
 			};
 
-            /* Define the criteria how to select the location provider -> use
-			 * default */
-			Criteria criteria = new Criteria();
-			String provider = locationManager.getBestProvider(criteria, true);
-
-			locationManager.requestLocationUpdates(provider, 1000, 5, locationListener);
-
 			result = true;
 		}
-		else
-		{
-			/* Define the criteria how to select the location provider -> use
-			 * default */
-			Criteria criteria = new Criteria();
-			String provider = locationManager.getBestProvider(criteria, true);
 
-            /* Register the listener with the Location Manager to receive
-			 * location updates */
-			locationManager.requestLocationUpdates(provider, 1000, 5, locationListener);
-		}
+		/* Define the criteria how to select the location provider -> use
+		 * default */
+		Criteria criteria = new Criteria();
+		String provider = locationManager.getBestProvider(criteria, true);
+
+		/* Register the listener with the Location Manager to receive
+		 * location updates */
+		locationManager.requestLocationUpdates(provider, 1000, 5, locationListener);
 
 		counter++;
 

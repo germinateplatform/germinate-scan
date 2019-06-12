@@ -24,6 +24,7 @@
 		<item name="android:textColor">@color/text_color_dark</item>
 		<item name="android:textColorSecondary">@android:color/secondary_text_dark</item>
 		<item name="textColor">@color/text_color_dark</item>
+		<item name="textColorSecondary">@color/text_color_dark_secondary</item>
 		<item name="listItemBackground">@drawable/card_background_selector_dark</item>
 		<item name="dividerColor">@color/divider_dark</item>
 		<item name="drawerBackgroundColor">@color/drawer_background_dark</item>
@@ -47,6 +48,7 @@
 		<item name="android:textColor">@color/text_color_light</item>
 		<item name="android:textColorSecondary">@android:color/secondary_text_light</item>
 		<item name="textColor">@color/text_color_light</item>
+		<item name="textColorSecondary">@color/text_color_light_secondary</item>
 		<item name="listItemBackground">@drawable/card_background_selector_light</item>
 		<item name="dividerColor">@color/divider_light</item>
 		<item name="drawerBackgroundColor">@color/drawer_background_light</item>
