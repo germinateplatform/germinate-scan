@@ -84,6 +84,8 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 					Barcode plant = new Barcode(currentPlant);
 					plant.setTimestamp(Long.toString(System.currentTimeMillis()));
 					plant.setLocation(location);
+					// Don't make the app say the plant again if it's not the first per row.
+					plant.setSpeak(false);
 
 					result.add(plant);
 
@@ -99,8 +101,7 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 					onPlantComplete();
 				}
 			}
-
-			if (index == 2) // 2 = first in row...
+			else if (index == 2) // 2 = first in row...
 			{
 				counter %= preloadedPhenotypes.size();
 

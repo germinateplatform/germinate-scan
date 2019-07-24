@@ -56,6 +56,7 @@ public class Barcode extends DatabaseObject
 	private int    col;
 
 	private boolean isNullBarcode = true;
+	private boolean speak = true;
 
 	private List<Image> images = new ArrayList<>();
 
@@ -512,6 +513,17 @@ public class Barcode extends DatabaseObject
 			default:
 				return "";
 		}
+	}
+
+	public boolean isSpeak()
+	{
+		return speak;
+	}
+
+	public Barcode setSpeak(boolean speak)
+	{
+		this.speak = speak;
+		return this;
 	}
 
 	/**

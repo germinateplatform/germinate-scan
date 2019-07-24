@@ -134,6 +134,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		if (CollectionUtils.isEmpty(datasets))
 		{
 			d = new Dataset(getString(R.string.dataset_initial));
+			d.setCreatedOn(new Date());
+			d.setUpdatedOn(new Date());
 			datasetManager.add(d);
 			prefs.putLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, d.getId());
 		}
@@ -1094,7 +1096,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 
 					GoogleAnalyticsUtils.trackEvent(this, getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), getString(R.string.ga_event_category_scan), getString(R.string.ga_event_action_scan));
 
-					speak(barcode.getBarcode());
+					if (barcode.isSpeak())
+						speak(barcode.getBarcode());
 
 					hiddenInput.setText(null);
 				}

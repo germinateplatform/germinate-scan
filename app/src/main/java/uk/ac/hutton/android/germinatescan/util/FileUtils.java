@@ -132,6 +132,19 @@ public class FileUtils
 		return createFile(activ, filename, datasetId, folder, ext, null);
 	}
 
+	private static String fixFilename(String name)
+	{
+		StringBuilder filename = new StringBuilder();
+
+		for (char c : name.toCharArray()) {
+			if (c=='.' || Character.isJavaIdentifierPart(c)) {
+				filename.append(c);
+			}
+		}
+
+		return filename.toString();
+	}
+
 	/**
 	 * Creates a new file with the given parameters
 	 *
@@ -144,10 +157,12 @@ public class FileUtils
 	 */
 	public static File createFile(Context activ, String filename, Long datasetId, ReferenceFolder folder, FileExtension ext, String postfix)
 	{
-		if(!StringUtils.isEmpty(filename))
+		if (!StringUtils.isEmpty(filename))
 			filename = filename + (postfix == null ? "" : "_" + postfix);
 		else
 			filename = postfix == null ? "" : postfix;
+
+		filename = fixFilename(filename);
 
 		File file = new File(getPathToReferenceFolder(activ, datasetId, folder), filename + "." + ext.name());
 
