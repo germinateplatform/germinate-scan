@@ -31,7 +31,7 @@ import android.widget.*;
 import java.util.*;
 
 import butterknife.*;
-import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.adapter.*;
 import uk.ac.hutton.android.germinatescan.database.*;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
@@ -199,6 +199,7 @@ public class PhenotypeActivity extends ThemedActivity
 		{
 			dataset.setPreloadedPhenotypes(null);
 		}
+		dataset.setCurrentPhenotype(0);
 		datasetManager.update(dataset);
 
 		if (getParent() == null)

@@ -35,5 +35,5 @@ public abstract class DatabaseWriter
 		this.context = context;
 	}
 
-	public abstract File write();
+	public abstract File write() throws IOException;
 }

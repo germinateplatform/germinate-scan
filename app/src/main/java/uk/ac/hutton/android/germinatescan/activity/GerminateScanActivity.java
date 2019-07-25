@@ -200,7 +200,7 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 						deniedPermissions.add(permission);
 				}
 
-				if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
+				if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED)
 				{
 					/* Permission Granted */
 					LocationUtils.load(this);

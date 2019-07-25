@@ -39,6 +39,7 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 	private final BarcodeReader  context;
 	private final List<Barcode>  items;
 	private final int            nrOfColumns;
+	private final Dataset        dataset;
 	private       BarcodeManager barcodeManager;
 
 	public RecyclerGridAdapter(BarcodeReader context, long datasetId, List<Barcode> items)
@@ -46,7 +47,8 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 		this.context = context;
 		this.items = items;
 		barcodeManager = new BarcodeManager(context, datasetId);
-		this.nrOfColumns = new DatasetManager(context, datasetId).getById(datasetId).getBarcodesPerRow();
+		this.dataset = new DatasetManager(context, datasetId).getById(datasetId);
+		this.nrOfColumns = dataset.getBarcodesPerRow();
 	}
 
 	@Override
@@ -93,7 +95,10 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 
 	public Barcode getItem(int position)
 	{
-		return items.get(position);
+		if (position >= 0 && position < items.size())
+			return items.get(position);
+		else
+			return null;
 	}
 
 	public List<Barcode> getItems()
@@ -158,6 +163,9 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 
 	public void remove(Barcode barcode)
 	{
+		if (barcode == null)
+			return;
+
 		int index = items.indexOf(barcode);
 		int size = items.size();
 
@@ -235,16 +243,17 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 			int position = getAdapterPosition();
 			final Barcode item = getItem(position);
 
-			boolean hasImages = !CollectionUtils.isEmpty(item.getImages());
+			final boolean hasImages = !CollectionUtils.isEmpty(item.getImages());
 
 			ArrayAdapter<String> dialogAdapter = new ArrayAdapter<>(context, android.R.layout.select_dialog_item);
-			dialogAdapter.add(context.getString(R.string.dialog_list_delete_barcode));
-			dialogAdapter.add(context.getString(R.string.dialog_list_delete_row));
 			dialogAdapter.add(context.getString(R.string.dialog_list_take_photo));
-
 			if (hasImages)
-			{
 				dialogAdapter.add(context.getString(R.string.dialog_list_show_images));
+
+			if (!dataset.isPhenotypingMode())
+			{
+				dialogAdapter.add(context.getString(R.string.dialog_list_delete_barcode));
+				dialogAdapter.add(context.getString(R.string.dialog_list_delete_row));
 			}
 
 			new AlertDialog.Builder(context).setAdapter(dialogAdapter, new DialogInterface.OnClickListener()
@@ -255,19 +264,22 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 					switch (which)
 					{
 						case 0:
-							remove(item);
-							break;
-
-						case 1:
-							removeAll(getItemsInRow(item));
-							break;
-
-						case 2:
-							context.takePicture(item);
-							break;
-
-						case 3:
 							context.showImages(v, item);
+							break;
+						case 1:
+							if (hasImages)
+								context.takePicture(item);
+							else
+								remove(item);
+							break;
+						case 2:
+							if (hasImages)
+								remove(item);
+							else
+								removeAll(getItemsInRow(item));
+							break;
+						case 3:
+							removeAll(getItemsInRow(item));
 							break;
 					}
 				}

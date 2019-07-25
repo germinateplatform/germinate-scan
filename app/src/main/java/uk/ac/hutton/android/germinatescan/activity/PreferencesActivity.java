@@ -30,7 +30,7 @@ import android.widget.*;
 import com.google.android.gms.analytics.*;
 import com.google.zxing.integration.android.*;
 
-import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -40,8 +40,8 @@ import uk.ac.hutton.android.germinatescan.util.*;
  */
 public class PreferencesActivity extends ThemedActivity
 {
-	private static Tracker tracker;
-	private PrefsFragment prefsFragment;
+	private static Tracker       tracker;
+	private        PrefsFragment prefsFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -52,7 +52,7 @@ public class PreferencesActivity extends ThemedActivity
 
 		prefsFragment = new PrefsFragment();
 
-        /* Show the fragment */
+		/* Show the fragment */
 		getFragmentManager().beginTransaction()
 							.replace(R.id.preferences_layout, prefsFragment)
 							.commit();
@@ -88,11 +88,11 @@ public class PreferencesActivity extends ThemedActivity
 
 	public static class PrefsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener, Preference.OnPreferenceClickListener
 	{
-		private static final int TTS_DATA_CHECK_CODE = 7;
-		private static final int REQUEST_BARCODES    = 10001;
-		private int nrOfBarcodes;
-		private String preferenceKey;
-		private PreferenceUtils prefs;
+		private static final int             TTS_DATA_CHECK_CODE = 7;
+		private static final int             REQUEST_BARCODES    = 10001;
+		private              int             nrOfBarcodes;
+		private              String          preferenceKey;
+		private              PreferenceUtils prefs;
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -113,7 +113,7 @@ public class PreferencesActivity extends ThemedActivity
 
 			prefs = new PreferenceUtils(getActivity());
 
-            /* Load the preferences from an XML resource */
+			/* Load the preferences from an XML resource */
 			addPreferencesFromResource(R.xml.prefs);
 
 			/* Update the summary */
@@ -173,7 +173,7 @@ public class PreferencesActivity extends ThemedActivity
 				case PreferenceUtils.PREFS_VOICE_FEEDBACK:
 					final SwitchPreference voiceFeedbackPreference = (SwitchPreference) findPreference(key);
 
-                	/* Check if the user has already been informed that a data download may be necessary */
+					/* Check if the user has already been informed that a data download may be necessary */
 					final boolean hasBeenWarned = prefs.getBoolean(PreferenceUtils.PREFS_VOICE_FEEDBACK_WARNING, false);
 					final boolean voiceFeedbackEnabled = prefs.getBoolean(PreferenceUtils.PREFS_VOICE_FEEDBACK, false);
 
@@ -211,16 +211,56 @@ public class PreferencesActivity extends ThemedActivity
 		@Override
 		public boolean onPreferenceClick(Preference preference)
 		{
-			String key = preference.getKey();
+			final String key = preference.getKey();
 
 			switch (key)
 			{
 				case PreferenceUtils.PREFS_DELETE_ROW_TOKEN:
 				case PreferenceUtils.PREFS_DELETE_CELL_TOKEN:
 				case PreferenceUtils.PREFS_NULL_TOKEN:
-					preferenceKey = key;
-					IntentIntegrator integrator = new IntentIntegrator(getActivity());
-					integrator.initiateScan();
+					ArrayAdapter<String> dialogAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_item);
+					dialogAdapter.add(getString(R.string.dialog_list_token_type));
+					dialogAdapter.add(getString(R.string.dialog_list_token_scan));
+
+					new AlertDialog.Builder(getActivity()).setAdapter(dialogAdapter, new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(DialogInterface dialog, int which)
+						{
+							preferenceKey = key;
+							switch (which)
+							{
+								case 0:
+									final EditText token = new EditText(getActivity());
+
+									new AlertDialog.Builder(getActivity())
+											.setTitle(R.string.dialog_title_token)
+											.setMessage(R.string.dialog_message_token)
+											.setView(token)
+											.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+											{
+												public void onClick(DialogInterface dialog, int whichButton)
+												{
+													String value = token.getText().toString();
+													updatePreference(value);
+												}
+											})
+											.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener()
+											{
+												public void onClick(DialogInterface dialog, int whichButton)
+												{
+												}
+											})
+											.show();
+									break;
+								case 1:
+									IntentIntegrator integrator = new IntentIntegrator(getActivity());
+									integrator.initiateScan();
+									break;
+							}
+						}
+					}).show();
+
 					return true;
 
 				case PreferenceUtils.PREFS_EXPORT_BARCODE_PROPERTIES:
@@ -266,43 +306,48 @@ public class PreferencesActivity extends ThemedActivity
 
 					if (!StringUtils.isEmpty(code))
 					{
-					/* Set the text */
-						String key = null;
-						String value = null;
-
-						if (PreferenceUtils.PREFS_DELETE_ROW_TOKEN.equals(preferenceKey))
-						{
-							key = PreferenceUtils.PREFS_DELETE_ROW_TOKEN;
-							value = getString(R.string.preferences_delete_row_token_summary, code);
-
-							GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
-						}
-						else if (PreferenceUtils.PREFS_DELETE_CELL_TOKEN.equals(preferenceKey))
-						{
-							key = PreferenceUtils.PREFS_DELETE_CELL_TOKEN;
-							value = getString(R.string.preferences_delete_cell_token_summary, code);
-
-							GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
-						}
-						else if (PreferenceUtils.PREFS_NULL_TOKEN.equals(preferenceKey))
-						{
-							key = PreferenceUtils.PREFS_NULL_TOKEN;
-							value = getString(R.string.preferences_null_token_summary, code);
-
-							GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_null_token));
-						}
-
-						if (!StringUtils.isEmpty(key, value))
-						{
-							findPreference(key).setSummary(value);
-							prefs.putString(key, code);
-						}
+						updatePreference(code);
 					}
 				}
 				else
 				{
 					super.onActivityResult(requestCode, resultCode, data);
 				}
+			}
+		}
+
+		private void updatePreference(String code)
+		{
+			// Set the text
+			String key = null;
+			String value = null;
+
+			if (PreferenceUtils.PREFS_DELETE_ROW_TOKEN.equals(preferenceKey))
+			{
+				key = PreferenceUtils.PREFS_DELETE_ROW_TOKEN;
+				value = getString(R.string.preferences_delete_row_token_summary, code);
+
+				GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
+			}
+			else if (PreferenceUtils.PREFS_DELETE_CELL_TOKEN.equals(preferenceKey))
+			{
+				key = PreferenceUtils.PREFS_DELETE_CELL_TOKEN;
+				value = getString(R.string.preferences_delete_cell_token_summary, code);
+
+				GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
+			}
+			else if (PreferenceUtils.PREFS_NULL_TOKEN.equals(preferenceKey))
+			{
+				key = PreferenceUtils.PREFS_NULL_TOKEN;
+				value = getString(R.string.preferences_null_token_summary, code);
+
+				GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_null_token));
+			}
+
+			if (!StringUtils.isEmpty(key, value))
+			{
+				findPreference(key).setSummary(value);
+				prefs.putString(key, code);
 			}
 		}
 	}

@@ -43,8 +43,8 @@ import com.google.zxing.integration.android.*;
 import java.io.*;
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.adapter.*;
 import uk.ac.hutton.android.germinatescan.database.*;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
@@ -517,46 +517,56 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				/* Write the file in any case */
 				DatabaseWriter writer;
 
-				if (prefs.getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_FORMAT, false))
-					writer = new MatrixDatabaseWriter(BarcodeReader.this, dataset.getId(), DELIMITER);
+				if (dataset.isPhenotypingMode())
+					writer = new PhenotypingModeDatabaseWriter(BarcodeReader.this, DELIMITER);
+				else if (prefs.getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_FORMAT, false))
+					writer = new MatrixDatabaseWriter(BarcodeReader.this, DELIMITER);
 				else
 					writer = new RowDatabaseWriter(BarcodeReader.this, DELIMITER);
 
-				File exportedFile = writer.write();
-
-				if (exportedFile == null)
+				try
 				{
+					File exportedFile = writer.write();
+
+					if (exportedFile == null)
+					{
+						SnackbarUtils.showError(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_exception, "File operation failed"), Snackbar.LENGTH_LONG);
+					}
+					else
+					{
+						switch (index)
+						{
+							case 0:
+								SnackbarUtils.showSuccess(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_file_saved_to, exportedFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
+								break;
+							case 1:
+								/* Ask Android to share it for us */
+								ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(BarcodeReader.this);
+								/* Use the provider to make the file available to the other app (Android requirement) */
+								String providerName = getPackageName() + ".provider";
+								Uri uri = FileProvider.getUriForFile(BarcodeReader.this, providerName, exportedFile);
+
+								builder.setType("text/html")
+									   .setChooserTitle(R.string.intent_title_send_file)
+									   .setStream(uri)
+									   .setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
+									   .setText(BarcodeReader.this.getString(R.string.email_message_export));
+
+								startActivity(builder.getIntent());
+								break;
+						}
+					}
+
+					if (reset)
+						resetDatabase();
+
+					GoogleAnalyticsUtils.trackEvent(BarcodeReader.this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_database), getString(R.string.ga_event_action_export));
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
 					SnackbarUtils.showError(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_exception, "File operation failed"), Snackbar.LENGTH_LONG);
 				}
-				else
-				{
-					switch (index)
-					{
-						case 0:
-							SnackbarUtils.showSuccess(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_file_saved_to, exportedFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
-							break;
-						case 1:
-							/* Ask Android to share it for us */
-							ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(BarcodeReader.this);
-							/* Use the provider to make the file available to the other app (Android requirement) */
-							String providerName = getPackageName() + ".provider";
-							Uri uri = FileProvider.getUriForFile(BarcodeReader.this, providerName, exportedFile);
-
-							builder.setType("text/html")
-								   .setChooserTitle(R.string.intent_title_send_file)
-								   .setStream(uri)
-								   .setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
-								   .setText(BarcodeReader.this.getString(R.string.email_message_export));
-
-							startActivity(builder.getIntent());
-							break;
-					}
-				}
-
-				if (reset)
-					resetDatabase();
-
-				GoogleAnalyticsUtils.trackEvent(BarcodeReader.this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_database), getString(R.string.ga_event_action_export));
 			}
 		});
 	}
@@ -972,14 +982,12 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 			restored = true;
 		}
 
-		if (dataset.getBarcodesPerRow() == 3 && !CollectionUtils.isEmpty(preloadedPhenotypes))
+		if (dataset.isPhenotypingMode())
 		{
-			int counter = 0;
 			String currentPlant = null;
 
 			if (restored)
 			{
-				counter = dataset.getCurrentPhenotype();
 				if (adapter.getItemCount() > 0)
 					currentPlant = adapter.getItemsInRow(adapter.getItem(adapter.getItemCount() - 1)).get(0).getBarcode();
 			}
@@ -992,7 +1000,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 						.show();
 			}
 
-			handler = new PhenotypeBarcodeHandler(this, dataset, preloadedPhenotypes, currentPlant, counter)
+			handler = new PhenotypeBarcodeHandler(this, dataset, preloadedPhenotypes, currentPlant)
 			{
 				@Override
 				protected Barcode getCurrentPlant()
@@ -1009,7 +1017,44 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 					if (adapter.getItemCount() > 0)
 					{
 						/* Delete the current cell */
-						BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+						int index = adapter.getCurrentColumnIndex();
+						int currentPhenotype = dataset.getCurrentPhenotype();
+
+						if (index == 2)
+						{
+							// If it's a value, remove it, but keep the rest.
+							BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+							currentPhenotype--;
+							dataset.setCurrentPhenotype(currentPhenotype);
+						}
+						else if (index == 1)
+						{
+							// If it's a trait, remove everything including the value of the previous trait.
+							BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+							BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+							BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+							if (adapter.getItemCount() > 0)
+								currentPhenotype--;
+							dataset.setCurrentPhenotype(currentPhenotype);
+						}
+						else if (index == 0)
+						{
+							// If it's a plant, check if it's the first trait index, then just remove, else, do same as index 1
+							if (currentPhenotype == 0)
+							{
+								BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+								if (adapter.getItemCount() > 0)
+									currentPhenotype--;
+								dataset.setCurrentPhenotype(currentPhenotype);
+							}
+							else
+							{
+								BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+								BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+								currentPhenotype--;
+								dataset.setCurrentPhenotype(currentPhenotype);
+							}
+						}
 
 						GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
 					}
@@ -1018,14 +1063,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				@Override
 				public void deleteRow()
 				{
-					if (adapter.getItemCount() > 0)
-					{
-						/* Delete the current row */
-						Barcode lastBarcode = adapter.getItem(adapter.getItemCount() - 1);
-						BarcodeReader.this.deleteRow(lastBarcode);
-
-						GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
-					}
+					deleteBarcode();
 				}
 
 				@Override

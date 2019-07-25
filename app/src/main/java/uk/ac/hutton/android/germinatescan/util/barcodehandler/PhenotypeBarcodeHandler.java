@@ -34,19 +34,17 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 {
 	private final List<String> preloadedPhenotypes;
 
-	private String         currentPlant;
-	private int            counter = 0;
-	private DatasetManager datasetManager;
-	private Dataset        dataset;
+	protected Dataset        dataset;
+	private   String         currentPlant;
+	private   DatasetManager datasetManager;
 
 	private PreferenceUtils pref;
 
-	public PhenotypeBarcodeHandler(GerminateScanActivity context, Dataset dataset, List<String> preloadedPhenotypes, String currentPlant, int counter)
+	public PhenotypeBarcodeHandler(GerminateScanActivity context, Dataset dataset, List<String> preloadedPhenotypes, String currentPlant)
 	{
 		super(context);
 		this.preloadedPhenotypes = preloadedPhenotypes;
 		this.currentPlant = currentPlant;
-		this.counter = counter;
 		this.dataset = dataset;
 		this.datasetManager = new DatasetManager(context, dataset.getId());
 
@@ -82,10 +80,8 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 
 				result.add(value);
 
-				if (counter < preloadedPhenotypes.size())
+				if (dataset.getCurrentPhenotype() < preloadedPhenotypes.size() - 1)
 				{
-					counter %= preloadedPhenotypes.size();
-
 					Barcode plant = new Barcode(currentPlant);
 					plant.setTimestamp(Long.toString(System.currentTimeMillis()));
 					plant.setLocation(location);
@@ -94,7 +90,9 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 
 					result.add(plant);
 
-					Barcode phenotype = new Barcode(preloadedPhenotypes.get(counter++));
+					dataset.setCurrentPhenotype(dataset.getCurrentPhenotype() + 1);
+					datasetManager.update(dataset);
+					Barcode phenotype = new Barcode(preloadedPhenotypes.get(dataset.getCurrentPhenotype()));
 					phenotype.setTimestamp(Long.toString(System.currentTimeMillis()));
 					phenotype.setLocation(location);
 
@@ -102,14 +100,13 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 				}
 				else
 				{
-					counter %= preloadedPhenotypes.size();
 					onPlantComplete();
+					dataset.setCurrentPhenotype(0);
+					datasetManager.update(dataset);
 				}
 			}
 			else if (index == 2) // 2 = first in row...
 			{
-				counter %= preloadedPhenotypes.size();
-
 				currentPlant = input;
 				Barcode plant = new Barcode(currentPlant);
 				plant.setTimestamp(Long.toString(System.currentTimeMillis()));
@@ -117,15 +114,12 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 
 				result.add(plant);
 
-				Barcode phenotype = new Barcode(preloadedPhenotypes.get(counter++));
+				Barcode phenotype = new Barcode(preloadedPhenotypes.get(dataset.getCurrentPhenotype()));
 				phenotype.setTimestamp(Long.toString(System.currentTimeMillis()));
 				phenotype.setLocation(location);
 
 				result.add(phenotype);
 			}
-
-			dataset.setCurrentPhenotype(counter);
-			datasetManager.update(dataset);
 
 			return result;
 		}
@@ -135,7 +129,6 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 
 	private void deleteRowLocal()
 	{
-		deleteRow();
 		deleteBarcode();
 
 		Barcode barcode = getCurrentPlant();
@@ -145,10 +138,6 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 			currentPlant = barcode.getBarcode();
 		}
 
-		counter -= 2;
-		counter = MathUtils.modulo(counter, preloadedPhenotypes.size()) + 1;
-
-		dataset.setCurrentPhenotype(counter);
 		datasetManager.update(dataset);
 	}
 

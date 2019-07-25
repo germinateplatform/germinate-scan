@@ -61,6 +61,11 @@ public class Dataset extends DatabaseObject
 		this.name = name;
 	}
 
+	public boolean isPhenotypingMode()
+	{
+		return barcodesPerRow == 3 && !CollectionUtils.isEmpty(preloadedPhenotypes);
+	}
+
 	public String getName()
 	{
 		return name;
@@ -128,7 +133,11 @@ public class Dataset extends DatabaseObject
 
 	public Dataset setCurrentPhenotype(Integer currentPhenotype)
 	{
-		this.currentPhenotype = currentPhenotype;
+		if (preloadedPhenotypes != null)
+			this.currentPhenotype = MathUtils.modulo(currentPhenotype, preloadedPhenotypes.size());
+		else
+			this.currentPhenotype = currentPhenotype;
+
 		return this;
 	}
 }

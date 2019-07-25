@@ -325,8 +325,8 @@ public class DatasetManager extends AbstractManager<Dataset>
 			return new Dataset(cursor.getLong(Dataset.FIELD_ID), new Date(cursor.getLong(Dataset.FIELD_CREATED_ON)), new Date(cursor.getLong(Dataset.FIELD_UPDATED_ON)))
 					.setName(cursor.getString(Dataset.FIELD_NAME))
 					.setBarcodesPerRow(cursor.getInt(Dataset.FIELD_BARCODES_PER_ROW))
-					.setCurrentPhenotype(cursor.getInt(Dataset.FIELD_CURRENT_PHENOTYPE))
-					.setPreloadedPhenotypesAsString(cursor.getString(Dataset.FIELD_PRELOADED_PHENOTYPES));
+					.setPreloadedPhenotypesAsString(cursor.getString(Dataset.FIELD_PRELOADED_PHENOTYPES))
+					.setCurrentPhenotype(cursor.getInt(Dataset.FIELD_CURRENT_PHENOTYPE));
 		}
 
 		static final class Inst

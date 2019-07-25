@@ -70,7 +70,7 @@
 	<string name="toast_photo_saved_to">Image saved to: %1$s</string>
 	<string name="toast_file_saved_to">File saved to: %1$s</string>
 
-	<string name="toast_no_data">There is no date to save.</string>
+	<string name="toast_no_data">There is no data to save.</string>
 	<string name="toast_no_barcodes_with_location">No barcodes with valid location found.</string>
 	<string name="toast_no_export_properties">No export format defined.</string>
 	<string name="toast_exception">An error occurred: %1$s</string>
@@ -97,6 +97,11 @@
 	<string name="dialog_list_delete_row">Delete row</string>
 	<string name="dialog_list_take_photo">Take picture</string>
 	<string name="dialog_list_show_images">Show associated images</string>
+
+	<string name="dialog_title_token">Token</string>
+	<string name="dialog_message_token">Please type in the token to use.</string>
+	<string name="dialog_list_token_type">Type token in</string>
+	<string name="dialog_list_token_scan">Scan barcode as token</string>
 
 	<string name="dialog_title_add_export_property">Add export property</string>
 

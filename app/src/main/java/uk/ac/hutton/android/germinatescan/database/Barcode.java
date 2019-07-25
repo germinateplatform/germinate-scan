@@ -56,7 +56,7 @@ public class Barcode extends DatabaseObject
 	private int    col;
 
 	private boolean isNullBarcode = true;
-	private boolean speak = true;
+	private boolean speak         = true;
 
 	private List<Image> images = new ArrayList<>();
 
@@ -150,6 +150,22 @@ public class Barcode extends DatabaseObject
 		{
 			return latitude;
 		}
+	}
+
+	public String getLatitudeOrEmpty()
+	{
+		if (latitude == null || latitude == INVALID_LOCATION_VALUE)
+			return "";
+		else
+			return Double.toString(latitude);
+	}
+
+	public String getLongitudeOrEmpty()
+	{
+		if (longitude == null || longitude == INVALID_LOCATION_VALUE)
+			return "";
+		else
+			return Double.toString(longitude);
 	}
 
 	public Barcode setLatitude(Double latitude)
@@ -277,6 +293,14 @@ public class Barcode extends DatabaseObject
 		{
 			return altitude;
 		}
+	}
+
+	public String getAltitudeOrEmpty()
+	{
+		if (altitude == null || altitude == INVALID_LOCATION_VALUE)
+			return "";
+		else
+			return Double.toString(altitude);
 	}
 
 	public void setAltitude(Location location)
@@ -651,7 +675,7 @@ public class Barcode extends DatabaseObject
 		}
 	}
 
-	public static class BarcodeMap extends TreeMap<Integer, List<Barcode>>
+	public static class BarcodeMap<T> extends TreeMap<T, List<Barcode>>
 	{
 
 	}

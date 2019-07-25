@@ -135,10 +135,10 @@ public class BarcodeManager extends AbstractManager<Barcode>
 		datasetManager.setUpdatedOn(datasetId, new Date());
 	}
 
-	public Barcode.BarcodeMap getAllAsRows(int nrOfColumns)
+	public Barcode.BarcodeMap<Integer> getAllAsRows(int nrOfColumns)
 	{
 		List<Barcode> barcodes = getAll();
-		Barcode.BarcodeMap result = new Barcode.BarcodeMap();
+		Barcode.BarcodeMap<Integer> result = new Barcode.BarcodeMap<>();
 
 		int rowIndex = 0;
 		int columnIndex = 0;

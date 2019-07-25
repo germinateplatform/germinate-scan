@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 Information and Computational Sciences,
+ *  Copyright 2019 Information and Computational Sciences,
  *  The James Hutton Institute.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,29 +29,29 @@ import uk.ac.hutton.android.germinatescan.util.*;
 /**
  * @author Sebastian Raubach
  */
-public class MatrixDatabaseWriter extends DatabaseWriter
+public class PhenotypingModeDatabaseWriter extends DatabaseWriter
 {
 	private GerminateScanActivity context;
 
-	public MatrixDatabaseWriter(GerminateScanActivity context, String delimiter)
+	public PhenotypingModeDatabaseWriter(GerminateScanActivity context, String delimiter)
 	{
 		super(context, delimiter);
 		this.context = context;
 	}
 
 	@Override
-	public File write()
+	public File write() throws IOException
 	{
 		long datasetId = new PreferenceUtils(context).getLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
-		int nrOfColumns = new DatasetManager(context, datasetId).getById(datasetId).getBarcodesPerRow();
 		BarcodeManager barcodeManager = new BarcodeManager(context, datasetId);
 		DatasetManager dsManager = new DatasetManager(context, datasetId);
 		Dataset dataset = dsManager.getById(datasetId);
 		String datasetName = dataset.getName().replace(" ", "-");
+		List<String> preloadedPhenotypes = dataset.getPreloadedPhenotypes();
 
-		Barcode.BarcodeMap<Integer> map = barcodeManager.getAllAsRows(nrOfColumns);
+		List<Barcode> barcodes = barcodeManager.getAll();
 
-		if (map == null || map.size() < 1)
+		if (barcodes == null || barcodes.size() < 1)
 		{
 			ToastUtils.createToast(context, R.string.toast_no_data, ToastUtils.LENGTH_SHORT);
 			return null;
@@ -66,62 +66,61 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 		{
 			List<Barcode.BarcodeProperty> props = Barcode.BarcodeProperty.getUsedProperties();
 
+			if (props == null)
+				props = new ArrayList<>();
+
 			bw = new BufferedWriter(new FileWriter(file.getAbsoluteFile()));
 
-            /* Write the headers */
-			boolean first = true;
-			if (singleTimeGps)
-			{
-				// Write all properties for the first column
-				for (int i = 0; i < props.size(); i++)
-				{
-					if (first)
-						bw.write(props.get(i).toString());
-					else
-						bw.write(delimiter + props.get(i).toString());
+			bw.write("Plant");
 
-					first = false;
-				}
+			if (props.contains(Barcode.BarcodeProperty.TIMESTAMP))
+				bw.write(delimiter + Barcode.BarcodeProperty.TIMESTAMP.toString());
+			if (props.contains(Barcode.BarcodeProperty.LATITUDE))
+				bw.write(delimiter + Barcode.BarcodeProperty.LATITUDE.toString());
+			if (props.contains(Barcode.BarcodeProperty.LONGITUDE))
+				bw.write(delimiter + Barcode.BarcodeProperty.LONGITUDE.toString());
+			if (props.contains(Barcode.BarcodeProperty.ALTITUDE))
+				bw.write(delimiter + Barcode.BarcodeProperty.ALTITUDE.toString());
 
-				// Only the barcode for the remaining columns
-				if (props.contains(Barcode.BarcodeProperty.BARCODE))
-				{
-					for (int col = 1; col < nrOfColumns; col++)
-						bw.write(delimiter + Barcode.BarcodeProperty.BARCODE.toString());
-				}
-			}
-			else
+			for (String trait : preloadedPhenotypes)
+				bw.write(delimiter + trait);
+
+			if (!CollectionUtils.isEmpty(barcodes))
 			{
-				for (int col = 0; col < nrOfColumns; col++)
+				String currentPlant = null;
+				int traitIndex = 0;
+				int col = 0;
+
+				for (Barcode barcode : barcodes)
 				{
-					for (int i = 0; i < props.size(); i++)
+					if (col == 0 && !barcode.getBarcode().equals(currentPlant))
 					{
-						if (first)
-							bw.write(props.get(i).toString());
-						else
-							bw.write(delimiter + props.get(i).toString());
+						bw.newLine();
+						currentPlant = barcode.getBarcode();
+						traitIndex = 0;
 
-						first = false;
+						bw.write(currentPlant);
+						if (props.contains(Barcode.BarcodeProperty.TIMESTAMP))
+							bw.write(delimiter + barcode.getFormattedTimestamp());
+						if (props.contains(Barcode.BarcodeProperty.LATITUDE))
+							bw.write(delimiter + barcode.getLatitudeOrEmpty());
+						if (props.contains(Barcode.BarcodeProperty.LONGITUDE))
+							bw.write(delimiter + barcode.getLongitudeOrEmpty());
+						if (props.contains(Barcode.BarcodeProperty.ALTITUDE))
+							bw.write(delimiter + barcode.getAltitudeOrEmpty());
 					}
-				}
-			}
-
-			bw.newLine();
-
-            /* Write each Barcode */
-			for (Integer row : map.keySet())
-			{
-				List<Barcode> barcodes = map.get(row);
-
-				if (!CollectionUtils.isEmpty(barcodes))
-				{
-					bw.write(barcodes.get(0).toStringForExport(false));
-					for (int i = 1; i < barcodes.size(); i++)
+					else if (col == 1)
 					{
-						bw.write(delimiter + barcodes.get(i).toStringForExport(singleTimeGps));
+						if (!barcode.getBarcode().equals(preloadedPhenotypes.get(traitIndex)))
+							throw new IOException("Mismatch between preloaded trait order and recorded data.");
+					}
+					else if (col == 2)
+					{
+						bw.write(delimiter + barcode.getBarcode());
+						traitIndex++;
 					}
 
-					bw.newLine();
+					col = (col + 1) % 3;
 				}
 			}
 
@@ -146,8 +145,8 @@ public class MatrixDatabaseWriter extends DatabaseWriter
 
 			GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_exception), e.getLocalizedMessage());
 			e.printStackTrace();
-		}
 
-		return null;
+			throw e;
+		}
 	}
 }

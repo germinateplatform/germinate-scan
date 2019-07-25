@@ -91,6 +91,11 @@
 	<string name="dialog_list_take_photo">Fotoaufnahme machen</string>
 	<string name="dialog_list_show_images">Zugehörige Bilder anzeigen</string>
 
+	<string name="dialog_title_token">Token</string>
+	<string name="dialog_message_token">Bitte Token zum benutzen eintippen.</string>
+	<string name="dialog_list_token_type">Token eintippen</string>
+	<string name="dialog_list_token_scan">Token per Barcode scannen</string>
+
 	<string name="dialog_title_add_export_property">Export-Option hinzufügen</string>
 
 	<string name="dialog_title_download_warning">Warnung</string>
