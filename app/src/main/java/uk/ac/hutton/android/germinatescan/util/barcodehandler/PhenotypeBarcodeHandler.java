@@ -56,6 +56,11 @@ public abstract class PhenotypeBarcodeHandler extends BarcodeHandler
 	@Override
 	public List<Barcode> handle(String input, Location location, int index)
 	{
+		if (input.equals(pref.getString(PreferenceUtils.PREFS_NULL_TOKEN)))
+		{
+			input = "";
+		}
+
 		if (input.equals(pref.getString(PreferenceUtils.PREFS_DELETE_ROW_TOKEN)))
 		{
 			deleteRowLocal();
