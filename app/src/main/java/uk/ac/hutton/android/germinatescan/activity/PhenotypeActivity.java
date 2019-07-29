@@ -18,13 +18,11 @@
 package uk.ac.hutton.android.germinatescan.activity;
 
 import android.app.*;
-import android.content.ClipboardManager;
 import android.content.*;
 import android.os.*;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
 import android.support.v7.widget.helper.*;
-import android.text.*;
 import android.view.*;
 import android.widget.*;
 
@@ -80,7 +78,7 @@ public class PhenotypeActivity extends ThemedActivity
 
 		if (extras != null)
 		{
-			long datasetId = extras.getLong(EXTRA_DATASET_ID, -1l);
+			long datasetId = extras.getLong(EXTRA_DATASET_ID, -1L);
 
 			if (datasetId != -1)
 			{
@@ -106,38 +104,16 @@ public class PhenotypeActivity extends ThemedActivity
 		phenotypeList.setLayoutManager(new LinearLayoutManager(this));
 
 		/* Listen for ENTER key presses */
-		phenotypeInput.addTextChangedListener(new TextWatcher()
+		phenotypeInput.setOnKeyListener(new View.OnKeyListener()
 		{
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
+			public boolean onKey(View view, int keyCode, KeyEvent event)
 			{
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count)
-			{
-				if (checkForNewLine(s, start, count))
+				if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER))
 				{
-					adapter.addItem(s.toString());
-
+					adapter.addItem(phenotypeInput.getText().toString());
 					phenotypeInput.setText("");
-				}
-			}
-
-			@Override
-			public void afterTextChanged(Editable s)
-			{
-			}
-
-			private boolean checkForNewLine(CharSequence s, int start, int count)
-			{
-				int end = start + count;
-				for (int i = start; i < end; i++)
-				{
-					if (s.charAt(i) == '\n')
-					{
-						return true;
-					}
+					return true;
 				}
 
 				return false;
