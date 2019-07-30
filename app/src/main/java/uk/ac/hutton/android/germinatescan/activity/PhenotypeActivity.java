@@ -17,22 +17,22 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.app.*;
+import android.app.Activity;
 import android.content.*;
-import android.os.*;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.*;
-import android.support.v7.widget.helper.*;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.*;
 import android.widget.*;
 
 import java.util.*;
 
 import butterknife.*;
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.adapter.*;
-import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.database.manager.*;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.adapter.StringReorderDeleteAdapter;
+import uk.ac.hutton.android.germinatescan.database.Dataset;
+import uk.ac.hutton.android.germinatescan.database.manager.DatasetManager;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -43,7 +43,6 @@ public class PhenotypeActivity extends ThemedActivity
 	public static final String EXTRA_DATASET_ID = "DATASET_ID";
 
 	@BindView(R.id.phenotype_text)
-
 	EditText     phenotypeInput;
 	@BindView(R.id.phenotype_add_button)
 	ImageButton  addButton;

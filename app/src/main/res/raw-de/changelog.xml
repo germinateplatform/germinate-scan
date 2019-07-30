@@ -17,6 +17,11 @@
   -->
 
 <changelog bulletedList="true">
+	<changelogversion versionName="1.19.07.30" changeDate="30/07/2019">
+		<changelogimprovement>Es ist nun möglich Lösch- und Überschpring-Tokens durch eintippen zu definieren.</changelogimprovement>
+		<changelogbug>Fehler beim löschen von Barcodes im Phänotypmodus behoben.</changelogbug>
+	</changelogversion>
+
 	<changelogversion versionName="1.19.04.02" changeDate="02/04/2019">
 		<changelogbug>In dieser Version wurde ein Fehler im Phänotypisierungsmodus behoben wo Merkmale im Voraus geladen werden können um den Prozess zu beschleunigen.</changelogbug>
 	</changelogversion>

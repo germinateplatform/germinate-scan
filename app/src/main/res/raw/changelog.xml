@@ -17,6 +17,11 @@
   -->
 
 <changelog bulletedList="true">
+	<changelogversion versionName="1.19.07.30" changeDate="30/07/2019">
+		<changelogimprovement>Added a way to manually define delete/skip barcodes by typing them in.</changelogimprovement>
+		<changelogbug>Fixed an issue with deleting barcodes from the dedicated phenotyping mode.</changelogbug>
+	</changelogversion>
+
 	<changelogversion versionName="1.19.04.02" changeDate="02/04/2019">
 		<changelogbug>In this release we fixed the dedicated phenotyping mode where you can pre-load traits to make phenotyping faster.</changelogbug>
 	</changelogversion>
