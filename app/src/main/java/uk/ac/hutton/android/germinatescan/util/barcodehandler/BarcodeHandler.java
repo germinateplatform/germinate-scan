@@ -17,12 +17,12 @@
 
 package uk.ac.hutton.android.germinatescan.util.barcodehandler;
 
-import android.location.*;
+import android.location.Location;
 
-import java.util.*;
+import java.util.List;
 
-import uk.ac.hutton.android.germinatescan.activity.*;
-import uk.ac.hutton.android.germinatescan.database.*;
+import uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity;
+import uk.ac.hutton.android.germinatescan.database.Barcode;
 
 /**
  * @author Sebastian Raubach

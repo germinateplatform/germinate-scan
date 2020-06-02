@@ -17,15 +17,15 @@
 
 package uk.ac.hutton.android.germinatescan.view;
 
-import android.content.*;
-import android.content.res.*;
+import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.*;
-import android.preference.*;
-import android.util.*;
-import android.view.*;
+import android.preference.DialogPreference;
+import android.util.AttributeSet;
+import android.view.View;
 import android.widget.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import uk.ac.hutton.android.germinatescan.R;
 
 /**
  * A {@link DialogPreference} that provides a user with the means to select an integer from a {@link NumberPicker}, and persist it.

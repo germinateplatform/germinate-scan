@@ -17,14 +17,14 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.content.*;
-import android.os.*;
+import android.content.Context;
+import android.os.Environment;
 
-import java.io.*;
-import java.text.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import uk.ac.hutton.android.germinatescan.R;
 
 /**
  * {@link uk.ac.hutton.android.germinatescan.util.FileUtils} contains methods to easily access specific predefined locations and to create files.
@@ -136,8 +136,10 @@ public class FileUtils
 	{
 		StringBuilder filename = new StringBuilder();
 
-		for (char c : name.toCharArray()) {
-			if (c=='.' || Character.isJavaIdentifierPart(c)) {
+		for (char c : name.toCharArray())
+		{
+			if (c == ' ' || c == '.' || c == '-' || c == '_' || Character.isJavaIdentifierPart(c))
+			{
 				filename.append(c);
 			}
 		}

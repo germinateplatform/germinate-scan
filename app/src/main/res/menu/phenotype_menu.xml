@@ -16,20 +16,20 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-	  xmlns:app="http://schemas.android.com/apk/res-auto">
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<item
 		android:id="@+id/menu_import_phenotypes"
 		android:icon="@drawable/menu_paste"
 		android:orderInCategory="100"
 		app:showAsAction="ifRoom"
-		android:title="@string/menu_import_clipboard"/>
+		android:title="@string/menu_import_clipboard" />
 
 	<item
 		android:id="@+id/menu_import_finish"
 		android:icon="@drawable/menu_check"
 		android:orderInCategory="100"
 		app:showAsAction="ifRoom"
-		android:title="@string/menu_import_finish"/>
+		android:title="@string/menu_import_finish" />
 
 </menu>

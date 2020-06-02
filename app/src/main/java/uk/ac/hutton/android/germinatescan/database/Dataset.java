@@ -18,7 +18,7 @@
 package uk.ac.hutton.android.germinatescan.database;
 
 import com.google.gson.*;
-import com.google.gson.reflect.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.*;
 
@@ -34,11 +34,13 @@ public class Dataset extends DatabaseObject
 	public static final String FIELD_BARCODES_PER_ROW     = "barcodes_per_row";
 	public static final String FIELD_PRELOADED_PHENOTYPES = "preloaded_phenotypes";
 	public static final String FIELD_CURRENT_PHENOTYPE    = "current_phenotype";
+	public static final String FIELD_IGNORE_DUPLICATES    = "ignore_duplicates";
 
 	private String       name;
 	private int          barcodesPerRow;
 	private List<String> preloadedPhenotypes;
 	private Integer      currentPhenotype;
+	private Boolean      ignoreDuplicates;
 
 	public Dataset(String name)
 	{
@@ -138,6 +140,17 @@ public class Dataset extends DatabaseObject
 		else
 			this.currentPhenotype = currentPhenotype;
 
+		return this;
+	}
+
+	public Boolean getIgnoreDuplicates()
+	{
+		return ignoreDuplicates;
+	}
+
+	public Dataset setIgnoreDuplicates(Boolean ignoreDuplicates)
+	{
+		this.ignoreDuplicates = ignoreDuplicates;
 		return this;
 	}
 }

@@ -16,13 +16,13 @@
   -->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-	  xmlns:app="http://schemas.android.com/apk/res-auto">
+	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<item
 		android:id="@+id/map_follow_me"
 		android:title="@string/menu_map_follow_me"
 		android:icon="@drawable/menu_map_follow"
-		app:showAsAction="ifRoom"/>
+		app:showAsAction="ifRoom" />
 
 
 	<item
@@ -30,14 +30,13 @@
 		android:icon="@drawable/menu_overflow"
 		app:showAsAction="ifRoom">
 		<menu>
-			<group
-				android:checkableBehavior="single">
+			<group android:checkableBehavior="single">
 				<item
 					android:id="@+id/menu_map_type_satellite"
-					android:title="@string/menu_map_satellite"/>
+					android:title="@string/menu_map_satellite" />
 				<item
 					android:id="@+id/menu_map_type_map"
-					android:title="@string/menu_map_map"/>
+					android:title="@string/menu_map_map" />
 			</group>
 		</menu>
 	</item>

@@ -18,13 +18,13 @@
 package uk.ac.hutton.android.germinatescan.util;
 
 import android.content.*;
-import android.content.pm.*;
-import android.preference.*;
+import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 
-import java.lang.ref.*;
+import java.lang.ref.WeakReference;
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.activity.*;
 
 /**

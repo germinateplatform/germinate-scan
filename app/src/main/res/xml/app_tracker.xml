@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2018 Information and Computational Sciences,
   ~  The James Hutton Institute.
   ~
@@ -17,7 +16,7 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools"
-		   tools:ignore="TypographyDashes">
+	tools:ignore="TypographyDashes">
 
 	<!-- The apps Analytics Tracking Id -->
 	<string name="ga_trackingId">UA-73714833-1</string>

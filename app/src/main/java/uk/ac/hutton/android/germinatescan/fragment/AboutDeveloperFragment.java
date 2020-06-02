@@ -17,15 +17,15 @@
 
 package uk.ac.hutton.android.germinatescan.fragment;
 
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v7.widget.*;
+import android.os.Bundle;
 import android.view.*;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.*;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
-import uk.ac.hutton.android.germinatescan.adapter.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.adapter.DeveloperAdapter;
+import uk.ac.hutton.android.germinatescan.util.GridSpacingItemDecoration;
 
 /**
  * The {@link AboutDeveloperFragment} shows information about the developers involved in developing this app.

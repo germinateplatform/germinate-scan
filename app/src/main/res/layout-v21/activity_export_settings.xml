@@ -16,13 +16,13 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:orientation="vertical"
-			  android:background="?attr/drawerBackgroundColor">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="?attr/drawerBackgroundColor"
+	android:orientation="vertical">
 
 	<!-- THIS HAS TO GO INTO ANY LAYOUT OF ANY ACTIVITY THAT HAS A TOOLBAR! -->
-	<include layout="@layout/helper_toolbar"/>
+	<include layout="@layout/helper_toolbar" />
 	<!-- END -->
 
 	<ListView
@@ -33,10 +33,9 @@
 
 		android:divider="?attr/dividerColor"
 		android:dividerHeight="1dp"
-		android:elevation="4dp">
-	</ListView>
+		android:elevation="4dp"></ListView>
 
-	<android.support.v7.widget.SwitchCompat
+	<androidx.appcompat.widget.SwitchCompat
 		android:id="@+id/matrix_export_switch"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -45,9 +44,9 @@
 		android:paddingRight="@dimen/activity_horizontal_margin"
 		android:paddingTop="@dimen/activity_vertical_margin"
 		android:paddingBottom="@dimen/activity_vertical_margin"
-		android:text="@string/label_export_matrix_format"/>
+		android:text="@string/label_export_matrix_format" />
 
-	<android.support.v7.widget.SwitchCompat
+	<androidx.appcompat.widget.SwitchCompat
 		android:id="@+id/single_time_gps_perrow_switch"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -56,7 +55,7 @@
 		android:paddingRight="@dimen/activity_horizontal_margin"
 		android:paddingTop="@dimen/activity_vertical_margin"
 		android:paddingBottom="@dimen/activity_vertical_margin"
-		android:text="@string/label_export_matrix_single_time_gps_perrow"/>
+		android:text="@string/label_export_matrix_single_time_gps_perrow" />
 
 	<LinearLayout
 		android:layout_width="match_parent"
@@ -73,12 +72,12 @@
 			android:layout_height="match_parent"
 			android:paddingEnd="@dimen/activity_horizontal_margin"
 			android:textStyle="bold"
-			android:text="@string/barcode_example_title"/>
+			android:text="@string/barcode_example_title" />
 
 		<TextView
 			android:id="@+id/export_settings_example"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent" />
 
 	</LinearLayout>
 

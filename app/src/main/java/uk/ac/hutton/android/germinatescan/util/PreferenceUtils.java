@@ -18,16 +18,15 @@
 package uk.ac.hutton.android.germinatescan.util;
 
 import android.content.*;
-import android.content.SharedPreferences.*;
-import android.preference.*;
-import android.text.*;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
-import com.google.android.gms.analytics.*;
-import com.google.gson.*;
+import com.google.gson.Gson;
 
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.database.*;
+import uk.ac.hutton.android.germinatescan.database.Barcode;
 
 /**
  * {@link PreferenceUtils} holds all the information required to access shared preferences
@@ -81,8 +80,6 @@ public class PreferenceUtils
 	 */
 	public void setDefaults()
 	{
-		GoogleAnalytics.getInstance(context).setAppOptOut(!getBoolean(PREFS_GA_OPT_OUT, true));
-
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		Editor editor = preferences.edit();
 

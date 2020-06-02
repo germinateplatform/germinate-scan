@@ -17,11 +17,11 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.content.res.*;
-import android.graphics.*;
-import android.os.*;
+import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.os.Bundle;
 
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.util.ThemeUtils;
 
 /**
  * @author Sebastian Raubach
@@ -44,7 +44,7 @@ public abstract class ThemedActivity extends GerminateScanActivity
 	{
 		super.onResume();
 
-        /* Check if the theme has been changed in the meantime */
+		/* Check if the theme has been changed in the meantime */
 		if (themeChanged)
 		{
 			themeChanged = false;

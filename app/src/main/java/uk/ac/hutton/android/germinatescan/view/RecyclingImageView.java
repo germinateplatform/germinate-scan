@@ -17,16 +17,15 @@
 
 package uk.ac.hutton.android.germinatescan.view;
 
-import android.content.*;
+import android.content.Context;
 import android.graphics.drawable.*;
-import android.support.v7.widget.*;
-import android.util.*;
+import android.util.AttributeSet;
 
-import uk.ac.hutton.android.germinatescan.util.*;
+import androidx.appcompat.widget.AppCompatImageView;
+import uk.ac.hutton.android.germinatescan.util.RecyclingBitmapDrawable;
 
 /**
- * Sub-class of {@link AppCompatImageView} which automatically notifies the {@link android.graphics.drawable.Drawable} when it is being
- * displayed.
+ * Sub-class of {@link AppCompatImageView} which automatically notifies the {@link android.graphics.drawable.Drawable} when it is being displayed.
  */
 public class RecyclingImageView extends AppCompatImageView
 {

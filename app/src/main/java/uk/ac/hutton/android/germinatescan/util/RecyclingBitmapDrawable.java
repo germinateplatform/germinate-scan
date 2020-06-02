@@ -17,9 +17,9 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.content.res.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 
 /**
  * A BitmapDrawable that keeps track of whether it is being displayed or cached. When the drawable is no longer being displayed or cached, {@link

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2018 Information and Computational Sciences,
   ~  The James Hutton Institute.
   ~
@@ -19,8 +18,8 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 	<item>
 		<shape android:shape="rectangle">
-			<solid android:color="@color/medium_gray"/>
-			<corners android:radius="2dp"/>
+			<solid android:color="@color/medium_gray" />
+			<corners android:radius="2dp" />
 		</shape>
 	</item>
 
@@ -30,8 +29,8 @@
 		android:right="0dp"
 		android:top="0dp">
 		<shape android:shape="rectangle">
-			<solid android:color="@color/light_gray"/>
-			<corners android:radius="2dp"/>
+			<solid android:color="@color/light_gray" />
+			<corners android:radius="2dp" />
 		</shape>
 	</item>
 </layer-list>

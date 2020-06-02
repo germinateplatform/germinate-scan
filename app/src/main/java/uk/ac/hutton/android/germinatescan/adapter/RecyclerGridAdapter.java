@@ -17,16 +17,16 @@
 
 package uk.ac.hutton.android.germinatescan.adapter;
 
-import android.app.*;
-import android.content.*;
-import android.support.v7.widget.*;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.view.*;
 import android.widget.*;
 
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.activity.*;
+import androidx.recyclerview.widget.RecyclerView;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.activity.BarcodeReader;
 import uk.ac.hutton.android.germinatescan.database.*;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
 import uk.ac.hutton.android.germinatescan.util.*;
@@ -264,11 +264,11 @@ public class RecyclerGridAdapter extends RecyclerView.Adapter<RecyclerGridAdapte
 					switch (which)
 					{
 						case 0:
-							context.showImages(v, item);
+							context.takePicture(item);
 							break;
 						case 1:
 							if (hasImages)
-								context.takePicture(item);
+								context.showImages(v, item);
 							else
 								remove(item);
 							break;

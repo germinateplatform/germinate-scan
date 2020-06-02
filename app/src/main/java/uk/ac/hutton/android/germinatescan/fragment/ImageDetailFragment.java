@@ -17,27 +17,27 @@
 
 package uk.ac.hutton.android.germinatescan.fragment;
 
-import android.os.*;
-import android.support.v4.app.*;
+import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.activity.*;
-import uk.ac.hutton.android.germinatescan.database.*;
+import androidx.fragment.app.Fragment;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.activity.ImageDetailActivity;
+import uk.ac.hutton.android.germinatescan.database.Image;
 
 /**
  * @author Sebastian Raubach
  */
 public class ImageDetailFragment extends Fragment
 {
-	private static final String IMAGE_DATA_EXTRA = "resId";
-	private static Map<Image, ImageDetailFragment> CACHE = new HashMap<>();
-	private Image     image;
-	private ImageView mImageView;
-	private TextView  textView;
+	private static final String                          IMAGE_DATA_EXTRA = "resId";
+	private static       Map<Image, ImageDetailFragment> CACHE            = new HashMap<>();
+	private              Image                           image;
+	private              ImageView                       mImageView;
+	private              TextView                        textView;
 
 	/* Empty constructor, required as per Fragment docs */
 	public ImageDetailFragment()

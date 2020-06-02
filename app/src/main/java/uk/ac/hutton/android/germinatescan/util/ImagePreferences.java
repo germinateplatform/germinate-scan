@@ -17,8 +17,8 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.activity.*;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.activity.BarcodeReader;
 
 /**
  * @author Sebastian Raubach

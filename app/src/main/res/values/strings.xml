@@ -117,7 +117,7 @@
 	<string name="dialog_message_delete_image">Are you sure you want to delete this image?</string>
 
 	<string name="dialog_title_eula_type">Choose EULA type</string>
-	
+
 	<string name="dialog_title_add_dataset">Add dataset</string>
 	<string name="dialog_message_add_dataset">Enter the name of the dataset</string>
 
@@ -144,6 +144,7 @@
 	<string name="menu_import_clipboard">Import from clipboard</string>
 	<string name="menu_import_finish">Finish</string>
 	<string name="menu_import_phenotypes">Load traits</string>
+	<string name="menu_ignore_duplicates">Ignore duplicates</string>
 
 	<string name="menu_delete_image">Delete image</string>
 
@@ -326,9 +327,10 @@
 	<string name="dialog_list_cancel">Revert barcode number change</string>
 
 	<string name="title_activity_barcode_selection">Barcode selection</string>
-	
+
 	<string name="dialog_title_traits_importer">Traits imported</string>
 	<string name="dialog_message_traits_imported">Now you can scan the first plant, then continue by scoring the first phenotype. The next trait will automatically be loaded. Once all traits are scored, scan the next plant.</string>
 
 	<string name="tts_plant_complete">Phenotyping of %1$s complete.</string>
+	<string name="tts_plant_duplicate">Duplicate found: %1$s already scored.</string>
 </resources>

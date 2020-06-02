@@ -17,17 +17,18 @@
 
 package uk.ac.hutton.android.germinatescan.database;
 
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.Date;
 
 public abstract class DatabaseObject implements Serializable
 {
 	public static final String FIELD_ID         = "id";
 	public static final String FIELD_CREATED_ON = "created_on";
 	public static final String FIELD_UPDATED_ON = "updated_on";
-	protected Long id;
-	protected Date createdOn = new Date(System.currentTimeMillis());
-	protected Date updatedOn = new Date(System.currentTimeMillis());;
+	protected           Long   id;
+	protected           Date   createdOn        = new Date(System.currentTimeMillis());
+	protected           Date   updatedOn        = new Date(System.currentTimeMillis());
+	;
 
 	public DatabaseObject()
 	{

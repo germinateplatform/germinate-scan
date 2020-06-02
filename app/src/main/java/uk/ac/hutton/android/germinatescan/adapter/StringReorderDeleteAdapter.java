@@ -17,17 +17,15 @@
 
 package uk.ac.hutton.android.germinatescan.adapter;
 
-import android.content.*;
-import android.graphics.*;
-import android.support.v4.view.*;
-import android.support.v7.widget.*;
-import android.support.v7.widget.helper.*;
+import android.content.Context;
+import android.graphics.Canvas;
 import android.view.*;
 import android.widget.*;
 
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import androidx.recyclerview.widget.*;
+import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -38,7 +36,7 @@ public class StringReorderDeleteAdapter extends RecyclerView.Adapter<StringReord
 		implements ItemTouchHelperAdapter
 {
 	private final OnStartDragListener mDragStartListener;
-	private List<String> mItems = new ArrayList<>();
+	private       List<String>        mItems = new ArrayList<>();
 
 	public StringReorderDeleteAdapter(Context context, List<String> items, OnStartDragListener dragStartListener)
 	{
@@ -64,7 +62,7 @@ public class StringReorderDeleteAdapter extends RecyclerView.Adapter<StringReord
 			@Override
 			public boolean onTouch(View v, MotionEvent event)
 			{
-				if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN)
+				if (event.getActionMasked() == MotionEvent.ACTION_DOWN)
 				{
 					mDragStartListener.onStartDrag(holder);
 				}
@@ -122,8 +120,8 @@ public class StringReorderDeleteAdapter extends RecyclerView.Adapter<StringReord
 	}
 
 	/**
-	 * Simple example of a view holder that implements {@link ItemTouchHelperViewHolder} and has a
-	 * "handle" view that initiates a drag event when touched.
+	 * Simple example of a view holder that implements {@link ItemTouchHelperViewHolder} and has a "handle" view that initiates a drag event when
+	 * touched.
 	 */
 	static class ItemViewHolder extends RecyclerView.ViewHolder implements
 			ItemTouchHelperViewHolder
@@ -153,12 +151,9 @@ public class StringReorderDeleteAdapter extends RecyclerView.Adapter<StringReord
 	}
 
 	/**
-	 * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
-	 * swipe-to-dismiss. Drag events are automatically started by an item long-press.<br/>
-	 * </br/>
-	 * Expects the <code>RecyclerView.Adapter</code> to listen for {@link
-	 * ItemTouchHelperAdapter} callbacks and the <code>RecyclerView.ViewHolder</code> to implement
-	 * {@link ItemTouchHelperViewHolder}.
+	 * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and swipe-to-dismiss. Drag events are automatically
+	 * started by an item long-press.<br/> </br/> Expects the <code>RecyclerView.Adapter</code> to listen for {@link ItemTouchHelperAdapter} callbacks
+	 * and the <code>RecyclerView.ViewHolder</code> to implement {@link ItemTouchHelperViewHolder}.
 	 *
 	 * @author Paul Burke (ipaulpro)
 	 */

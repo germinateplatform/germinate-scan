@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2018 Information and Computational Sciences,
   ~  The James Hutton Institute.
   ~
@@ -17,12 +16,12 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  android:orientation="vertical"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent">
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
 
 	<!-- THIS HAS TO GO INTO ANY LAYOUT OF ANY ACTIVITY THAT HAS A TOOLBAR! -->
-	<include layout="@layout/helper_toolbar"/>
+	<include layout="@layout/helper_toolbar" />
 	<!-- END -->
 
 	<RelativeLayout
@@ -41,7 +40,7 @@
 			android:textSize="16sp"
 			android:gravity="center_horizontal|center_vertical"
 			android:text="@string/label_no_images"
-			android:visibility="gone"/>
+			android:visibility="gone" />
 
 		<ProgressBar
 			android:id="@+id/adapterBackgroundProgress"
@@ -51,14 +50,14 @@
 			android:layout_centerHorizontal="true"
 			android:layout_centerVertical="true"
 			android:layout_centerInParent="true"
-			android:layout_gravity="center_vertical|center_horizontal"/>
+			android:layout_gravity="center_vertical|center_horizontal" />
 
-		<android.support.v4.view.ViewPager
+		<androidx.viewpager.widget.ViewPager
 			android:id="@+id/pager"
 			android:layout_width="fill_parent"
 			android:layout_height="fill_parent">
 
-		</android.support.v4.view.ViewPager>
+		</androidx.viewpager.widget.ViewPager>
 
 	</RelativeLayout>
 

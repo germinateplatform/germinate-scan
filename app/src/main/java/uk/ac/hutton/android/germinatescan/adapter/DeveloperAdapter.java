@@ -17,15 +17,16 @@
 
 package uk.ac.hutton.android.germinatescan.adapter;
 
-import android.app.*;
-import android.support.v4.app.*;
-import android.support.v7.widget.*;
+import android.app.Activity;
 import android.view.*;
-import android.widget.*;
+import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ShareCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.util.StringUtils;
 
 /**
  * @author Sebastian Raubach

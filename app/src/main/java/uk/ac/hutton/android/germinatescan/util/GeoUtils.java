@@ -17,12 +17,12 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.location.*;
-import android.media.*;
+import android.location.Location;
+import android.media.ExifInterface;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * {@link uk.ac.hutton.android.germinatescan.util.GeoUtils} contains methods for geo-tagging
@@ -57,7 +57,7 @@ public class GeoUtils
 				exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE, decimalToDMS(latitude));
 				exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, decimalToDMS(longitude));
 
-                /* Set the orientation */
+				/* Set the orientation */
 				if (latitude > 0)
 				{
 					exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF, "N");
@@ -77,7 +77,7 @@ public class GeoUtils
 				}
 			}
 
-            /* Add additional information */
+			/* Add additional information */
 			if (time != null)
 			{
 				exif.setAttribute(ExifInterface.TAG_DATETIME, DATE_TIME.format(time));
@@ -90,7 +90,7 @@ public class GeoUtils
 				exif.setAttribute(TAG_USER_COMMENT, description);
 			}
 
-            /* Save everything */
+			/* Save everything */
 			exif.saveAttributes();
 		}
 		catch (IOException e)

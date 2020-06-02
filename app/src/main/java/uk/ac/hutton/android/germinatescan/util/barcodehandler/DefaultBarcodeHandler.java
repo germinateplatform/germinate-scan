@@ -17,16 +17,17 @@
 
 package uk.ac.hutton.android.germinatescan.util.barcodehandler;
 
-import android.content.*;
-import android.location.*;
-import android.net.*;
-import android.util.*;
+import android.content.Intent;
+import android.location.Location;
+import android.net.Uri;
+import android.util.Patterns;
 
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.activity.*;
+import uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity;
 import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.database.manager.BarcodeManager;
+import uk.ac.hutton.android.germinatescan.util.PreferenceUtils;
 
 /**
  * @author Sebastian Raubach
@@ -35,11 +36,16 @@ import uk.ac.hutton.android.germinatescan.util.*;
 public abstract class DefaultBarcodeHandler extends BarcodeHandler
 {
 	private PreferenceUtils prefs;
+	private Dataset         dataset;
+	private BarcodeManager  barcodeManager;
 
-	public DefaultBarcodeHandler(GerminateScanActivity context)
+	public DefaultBarcodeHandler(GerminateScanActivity context, Dataset dataset)
 	{
 		super(context);
 		prefs = new PreferenceUtils(context);
+		this.dataset = dataset;
+
+		this.barcodeManager = new BarcodeManager(context, dataset.getId());
 	}
 
 	@Override
@@ -56,6 +62,9 @@ public abstract class DefaultBarcodeHandler extends BarcodeHandler
 		/* Validate the input */
 		else
 		{
+			if (dataset.getIgnoreDuplicates() && barcodeManager.exists(input))
+				return null;
+
 			/* If the user wants URLs to open in the browser and it actually is a URL, then do it */
 			if (prefs.getBoolean(PreferenceUtils.PREFS_URL_OPEN_EXTERNAL, false) && Patterns.WEB_URL.matcher(input).matches())
 			{

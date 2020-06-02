@@ -24,10 +24,11 @@ package uk.ac.hutton.android.germinatescan.database;
  */
 public class Image extends DatabaseObject
 {
-	public static String FIELD_PATH = "path";
+	public static String FIELD_PATH    = "path";
 	public static String FIELD_MAIN_ID = "main_id";
 
-	private String path = null;
+	private Long   mainId = null;
+	private String path   = null;
 
 	public Image(Long id)
 	{
@@ -38,6 +39,17 @@ public class Image extends DatabaseObject
 	{
 		super(id);
 		this.path = path;
+	}
+
+	public Long getMainId()
+	{
+		return mainId;
+	}
+
+	public Image setMainId(Long mainId)
+	{
+		this.mainId = mainId;
+		return this;
 	}
 
 	public String getPath()

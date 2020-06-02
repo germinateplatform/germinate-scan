@@ -17,9 +17,8 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.graphics.drawable.*;
-import android.os.*;
-import android.support.v4.content.*;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
@@ -29,10 +28,11 @@ import com.google.android.gms.maps.model.*;
 
 import java.util.*;
 
+import androidx.core.content.ContextCompat;
 import uk.ac.hutton.android.germinatescan.R;
-import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.database.manager.*;
-import uk.ac.hutton.android.germinatescan.util.LocationUtils.*;
+import uk.ac.hutton.android.germinatescan.database.Barcode;
+import uk.ac.hutton.android.germinatescan.database.manager.BarcodeManager;
+import uk.ac.hutton.android.germinatescan.util.LocationUtils.LocationChangeListener;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -47,8 +47,8 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 	private static final int MARKER_PADDING = 25;
 
 	private Map<Marker, Barcode> mapping = new HashMap<>();
-	private GoogleMap map;
-	private Marker    currentLocation;
+	private GoogleMap            map;
+	private Marker               currentLocation;
 
 	private PreferenceUtils prefs;
 
@@ -77,7 +77,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 
 		long id = prefs.getLong(PreferenceUtils.PREFS_SELECTED_DATASET_ID, -1);
 
-		if(id != -1)
+		if (id != -1)
 			barcodeManager = new BarcodeManager(this, id);
 
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -92,7 +92,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 		/* Set the map type based on the shared preference */
 		updateMapType();
 
-        /* Get the marker image */
+		/* Get the marker image */
 		Drawable drawable = ContextCompat.getDrawable(this, R.drawable.marker_barcode);
 		int padding = 0;
 
@@ -106,8 +106,8 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 		/* Set up a builder to keep track of the bounds */
 		final LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
-        /* Get all the barcodes */
-        if(barcodeManager != null)
+		/* Get all the barcodes */
+		if (barcodeManager != null)
 		{
 			List<Barcode> locations = barcodeManager.getAll();
 
@@ -115,7 +115,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 			{
 				if (!location.hasValidPosition())
 				{
-				/* Skip invalid locations */
+					/* Skip invalid locations */
 					continue;
 				}
 
@@ -149,7 +149,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 					LatLngBounds bounds = builder.build();
 					CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, p + MARKER_PADDING);
 
-                    /* Zoom in, animating the camera */
+					/* Zoom in, animating the camera */
 					map.animateCamera(cu);
 				}
 			});
@@ -157,7 +157,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 
 		map.setInfoWindowAdapter(this);
 
-        /* Set up the current location marker */
+		/* Set up the current location marker */
 		BitmapDescriptor userIcon = BitmapDescriptorFactory.fromResource(R.drawable.marker_user);
 		MarkerOptions options = new MarkerOptions()
 				.title(getString(R.string.map_current_location))
@@ -199,7 +199,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 		Drawable resource;
 		String text;
 
-        /* Determine the drawable and title */
+		/* Determine the drawable and title */
 		if (followMe)
 		{
 			resource = ContextCompat.getDrawable(this, R.drawable.menu_map_follow);
@@ -211,7 +211,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 			text = getString(R.string.menu_map_not_follow_me);
 		}
 
-        /* Set it */
+		/* Set it */
 		MenuItem item = menu.findItem(R.id.map_follow_me);
 		item.setIcon(resource);
 		item.setTitle(text);
@@ -285,7 +285,7 @@ public class MapActivity extends ThemedActivity implements InfoWindowAdapter, Lo
 			TextView description = (TextView) view.findViewById(R.id.marker_description);
 			TextView time = (TextView) view.findViewById(R.id.marker_time);
 
-            /* Fill it */
+			/* Fill it */
 			Barcode location = mapping.get(marker);
 
 			image.setImageResource(R.drawable.marker_barcode);

@@ -129,6 +129,7 @@
 	<string name="menu_import_finish">Abschließen</string>
 	<string name="menu_import_phenotypes">Merkmale laden</string>
 	<string name="menu_add_dataset">Datensatz hinzufügen</string>
+	<string name="menu_ignore_duplicates">Duplikate ignorieren</string>
 
 	<string name="about_text">
 		<![CDATA[<body><div id="main"><h1>Über</h1><p><a href="%1$s">Germinate Scan</a> wurde geschrieben, entwickelt und entworfen von <i>Sebastian Raubach</i> und <i>Paul Shaw</i> von der <a href="http://ics.hutton.ac.uk/">Information &amp; Computational Sciences Group</a> am <a href="http://www.hutton.ac.uk">The James Hutton Institute</a>, Dundee, Scotland.</p><p>Für Hilfe bei der Benutzung des Tools, schreiben Sie an: <a href="mailto:germinate@hutton.ac.uk">germinate@hutton.ac.uk</a>.</p></div></body>]]></string>
@@ -274,4 +275,5 @@
 	<string name="dialog_message_traits_imported">Jetzt kann die erste Pflanze gescannt werden, danach wird das erste Merkmal bewertet. Das nächste Markmal wird dann automatisch eingefügt. Wenn alle Markmale bewertet wurden kann die nächste Pflanze gescannt werden.</string>
 
 	<string name="tts_plant_complete">Phänotypisierung von %1$s abgeschlossen.</string>
+	<string name="tts_plant_duplicate">Duplikat gefunden: %1$s bereits bewertet.</string>
 </resources>

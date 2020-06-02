@@ -22,17 +22,17 @@
 			android:key="Prefs.Delete.Row.Token"
 			android:summary="@string/preferences_delete_row_token_summary"
 			android:title="@string/preferences_delete_row_token_title"
-			android:icon="@drawable/preferences_delete_row"/>
+			android:icon="@drawable/preferences_delete_row" />
 		<Preference
 			android:key="Prefs.Delete.Cell.Token"
 			android:summary="@string/preferences_delete_cell_token_summary"
 			android:title="@string/preferences_delete_cell_token_title"
-			android:icon="@drawable/preferences_delete_barcode"/>
+			android:icon="@drawable/preferences_delete_barcode" />
 		<Preference
 			android:key="Prefs.Null.Token"
 			android:summary="@string/preferences_null_token_summary"
 			android:title="@string/preferences_null_token_title"
-			android:icon="@drawable/preferences_skip"/>
+			android:icon="@drawable/preferences_skip" />
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/preferences_title_appearance">
@@ -44,7 +44,7 @@
 			android:switchTextOff="@string/general_no"
 			android:switchTextOn="@string/general_yes"
 			android:title="@string/preferences_theme_title"
-			android:icon="@drawable/preferences_theme"/>
+			android:icon="@drawable/preferences_theme" />
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/preferences_title_misc">
@@ -54,27 +54,27 @@
 			android:switchTextOff="@string/general_no"
 			android:switchTextOn="@string/general_yes"
 			android:title="@string/preferences_read_back_title"
-			android:icon="@drawable/preferences_voice_feedback"/>
+			android:icon="@drawable/preferences_voice_feedback" />
 		<SwitchPreference
 			android:key="Prefs.Url.Open.External"
 			android:title="@string/preferences_url_external_title"
 			android:summary="@string/preferences_url_external_summary"
-			android:icon="@drawable/preferences_url"/>
+			android:icon="@drawable/preferences_url" />
 		<Preference
 			android:key="Prefs.Export.Barcode.Properties"
 			android:title="@string/preferences_export_title"
 			android:summary="@string/preferences_export_summary"
-			android:icon="@drawable/preferences_export_format"/>
+			android:icon="@drawable/preferences_export_format" />
 		<Preference
 			android:key="Prefs.Show.Changelog"
 			android:title="@string/preferences_changelog_title"
 			android:summary="@string/preferences_changelog_summary"
-			android:icon="@drawable/preferences_changelog"/>
+			android:icon="@drawable/preferences_changelog" />
 		<Preference
 			android:key="Prefs.Show.Eula"
 			android:title="@string/preferences_eula_title"
 			android:summary="@string/preferences_eula_summary"
-			android:icon="@drawable/preferences_eula"/>
+			android:icon="@drawable/preferences_eula" />
 		<SwitchPreference
 			android:dialogTitle="@string/preferences_ga_opt_out_title"
 			android:key="Prefs.Google.Analytics.Opt.Out"
@@ -82,7 +82,7 @@
 			android:switchTextOn="@string/general_yes"
 			android:title="@string/preferences_ga_opt_out_title"
 			android:summary="@string/preferences_ga_opt_out_message"
-			android:icon="@drawable/preferences_ga_opt_out"/>
+			android:icon="@drawable/preferences_ga_opt_out" />
 	</PreferenceCategory>
 
 </PreferenceScreen>

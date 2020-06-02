@@ -17,11 +17,11 @@
 
 package uk.ac.hutton.android.germinatescan.database;
 
-import android.content.*;
-import android.database.*;
+import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.*;
 
-import java.io.*;
+import java.io.File;
 import java.util.*;
 
 /**
@@ -31,28 +31,28 @@ import java.util.*;
  */
 public class DatabaseHandler extends SQLiteOpenHelper
 {
-	private static final int    DATABASE_VERSION = 2;
-	private static final String DATABASE_NAME    = "BarcodeReader";
-	private static final String TABLE_MAIN         = "main";
-	private static final String TABLE_IMAGES       = "images";
-	private static final String DROP_MAIN_TABLE    = "DROP TABLE IF EXISTS " + TABLE_MAIN;
-	private static final String DROP_IMAGE_TABLE   = "DROP TABLE IF EXISTS " + TABLE_IMAGES;
-	private static final String KEY_MAIN_ID        = "id";
-	private static final String KEY_MAIN_TIME      = "time";
-	private static final String KEY_MAIN_LAT       = "latitude";
-	private static final String KEY_MAIN_LNG       = "longitude";
-	private static final String KEY_MAIN_ALT       = "altitude";
-	private static final String KEY_MAIN_BARCODE   = "barcode";
-	private static final String KEY_MAIN_ROW       = "row";
-	private static final String KEY_MAIN_COL       = "col";
-	private static final String KEY_IMAGES_ID      = "id";
-	private static final String KEY_IMAGES_PATH    = "path";
-	private static final String KEY_IMAGES_MAIN_ID = "main_id";
-	private static final String CREATE_MAIN_TABLE  = "CREATE TABLE IF NOT EXISTS " + TABLE_MAIN + " (" + KEY_MAIN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_MAIN_TIME + " TEXT, " + KEY_MAIN_LAT + " REAL, "
+	private static final int     DATABASE_VERSION   = 2;
+	private static final String  DATABASE_NAME      = "BarcodeReader";
+	private static final String  TABLE_MAIN         = "main";
+	private static final String  TABLE_IMAGES       = "images";
+	private static final String  DROP_MAIN_TABLE    = "DROP TABLE IF EXISTS " + TABLE_MAIN;
+	private static final String  DROP_IMAGE_TABLE   = "DROP TABLE IF EXISTS " + TABLE_IMAGES;
+	private static final String  KEY_MAIN_ID        = "id";
+	private static final String  KEY_MAIN_TIME      = "time";
+	private static final String  KEY_MAIN_LAT       = "latitude";
+	private static final String  KEY_MAIN_LNG       = "longitude";
+	private static final String  KEY_MAIN_ALT       = "altitude";
+	private static final String  KEY_MAIN_BARCODE   = "barcode";
+	private static final String  KEY_MAIN_ROW       = "row";
+	private static final String  KEY_MAIN_COL       = "col";
+	private static final String  KEY_IMAGES_ID      = "id";
+	private static final String  KEY_IMAGES_PATH    = "path";
+	private static final String  KEY_IMAGES_MAIN_ID = "main_id";
+	private static final String  CREATE_MAIN_TABLE  = "CREATE TABLE IF NOT EXISTS " + TABLE_MAIN + " (" + KEY_MAIN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_MAIN_TIME + " TEXT, " + KEY_MAIN_LAT + " REAL, "
 			+ KEY_MAIN_LNG + " REAL, " + KEY_MAIN_ALT + " REAL, " + KEY_MAIN_BARCODE + " TEXT, " + KEY_MAIN_ROW + " INTEGER, " + KEY_MAIN_COL + " INTEGER)";
-	private static final String CREATE_IMAGE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_IMAGES + " (" + KEY_IMAGES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_IMAGES_PATH + " TEXT, " + KEY_IMAGES_MAIN_ID
+	private static final String  CREATE_IMAGE_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_IMAGES + " (" + KEY_IMAGES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + KEY_IMAGES_PATH + " TEXT, " + KEY_IMAGES_MAIN_ID
 			+ " INTEGER, FOREIGN KEY (" + KEY_IMAGES_MAIN_ID + ") REFERENCES " + TABLE_MAIN + " (" + KEY_MAIN_ID + "));" + ")";
-	private Context context;
+	private              Context context;
 
 
 	public DatabaseHandler(Context context)

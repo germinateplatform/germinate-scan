@@ -19,11 +19,10 @@ package uk.ac.hutton.android.germinatescan.util;
 
 import android.app.*;
 import android.content.*;
-import android.support.v7.app.AlertDialog;
 import android.view.*;
 import android.widget.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import uk.ac.hutton.android.germinatescan.R;
 
 /**
  * {@link uk.ac.hutton.android.germinatescan.util.DialogUtils} contains methods to easily create {@link AlertDialog}s.

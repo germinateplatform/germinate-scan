@@ -19,7 +19,7 @@ package uk.ac.hutton.android.germinatescan.database.writer;
 
 import java.io.*;
 
-import uk.ac.hutton.android.germinatescan.activity.*;
+import uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity;
 
 /**
  * @author Sebastian Raubach

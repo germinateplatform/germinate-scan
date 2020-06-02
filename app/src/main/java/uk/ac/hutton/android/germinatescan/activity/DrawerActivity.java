@@ -17,21 +17,22 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.content.*;
-import android.content.res.*;
-import android.net.*;
-import android.os.*;
-import android.support.design.widget.*;
-import android.support.v4.view.*;
-import android.support.v4.widget.*;
-import android.support.v7.app.*;
-import android.view.*;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.MenuItem;
 
-import uk.ac.hutton.android.germinatescan.*;
+import com.google.android.material.navigation.NavigationView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import uk.ac.hutton.android.germinatescan.R;
 
 /**
- * {@link DrawerActivity} extends {@link GerminateScanActivity}
- * and adds a {@link android.support.v4.widget.DrawerLayout} to the {@link android.app.Activity}.
+ * {@link DrawerActivity} extends {@link GerminateScanActivity} and adds a {@link androidx.drawerlayout.widget.DrawerLayout} to the {@link
+ * android.app.Activity}.
  * <p/>
  * This drawer is used as the main menu of Germinate Scan. All subclasses will have this drawer. Make sure to include the correct layout in the layout
  * .xml file. Refer to activity_main.xml to see an example.
@@ -56,8 +57,8 @@ public abstract class DrawerActivity extends ThemedActivity
 			getSupportActionBar().setHomeButtonEnabled(true);
 		}
 
-		DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		NavigationView navigationView = (NavigationView) findViewById(R.id.drawer_menu);
+		DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+		NavigationView navigationView = findViewById(R.id.drawer_menu);
 
 		drawerLayout.setDrawerShadow(R.drawable.shadow_drawer, GravityCompat.START);
 
@@ -70,7 +71,7 @@ public abstract class DrawerActivity extends ThemedActivity
 			}
 		});
 
-		        /* ActionBarDrawerToggle ties together the the proper interactions
+		/* ActionBarDrawerToggle ties together the the proper interactions
 		 * between the sliding drawer and the action bar app icon */
 		drawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
 				drawerLayout, /* DrawerLayout object */

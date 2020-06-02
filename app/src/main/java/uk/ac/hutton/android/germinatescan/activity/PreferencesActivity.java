@@ -17,20 +17,20 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.app.*;
+import android.app.AlertDialog;
 import android.content.*;
-import android.content.DialogInterface.*;
-import android.content.SharedPreferences.*;
+import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.*;
 import android.preference.*;
-import android.speech.tts.*;
+import android.speech.tts.TextToSpeech;
 import android.view.*;
 import android.widget.*;
 
-import com.google.android.gms.analytics.*;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.integration.android.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -40,15 +40,15 @@ import uk.ac.hutton.android.germinatescan.util.*;
  */
 public class PreferencesActivity extends ThemedActivity
 {
-	private static Tracker       tracker;
-	private        PrefsFragment prefsFragment;
+	private static FirebaseAnalytics tracker;
+	private        PrefsFragment     prefsFragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 
-		tracker = getTracker(TrackerName.APP_TRACKER);
+		tracker = getTracker();
 
 		prefsFragment = new PrefsFragment();
 
@@ -152,12 +152,12 @@ public class PreferencesActivity extends ThemedActivity
 			{
 				case PreferenceUtils.PREFS_GA_OPT_OUT:
 					/* Disable GA tracking */
-					GoogleAnalytics.getInstance(getActivity().getApplicationContext()).setAppOptOut(!prefs.getBoolean(PreferenceUtils.PREFS_GA_OPT_OUT, true));
+//					GoogleAnalytics.getInstance(getActivity().getApplicationContext()).setAppOptOut(!prefs.getBoolean(PreferenceUtils.PREFS_GA_OPT_OUT, true));
 					break;
 
 				case PreferenceUtils.PREF_THEME:
 					/* Recreate the preferences screen to show the changes */
-					GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_theme_changed));
+					GoogleAnalyticsUtils.track(getActivity(), tracker, FirebaseAnalytics.Event.SELECT_CONTENT, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_theme_changed));
 					ThemeUtils.notifyListeners();
 
 					new Handler().postDelayed(new Runnable()
@@ -182,28 +182,16 @@ public class PreferencesActivity extends ThemedActivity
 						new AlertDialog.Builder(getActivity())
 								.setTitle(R.string.dialog_title_download_warning)
 								.setMessage(R.string.dialog_message_download_warning)
-								.setPositiveButton(R.string.general_yes, new OnClickListener()
-								{
-									@Override
-									public void onClick(DialogInterface dialog, int which)
-									{
-										Intent checkIntent = new Intent();
-										checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-										startActivityForResult(checkIntent, TTS_DATA_CHECK_CODE);
-									}
+								.setPositiveButton(R.string.general_yes, (dialog, which) -> {
+									Intent checkIntent = new Intent();
+									checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+									startActivityForResult(checkIntent, TTS_DATA_CHECK_CODE);
 								})
-								.setNegativeButton(R.string.general_no, new OnClickListener()
-								{
-									@Override
-									public void onClick(DialogInterface dialog, int which)
-									{
-										voiceFeedbackPreference.setChecked(!voiceFeedbackPreference.isChecked());
-									}
-								})
+								.setNegativeButton(R.string.general_no, (dialog, which) -> voiceFeedbackPreference.setChecked(!voiceFeedbackPreference.isChecked()))
 								.show();
 					}
 
-					GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_read_back_changed));
+					GoogleAnalyticsUtils.track(getActivity(), tracker, FirebaseAnalytics.Event.SELECT_CONTENT, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_read_back_changed));
 					break;
 			}
 		}
@@ -222,42 +210,37 @@ public class PreferencesActivity extends ThemedActivity
 					dialogAdapter.add(getString(R.string.dialog_list_token_type));
 					dialogAdapter.add(getString(R.string.dialog_list_token_scan));
 
-					new AlertDialog.Builder(getActivity()).setAdapter(dialogAdapter, new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int which)
+					new AlertDialog.Builder(getActivity()).setAdapter(dialogAdapter, (dialog, which) -> {
+						preferenceKey = key;
+						switch (which)
 						{
-							preferenceKey = key;
-							switch (which)
-							{
-								case 0:
-									final EditText token = new EditText(getActivity());
+							case 0:
+								final EditText token = new EditText(getActivity());
 
-									new AlertDialog.Builder(getActivity())
-											.setTitle(R.string.dialog_title_token)
-											.setMessage(R.string.dialog_message_token)
-											.setView(token)
-											.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+								new AlertDialog.Builder(getActivity())
+										.setTitle(R.string.dialog_title_token)
+										.setMessage(R.string.dialog_message_token)
+										.setView(token)
+										.setPositiveButton(android.R.string.ok, new OnClickListener()
+										{
+											public void onClick(DialogInterface dialog, int whichButton)
 											{
-												public void onClick(DialogInterface dialog, int whichButton)
-												{
-													String value = token.getText().toString();
-													updatePreference(value);
-												}
-											})
-											.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener()
+												String value = token.getText().toString();
+												updatePreference(value);
+											}
+										})
+										.setNegativeButton(android.R.string.cancel, new OnClickListener()
+										{
+											public void onClick(DialogInterface dialog, int whichButton)
 											{
-												public void onClick(DialogInterface dialog, int whichButton)
-												{
-												}
-											})
-											.show();
-									break;
-								case 1:
-									IntentIntegrator integrator = new IntentIntegrator(getActivity());
-									integrator.initiateScan();
-									break;
-							}
+											}
+										})
+										.show();
+								break;
+							case 1:
+								IntentIntegrator integrator = new IntentIntegrator(getActivity());
+								integrator.initiateScan();
+								break;
 						}
 					}).show();
 
@@ -270,13 +253,13 @@ public class PreferencesActivity extends ThemedActivity
 				case PreferenceUtils.PREFS_SHOW_EULA:
 					EulaUtils.showEula((GerminateScanActivity) getActivity(), false, null);
 
-					GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_show_eula));
+					GoogleAnalyticsUtils.track(getActivity(), tracker, FirebaseAnalytics.Event.SELECT_CONTENT, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_show_eula));
 					return true;
 
 				case PreferenceUtils.PREFS_SHOW_CHANGELOG:
 					startActivity(new Intent(getActivity(), ChangelogActivity.class));
 
-					GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_show_changelog));
+					GoogleAnalyticsUtils.track(getActivity(), tracker, FirebaseAnalytics.Event.SELECT_CONTENT, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_show_changelog));
 					return true;
 			}
 
@@ -327,21 +310,21 @@ public class PreferencesActivity extends ThemedActivity
 				key = PreferenceUtils.PREFS_DELETE_ROW_TOKEN;
 				value = getString(R.string.preferences_delete_row_token_summary, code);
 
-				GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
+				GoogleAnalyticsUtils.track(getActivity(), tracker, FirebaseAnalytics.Event.SELECT_CONTENT, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
 			}
 			else if (PreferenceUtils.PREFS_DELETE_CELL_TOKEN.equals(preferenceKey))
 			{
 				key = PreferenceUtils.PREFS_DELETE_CELL_TOKEN;
 				value = getString(R.string.preferences_delete_cell_token_summary, code);
 
-				GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
+				GoogleAnalyticsUtils.track(getActivity(), tracker, FirebaseAnalytics.Event.SELECT_CONTENT,  getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_delete_row_token));
 			}
 			else if (PreferenceUtils.PREFS_NULL_TOKEN.equals(preferenceKey))
 			{
 				key = PreferenceUtils.PREFS_NULL_TOKEN;
 				value = getString(R.string.preferences_null_token_summary, code);
 
-				GoogleAnalyticsUtils.trackEvent(getActivity(), tracker, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_null_token));
+				GoogleAnalyticsUtils.track(getActivity(), tracker, FirebaseAnalytics.Event.SELECT_CONTENT, getString(R.string.ga_event_category_preferences), getString(R.string.ga_event_action_null_token));
 			}
 
 			if (!StringUtils.isEmpty(key, value))

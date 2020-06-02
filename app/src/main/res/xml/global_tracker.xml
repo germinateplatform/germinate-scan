@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2018 Information and Computational Sciences,
   ~  The James Hutton Institute.
   ~
@@ -17,7 +16,7 @@
   -->
 
 <resources xmlns:tools="http://schemas.android.com/tools"
-		   tools:ignore="TypographyDashes">
+	tools:ignore="TypographyDashes">
 
 	<!-- the Local LogLevel for Analytics -->
 	<string name="ga_logLevel">verbose</string>

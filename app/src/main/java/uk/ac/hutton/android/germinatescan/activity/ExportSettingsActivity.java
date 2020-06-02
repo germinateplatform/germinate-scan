@@ -17,21 +17,21 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.app.*;
-import android.content.*;
-import android.database.*;
-import android.os.*;
-import android.preference.*;
-import android.support.v7.widget.*;
+import android.app.AlertDialog;
+import android.content.SharedPreferences;
+import android.database.DataSetObserver;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.adapter.*;
-import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import androidx.appcompat.widget.SwitchCompat;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.adapter.ExportSettingsAdapter;
+import uk.ac.hutton.android.germinatescan.database.Barcode;
+import uk.ac.hutton.android.germinatescan.util.PreferenceUtils;
 
 /**
  * {@link uk.ac.hutton.android.germinatescan.activity.ExportSettingsActivity} allows the user to select the barcode options they want so be exported.
@@ -78,15 +78,15 @@ public class ExportSettingsActivity extends ThemedActivity
 			}
 		});
 
-        /* Get selected properties */
+		/* Get selected properties */
 		List<Barcode.BarcodeProperty> properties = Barcode.BarcodeProperty.getUsedProperties();
 		final ArrayAdapter adapter = new ExportSettingsAdapter(this, R.layout.helper_settings_item, properties);
 
-        /* Update the example */
+		/* Update the example */
 		Barcode.BarcodeProperty[] items = properties.toArray(new Barcode.BarcodeProperty[properties.size()]);
 		updateExample(items);
 
-        /* Listen for dataset changes */
+		/* Listen for dataset changes */
 		adapter.registerDataSetObserver(new DataSetObserver()
 		{
 			@Override
@@ -94,7 +94,7 @@ public class ExportSettingsActivity extends ThemedActivity
 			{
 				super.onChanged();
 
-                /* Get the selected items */
+				/* Get the selected items */
 				Barcode.BarcodeProperty[] items = new Barcode.BarcodeProperty[adapter.getCount()];
 
 				for (int i = 0; i < items.length; i++)
@@ -102,7 +102,7 @@ public class ExportSettingsActivity extends ThemedActivity
 					items[i] = (Barcode.BarcodeProperty) adapter.getItem(i);
 				}
 
-                /* Update the example */
+				/* Update the example */
 				updateExample(items);
 			}
 		});
@@ -191,7 +191,7 @@ public class ExportSettingsActivity extends ThemedActivity
 		/* Get the unused properties */
 		final List<Barcode.BarcodeProperty> unusedItems = Barcode.BarcodeProperty.getUnusedProperties();
 
-        /* Convert to Strings */
+		/* Convert to Strings */
 		List<String> items = new ArrayList<>(unusedItems.size());
 
 		for (int i = 0; i < unusedItems.size(); i++)
@@ -199,7 +199,7 @@ public class ExportSettingsActivity extends ThemedActivity
 			items.add(unusedItems.get(i).toString());
 		}
 
-        /* Create a new adapter for the dialog */
+		/* Create a new adapter for the dialog */
 		final ArrayAdapter<String> dialogAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, items);
 		/* Get the adapter of the ListView */
 		final ArrayAdapter<Barcode.BarcodeProperty> listAdapter = (ArrayAdapter) list.getAdapter();
@@ -213,16 +213,16 @@ public class ExportSettingsActivity extends ThemedActivity
 				/* Whenever the user selects a new item */
 				Barcode.BarcodeProperty item = unusedItems.get(pos);
 
-                /* Add it to the ListView's Adapter */
+				/* Add it to the ListView's Adapter */
 				listAdapter.add(item);
 
-                /* Remove it from the local Adapter */
+				/* Remove it from the local Adapter */
 				dialogAdapter.remove(dialogAdapter.getItem(pos));
 				unusedItems.remove(item);
 			}
 		});
 
-        /* Show the AlertDialog */
+		/* Show the AlertDialog */
 		new AlertDialog.Builder(this)
 				.setTitle(R.string.dialog_title_add_export_property)
 				.setView(lv)

@@ -17,9 +17,10 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.graphics.*;
-import android.support.v7.widget.*;
-import android.view.*;
+import android.graphics.Rect;
+import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * {@link GridSpacingItemDecoration} handles item spacing for {@link RecyclerView} items.

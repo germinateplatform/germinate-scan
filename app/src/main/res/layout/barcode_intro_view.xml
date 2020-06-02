@@ -15,12 +15,12 @@
   ~  limitations under the License.
   -->
 
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-									android:foreground="?android:attr/selectableItemBackground"
-									android:focusable="true"
-									android:clickable="true"
-									android:layout_width="match_parent"
-									android:layout_height="wrap_content">
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:clickable="true"
+	android:focusable="true"
+	android:foreground="?android:attr/selectableItemBackground">
 
 	<RelativeLayout
 		android:layout_width="match_parent"
@@ -46,7 +46,7 @@
 				android:id="@+id/barcode_image_view"
 				android:layout_width="30dp"
 				android:layout_height="30dp"
-				android:scaleType="centerCrop"/>
+				android:scaleType="centerCrop" />
 
 		</FrameLayout>
 
@@ -65,13 +65,13 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:textColor="@android:color/primary_text_light"
-				android:ellipsize="marquee"/>
+				android:ellipsize="marquee" />
 
 			<TextView
 				android:id="@+id/barcode_description_view"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:textColor="@android:color/secondary_text_light"/>
+				android:textColor="@android:color/secondary_text_light" />
 
 		</LinearLayout>
 
@@ -90,7 +90,7 @@
 				android:textAllCaps="true"
 				android:text="@string/general_select"
 				style="@style/Widget.AppCompat.Button"
-				android:textColor="@android:color/white"/>
+				android:textColor="@android:color/white" />
 
 			<Button
 				android:id="@+id/barcode_active_button"
@@ -100,9 +100,9 @@
 				android:textAllCaps="true"
 				android:text="@string/general_active"
 				style="@style/Widget.AppCompat.Button.Colored"
-				android:textColor="@android:color/white"/>
+				android:textColor="@android:color/white" />
 
 		</RelativeLayout>
 	</RelativeLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

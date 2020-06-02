@@ -17,35 +17,35 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.*;
+import android.Manifest;
 import android.app.*;
 import android.content.*;
 import android.content.pm.*;
-import android.location.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
-import android.provider.*;
-import android.speech.tts.*;
-import android.support.annotation.*;
-import android.support.design.widget.*;
-import android.support.v4.app.*;
-import android.support.v4.content.*;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.*;
-import android.util.*;
+import android.location.Location;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.*;
-import android.view.View.*;
+import android.view.View.OnKeyListener;
 import android.widget.*;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.zxing.integration.android.*;
 
 import java.io.*;
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.R;
+import androidx.annotation.NonNull;
+import androidx.core.app.*;
+import androidx.core.content.*;
+import androidx.recyclerview.widget.*;
 import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.adapter.*;
+import uk.ac.hutton.android.germinatescan.adapter.RecyclerGridAdapter;
 import uk.ac.hutton.android.germinatescan.database.*;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
 import uk.ac.hutton.android.germinatescan.database.writer.*;
@@ -198,7 +198,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		}
 
 		/* Track the version of the app */
-		GoogleAnalyticsUtils.trackEvent(this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_version), versionNumber);
+		GoogleAnalyticsUtils.track(this, getTracker(), FirebaseAnalytics.Event.APP_OPEN, getString(R.string.ga_event_category_version), versionNumber);
 
 		/* Request to keep the screen on */
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -253,6 +253,19 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		barcodeManager = new BarcodeManager(this, dataset.getId());
 		imageManager = new ImageManager(this, dataset.getId());
 
+//		List<String> strings = Arrays.asList("PLT - 7284", "1", "38.5", "PLT - 7284", "2", "60.5", "PLT - 7284", "3", "59.5", "PLT - 7284", "4", "68.0", "PLT - 7284", "5", "80.0", "PLT - 7284", "1", "31.5", "PLT - 7284", "2", "55.0", "PLT - 7284", "3", "57.0", "PLT - 7284", "4", "66.5", "PLT - 7284", "5", "77.5", "PLT - 7284", "1", "36.0", "PLT - 7284", "2", "58.5", "PLT - 7284", "3", "57.5", "PLT - 7284", "4", "67.5", "PLT - 7284", "5", "79.5", "PLT - 7285", "1", "53.0", "PLT - 7285", "2", "76.0", "PLT - 7285", "3", "76.0", "PLT - 7285", "4", "85.0", "PLT - 7285", "5", "97.0", "PLT - 7285", "1", "47.5", "PLT - 7285", "2", "71.0", "PLT - 7285", "3", "71.5", "PLT - 7285", "4", "80.5", "PLT - 7285", "5", "93.0", "PLT - 7285", "1", "45.5", "PLT - 7285", "2", "68.0", "PLT - 7285", "3", "69.0", "PLT - 7285", "4", "79.0", "PLT - 7285", "5", "92.5", "PLT - 7286", "1", "59.5", "PLT - 7286", "2", "83.0", "PLT - 7286", "3", "80.5", "PLT - 7286", "4", "89.5", "PLT - 7286", "5", "102.0", "PLT - 7286", "1", "52.5", "PLT - 7286", "2", "75.5", "PLT - 7286", "3", "71.5", "PLT - 7286", "4", "80.0", "PLT - 7286", "5", "93.0", "PLT - 7286", "1", "51.5", "PLT - 7286", "2", "74.0", "PLT - 7286", "3", "70.0", "PLT - 7286", "4", "79.0", "PLT - 7286", "5", "91.5", "PLT - 7287", "1", "46.5", "PLT - 7287", "2", "70.0", "PLT - 7287", "3", "67.5", "PLT - 7287", "4", "76.0", "PLT - 7287", "5", "88.5", "PLT - 7287", "1", "47.0", "PLT - 7287", "2", "70.0", "PLT - 7287", "3", "68.0", "PLT - 7287", "4", "76.5", "PLT - 7287", "5", "90.0", "PLT - 7287", "1", "43.0", "PLT - 7287", "2", "67.0", "PLT - 7287", "3", "65.5", "PLT - 7287", "4", "75.5", "PLT - 7287", "5", "88.0", "PLT - 7288", "1", "51.0", "PLT - 7288", "2", "66.5", "PLT - 7288", "3", "65.5", "PLT - 7288", "4", "72.5", "PLT - 7288", "5", "82.0", "PLT - 7288", "1", "51.0", "PLT - 7288", "2", "68.5", "PLT - 7288", "3", "64.5", "PLT - 7288", "4", "71.0", "PLT - 7288", "5", "81.5", "PLT - 7288", "1", "46.0", "PLT - 7288", "2", "63.0", "PLT - 7288", "3", "60.0", "PLT - 7288", "4", "68.5", "PLT - 7288", "5", "79.5", "PLT - 7289", "1", "43.0", "PLT - 7289", "2", "66.5", "PLT - 7289", "3", "65.0", "PLT - 7289", "4", "73.0", "PLT - 7289", "5", "87.5", "PLT - 7289", "1", "43.0", "PLT - 7289", "2", "65.0", "PLT - 7289", "3", "64.0", "PLT - 7289", "4", "72.0", "PLT - 7289", "5", "86.5", "PLT - 7289", "1", "41.0", "PLT - 7289", "2", "63.5", "PLT - 7289", "3", "60.0", "PLT - 7289", "4", "67.0", "PLT - 7289", "5", "79.0", "PLT - 7290", "1", "56.0", "PLT - 7290", "2", "77.5", "PLT - 7290", "3", "75.0", "PLT - 7290", "4", "83.0", "PLT - 7290", "5", "96.5", "PLT - 7290", "1", "43.0", "PLT - 7290", "2", "63.0", "PLT - 7290", "3", "61.0", "PLT - 7290", "4", "70.5", "PLT - 7290", "5", "82.5", "PLT - 7290", "1", "45.0", "PLT - 7290", "2", "66.0", "PLT - 7290", "3", "64.0", "PLT - 7290", "4", "73.0", "PLT - 7290", "5", "86.0", "PLT - 7291", "1", "59.5", "PLT - 7291", "2", "81.5", "PLT - 7291", "3", "87.0", "PLT - 7291", "4", "95.0", "PLT - 7291", "5", "106.5", "PLT - 7291", "1", "55.5", "PLT - 7291", "2", "77.5", "PLT - 7291", "3", "83.0", "PLT - 7291", "4", "90.5", "PLT - 7291", "5", "101.0", "PLT - 7291", "1", "45.0", "PLT - 7291", "2", "63.5", "PLT - 7291", "3", "68.5");
+//		List<Barcode> barcodes = new ArrayList<>();
+//
+//		for(String s : strings)
+//			barcodes.add(new Barcode(s));
+//
+//		dataset.setPreloadedPhenotypes(Arrays.asList("1", "2", "3", "4", "5"));
+//		dataset.setCurrentPhenotype(0);
+//		dataset.setBarcodesPerRow(3);
+//		new DatasetManager(this, dataset.getId()).update(dataset);
+//
+//		barcodeManager.add(barcodes);
+
 		List<Barcode> items = barcodeManager.getAll();
 		adapter = new RecyclerGridAdapter(this, dataset.getId(), items);
 
@@ -272,14 +285,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		hiddenInput.requestFocus();
 
 		FloatingActionButton floatingActionButton = findViewById(R.id.floating_action_main);
-		floatingActionButton.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				scanBarcodePrePermission();
-			}
-		});
+		floatingActionButton.setOnClickListener(v -> scanBarcodePrePermission());
 
 		/* Redirect every focus from the list view to the input text */
 		gridView.setOnFocusChangeListener(this);
@@ -401,7 +407,11 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	{
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 
-		menu.findItem(R.id.menu_load_phenotypes).setVisible(dataset != null && dataset.getBarcodesPerRow() == 3);
+		menu.findItem(R.id.menu_load_phenotypes)
+			.setVisible(dataset != null && dataset.getBarcodesPerRow() == 3);
+		menu.findItem(R.id.menu_ignore_duplicates)
+			.setVisible(dataset != null && dataset.getBarcodesPerRow() == 1)
+			.setChecked(dataset.getIgnoreDuplicates());
 
 		return true;
 	}
@@ -423,7 +433,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 			case R.id.menu_clear_database:
 				/* Clear the database */
 				resetDatabaseDialog();
-				GoogleAnalyticsUtils.trackEvent(this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_database), getString(R.string.ga_event_action_reset));
+				GoogleAnalyticsUtils.track(this, getTracker(), FirebaseAnalytics.Event.SELECT_CONTENT, getString(R.string.ga_event_category_database), getString(R.string.ga_event_action_reset));
 				break;
 
 			case R.id.menu_export_database:
@@ -435,21 +445,22 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				scanBarcodePrePermission();
 				break;
 
+			case R.id.menu_ignore_duplicates:
+				dataset.setIgnoreDuplicates(!dataset.getIgnoreDuplicates());
+				item.setChecked(!item.isChecked());
+				new DatasetManager(this, dataset.getId()).update(dataset);
+				break;
+
 			case R.id.menu_load_phenotypes:
 				if (adapter.getItemCount() > 0)
 				{
 					new AlertDialog.Builder(this)
 							.setTitle(R.string.dialog_title_phenotype_warning)
 							.setMessage(R.string.dialog_message_phenotype_warning)
-							.setPositiveButton(R.string.general_yes, new DialogInterface.OnClickListener()
-							{
-								@Override
-								public void onClick(DialogInterface dialog, int which)
-								{
-									Intent intent = new Intent(BarcodeReader.this, PhenotypeActivity.class);
-									intent.putExtra(PhenotypeActivity.EXTRA_DATASET_ID, dataset.getId());
-									startActivityForResult(intent, REQUEST_CODE_IMPORT_PHENOTYPES);
-								}
+							.setPositiveButton(R.string.general_yes, (dialog, which) -> {
+								Intent intent = new Intent(BarcodeReader.this, PhenotypeActivity.class);
+								intent.putExtra(PhenotypeActivity.EXTRA_DATASET_ID, dataset.getId());
+								startActivityForResult(intent, REQUEST_CODE_IMPORT_PHENOTYPES);
 							})
 							.setNegativeButton(R.string.general_no, null)
 							.show();
@@ -486,7 +497,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		IntentIntegrator integrator = new IntentIntegrator(this);
 //      integrator.setOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 		integrator.initiateScan();
-		GoogleAnalyticsUtils.trackEvent(this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_scan), getString(R.string.ga_event_action_scan_camera));
+		GoogleAnalyticsUtils.track(this, getTracker(), FirebaseAnalytics.Event.VIEW_ITEM, getString(R.string.ga_event_category_scan), getString(R.string.ga_event_action_scan_camera));
 	}
 
 	/**
@@ -509,66 +520,83 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				new DialogUtils.UserOption(getString(R.string.label_export_option_send), R.drawable.export_option_share)
 		};
 
-		DialogUtils.showOptions(this, R.string.dialog_title_export_option, options, cancelable, new DialogUtils.OnUserDecisionListener()
-		{
-			@Override
-			public void onUserDecision(int index)
+		DialogUtils.showOptions(this, R.string.dialog_title_export_option, options, cancelable, index -> {
+			/* Write the file in any case */
+			DatabaseWriter writer;
+
+			try
 			{
-				/* Write the file in any case */
-				DatabaseWriter writer;
-
 				if (dataset.isPhenotypingMode())
+				{
 					writer = new PhenotypingModeDatabaseWriter(BarcodeReader.this, DELIMITER);
-				else if (prefs.getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_FORMAT, false))
-					writer = new MatrixDatabaseWriter(BarcodeReader.this, DELIMITER);
-				else
-					writer = new RowDatabaseWriter(BarcodeReader.this, DELIMITER);
-
-				try
-				{
-					File exportedFile = writer.write();
-
-					if (exportedFile == null)
-					{
-						SnackbarUtils.showError(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_exception, "File operation failed"), Snackbar.LENGTH_LONG);
-					}
-					else
-					{
-						switch (index)
-						{
-							case 0:
-								SnackbarUtils.showSuccess(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_file_saved_to, exportedFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
-								break;
-							case 1:
-								/* Ask Android to share it for us */
-								ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(BarcodeReader.this);
-								/* Use the provider to make the file available to the other app (Android requirement) */
-								String providerName = getPackageName() + ".provider";
-								Uri uri = FileProvider.getUriForFile(BarcodeReader.this, providerName, exportedFile);
-
-								builder.setType("text/html")
-									   .setChooserTitle(R.string.intent_title_send_file)
-									   .setStream(uri)
-									   .setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
-									   .setText(BarcodeReader.this.getString(R.string.email_message_export));
-
-								startActivity(builder.getIntent());
-								break;
-						}
-					}
-
-					if (reset)
-						resetDatabase();
-
-					GoogleAnalyticsUtils.trackEvent(BarcodeReader.this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_database), getString(R.string.ga_event_action_export));
+					write(writer, index, reset);
 				}
-				catch (IOException e)
+				else if (prefs.getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_FORMAT, false))
 				{
-					e.printStackTrace();
-					SnackbarUtils.showError(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_exception, "File operation failed"), Snackbar.LENGTH_LONG);
+					writer = new MatrixDatabaseWriter(BarcodeReader.this, DELIMITER);
+					write(writer, index, reset);
+				}
+				else
+				{
+					writer = new RowDatabaseWriter(BarcodeReader.this, DELIMITER);
+					write(writer, index, reset);
 				}
 			}
+			catch (IOException e)
+			{
+				try
+				{
+					// Try again with the basic exporter if one of the others failed
+					write(new RowDatabaseWriter(BarcodeReader.this, DELIMITER), index, reset);
+				}
+				catch (IOException e1)
+				{
+					e1.printStackTrace();
+				}
+
+				e.printStackTrace();
+				SnackbarUtils.showError(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_exception, "File operation failed"), Snackbar.LENGTH_LONG);
+			}
 		});
+	}
+
+	private void write(DatabaseWriter writer, int index, boolean reset) throws IOException
+	{
+		File exportedFile = writer.write();
+
+		if (exportedFile == null)
+		{
+			SnackbarUtils.showError(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_exception, "File operation failed"), Snackbar.LENGTH_LONG);
+		}
+		else
+		{
+			switch (index)
+			{
+				case 0:
+					SnackbarUtils.showSuccess(getSnackbarParentView(), BarcodeReader.this.getString(R.string.toast_file_saved_to, exportedFile.getAbsolutePath()), Snackbar.LENGTH_LONG);
+					break;
+				case 1:
+					/* Ask Android to share it for us */
+					ShareCompat.IntentBuilder builder = ShareCompat.IntentBuilder.from(BarcodeReader.this);
+					/* Use the provider to make the file available to the other app (Android requirement) */
+					String providerName = getPackageName() + ".provider";
+					Uri uri = FileProvider.getUriForFile(BarcodeReader.this, providerName, exportedFile);
+
+					builder.setType("text/html")
+						   .setChooserTitle(R.string.intent_title_send_file)
+						   .setStream(uri)
+						   .setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
+						   .setText(BarcodeReader.this.getString(R.string.email_message_export));
+
+					startActivity(builder.getIntent());
+					break;
+			}
+		}
+
+		if (reset)
+			resetDatabase();
+
+		GoogleAnalyticsUtils.track(this, getTracker(), FirebaseAnalytics.Event.BEGIN_CHECKOUT, getString(R.string.ga_event_category_database), getString(R.string.ga_event_action_export));
 	}
 
 	/**
@@ -587,7 +615,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 
 		startActivityForResult(takePictureIntent, REQUEST_PHOTO);
 
-		GoogleAnalyticsUtils.trackEvent(this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_other), getString(R.string.ga_event_action_take_picture));
+		GoogleAnalyticsUtils.track(this, getTracker(), FirebaseAnalytics.Event.VIEW_ITEM, getString(R.string.ga_event_category_other), getString(R.string.ga_event_action_take_picture));
 	}
 
 	public void takePicture(Barcode barcode)
@@ -655,78 +683,61 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 			selectedItems = prefs.getImagePreferences(imgPrefs);
 
 			/* Show an alert dialog */
-			new AlertDialog.Builder(this).setTitle(R.string.dialog_title_save_image).setMultiChoiceItems(items, selectedItems, new DialogInterface.OnMultiChoiceClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which, boolean isChecked)
+			new AlertDialog.Builder(this).setTitle(R.string.dialog_title_save_image).setMultiChoiceItems(items, selectedItems, (dialog, which, isChecked) -> {
+				/* Remember which option the user checked */
+				if (isChecked && imgPrefs.length == 4 && (which == 2 || which == 3))
 				{
-					/* Remember which option the user checked */
-					if (isChecked && imgPrefs.length == 4 && (which == 2 || which == 3))
-					{
-						int other = 5 - which;
+					int other = 5 - which;
 
-						selectedItems[other] = false;
-						prefs.putBoolean(imgPrefs[other].getPreferenceKey(), false);
+					selectedItems[other] = false;
+					prefs.putBoolean(imgPrefs[other].getPreferenceKey(), false);
 
-						final AlertDialog alert = (AlertDialog) dialog;
-						final ListView list = alert.getListView();
-						list.setItemChecked(other, false);
-					}
-
-					selectedItems[which] = isChecked;
-					prefs.putBoolean(imgPrefs[which].getPreferenceKey(), isChecked);
+					final AlertDialog alert = (AlertDialog) dialog;
+					final ListView list = alert.getListView();
+					list.setItemChecked(other, false);
 				}
-			}).setPositiveButton(R.string.general_save, new DialogInterface.OnClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which)
+
+				selectedItems[which] = isChecked;
+				prefs.putBoolean(imgPrefs[which].getPreferenceKey(), isChecked);
+			}).setPositiveButton(R.string.general_save, (dialog, which) -> {
+				/*  */
+				Barcode associatedBarcode = null;
+				if (barcodeForImage != null)
 				{
-					/*  */
-					Barcode associatedBarcode = null;
-					if (barcodeForImage != null)
-					{
-						associatedBarcode = barcodeForImage;
-						barcodeForImage = null;
-					}
-					if (selectedItems.length > 2 && selectedItems[2])
-					{
-						List<Barcode> rows = adapter.getItems();
-						associatedBarcode = rows.get(rows.size() - 1);
-					}
-					else if (selectedItems.length > 3 && selectedItems[3])
-					{
-						List<Barcode> rows = adapter.getItems();
-						associatedBarcode = rows.get(rows.size() - 1);
-						associatedBarcode = adapter.getItemsInRow(associatedBarcode).get(0);
-					}
-
-					if (associatedBarcode != null)
-					{
-						movePhoto(associatedBarcode);
-
-						Image image = new Image(null, photo.getAbsolutePath());
-
-						associatedBarcode.addImage(image);
-						imageManager.add(associatedBarcode, image);
-
-						updateGrid();
-					}
-					else
-					{
-						/* Geotag the image */
-						GeoUtils.geoTag(photo.getAbsolutePath(), location, new Date(System.currentTimeMillis()), null);
-
-						SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, photo.getAbsolutePath()), Snackbar.LENGTH_LONG);
-					}
+					associatedBarcode = barcodeForImage;
+					barcodeForImage = null;
 				}
-			}).setNegativeButton(R.string.general_cancel, new DialogInterface.OnClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialog, int which)
+				if (selectedItems.length > 2 && selectedItems[2])
 				{
-					photo.delete();
+					List<Barcode> rows = adapter.getItems();
+					associatedBarcode = rows.get(rows.size() - 1);
 				}
-			}).show();
+				else if (selectedItems.length > 3 && selectedItems[3])
+				{
+					List<Barcode> rows = adapter.getItems();
+					associatedBarcode = rows.get(rows.size() - 1);
+					associatedBarcode = adapter.getItemsInRow(associatedBarcode).get(0);
+				}
+
+				if (associatedBarcode != null)
+				{
+					movePhoto(associatedBarcode);
+
+					Image image = new Image(null, photo.getAbsolutePath());
+
+					associatedBarcode.addImage(image);
+					imageManager.add(associatedBarcode, image);
+
+					updateGrid();
+				}
+				else
+				{
+					/* Geotag the image */
+					GeoUtils.geoTag(photo.getAbsolutePath(), location, new Date(System.currentTimeMillis()), null);
+
+					SnackbarUtils.showSuccess(getSnackbarParentView(), getString(R.string.toast_photo_saved_to, photo.getAbsolutePath()), Snackbar.LENGTH_LONG);
+				}
+			}).setNegativeButton(R.string.general_cancel, (dialog, which) -> photo.delete()).show();
 
 			/* Notify the Android gallery */
 			Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -803,25 +814,20 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 							.setCancelable(false)
 							.create();
 
-					lv.setOnItemClickListener(new AdapterView.OnItemClickListener()
-					{
-						@Override
-						public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+					lv.setOnItemClickListener((parent, view, position, id) -> {
+						if (position == 0)
 						{
-							if (position == 0)
-							{
-								exportDatabase(false, true);
-								resetDatabase = true;
-							}
-							else if (position == 1)
-							{
-								DatasetManager datasetManager = new DatasetManager(BarcodeReader.this, dataset.getId());
-								datasetManager.update(dataset.setBarcodesPerRow(prefItems));
-								updateGrid();
-							}
-
-							dialog.dismiss();
+							exportDatabase(false, true);
+							resetDatabase = true;
 						}
+						else if (position == 1)
+						{
+							DatasetManager datasetManager = new DatasetManager(BarcodeReader.this, dataset.getId());
+							datasetManager.update(dataset.setBarcodesPerRow(prefItems));
+							updateGrid();
+						}
+
+						dialog.dismiss();
 					});
 
 					dialog.show();
@@ -942,14 +948,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	private void resetDatabaseDialog()
 	{
 		new AlertDialog.Builder(this)
-				.setPositiveButton(getString(R.string.general_yes), new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialogInterface, int i)
-					{
-						resetDatabase();
-					}
-				})
+				.setPositiveButton(getString(R.string.general_yes), (dialogInterface, i) -> resetDatabase())
 				.setNegativeButton(getString(R.string.general_no), null)
 				.setTitle(R.string.dialog_title_reset_database)
 				.setMessage(getString(R.string.dialog_message_reset_database_short))
@@ -1056,7 +1055,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 							}
 						}
 
-						GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
+
+						GoogleAnalyticsUtils.track(context, context.getTracker(), FirebaseAnalytics.Event.REMOVE_FROM_CART, context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
 					}
 				}
 
@@ -1076,7 +1076,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		}
 		else
 		{
-			handler = new DefaultBarcodeHandler(this)
+			handler = new DefaultBarcodeHandler(this, dataset)
 			{
 				@Override
 				public void deleteBarcode()
@@ -1086,7 +1086,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 						/* Delete the current cell */
 						BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
 
-						GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
+						GoogleAnalyticsUtils.track(context, context.getTracker(), FirebaseAnalytics.Event.REMOVE_FROM_CART, context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
 					}
 				}
 
@@ -1099,7 +1099,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 						Barcode lastBarcode = adapter.getItem(adapter.getItemCount() - 1);
 						BarcodeReader.this.deleteRow(lastBarcode);
 
-						GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
+						GoogleAnalyticsUtils.track(context, context.getTracker(), FirebaseAnalytics.Event.REMOVE_FROM_CART, context.getString(R.string.ga_event_category_scan), context.getString(R.string.ga_event_action_delete));
 					}
 				}
 			};
@@ -1132,13 +1132,17 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 				{
 					adapter.add(barcode);
 
-					GoogleAnalyticsUtils.trackEvent(this, getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), getString(R.string.ga_event_category_scan), getString(R.string.ga_event_action_scan));
+					GoogleAnalyticsUtils.track(this, getTracker(), FirebaseAnalytics.Event.ADD_TO_CART, getString(R.string.ga_event_category_scan), getString(R.string.ga_event_action_scan));
 
 					if (barcode.isSpeak())
 						speak(barcode.getBarcode());
 
 					hiddenInput.setText(null);
 				}
+			}
+			else if (dataset.getIgnoreDuplicates() && barcodes == null)
+			{
+				speak(getString(R.string.tts_plant_duplicate, input));
 			}
 
 			if (toSpeak != null)
@@ -1181,15 +1185,8 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		i.putExtra(ImageDetailActivity.EXTRA_ROW, item);
 		i.putExtra(ImageDetailActivity.EXTRA_DATASET_ID, dataset.getBarcodesPerRow());
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-		{
-			Bundle bundle = ActivityOptions.makeScaleUpAnimation(view, (int) view.getX(), (int) view.getY(), view.getWidth(), view.getHeight()).toBundle();
-			ActivityCompat.startActivityForResult(this, i, REQUEST_SHOW_IMAGES, bundle);
-		}
-		else
-		{
-			startActivityForResult(i, REQUEST_SHOW_IMAGES);
-		}
+		Bundle bundle = ActivityOptions.makeScaleUpAnimation(view, (int) view.getX(), (int) view.getY(), view.getWidth(), view.getHeight()).toBundle();
+		ActivityCompat.startActivityForResult(this, i, REQUEST_SHOW_IMAGES, bundle);
 	}
 
 	private void updateWelcomeMessageVisibility()
@@ -1288,15 +1285,6 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 	private void reallySpeak(String message)
 	{
 		if (tts != null)
-		{
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-			{
-				tts.speak(message, TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString());
-			}
-			else
-			{
-				tts.speak(message, TextToSpeech.QUEUE_ADD, null);
-			}
-		}
+			tts.speak(message, TextToSpeech.QUEUE_ADD, null, UUID.randomUUID().toString());
 	}
 }

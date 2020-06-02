@@ -17,12 +17,12 @@
 
 package uk.ac.hutton.android.germinatescan.database.manager;
 
-import android.content.*;
+import android.content.Context;
 import android.database.*;
-import android.database.sqlite.*;
+import android.database.sqlite.SQLiteDatabase;
 
-import java.io.*;
-import java.text.*;
+import java.io.File;
+import java.text.ParseException;
 import java.util.*;
 
 import uk.ac.hutton.android.germinatescan.database.*;

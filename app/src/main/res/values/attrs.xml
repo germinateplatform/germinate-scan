@@ -16,28 +16,28 @@
   -->
 
 <resources>
-	<attr name="listItemBackground" format="reference"/>
+	<attr name="listItemBackground" format="reference" />
 
 	<!-- note: to re-use an existing Android attribute not already used by the superclass, name should have prefix "android:" and do not define a format -->
 	<declare-styleable name="NumberPickerDialogPreference">
-		<attr name="android:max"/>
-		<attr name="min" format="integer"/>
+		<attr name="android:max" />
+		<attr name="min" format="integer" />
 	</declare-styleable>
 
-	<attr name="dividerColor" format="reference|color"/>
-	<attr name="drawerBackgroundColor" format="reference|color"/>
-	<attr name="textColor" format="reference|color"/>
-	<attr name="textColorSecondary" format="reference|color"/>
-	<attr name="inputTextColor" format="reference|color"/>
+	<attr name="dividerColor" format="reference|color" />
+	<attr name="drawerBackgroundColor" format="reference|color" />
+	<attr name="textColor" format="reference|color" />
+	<attr name="textColorSecondary" format="reference|color" />
+	<attr name="inputTextColor" format="reference|color" />
 
-	<attr name="actionDelete" format="reference"/>
+	<attr name="actionDelete" format="reference" />
 
-	<attr name="drawerMenuHomepage" format="reference"/>
-	<attr name="drawerMenuOnlineHelp" format="reference"/>
-	<attr name="drawerMenuDatasets" format="reference"/>
-	<attr name="drawerMenuSettings" format="reference"/>
-	<attr name="drawerMenuMap" format="reference"/>
-	<attr name="drawerMenuAbout" format="reference"/>
+	<attr name="drawerMenuHomepage" format="reference" />
+	<attr name="drawerMenuOnlineHelp" format="reference" />
+	<attr name="drawerMenuDatasets" format="reference" />
+	<attr name="drawerMenuSettings" format="reference" />
+	<attr name="drawerMenuMap" format="reference" />
+	<attr name="drawerMenuAbout" format="reference" />
 
-	<attr name="menuIconCamera" format="reference"/>
+	<attr name="menuIconCamera" format="reference" />
 </resources>

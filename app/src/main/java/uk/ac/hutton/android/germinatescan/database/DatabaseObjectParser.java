@@ -17,9 +17,9 @@
 
 package uk.ac.hutton.android.germinatescan.database;
 
-import android.content.*;
+import android.content.Context;
 
-import java.text.*;
+import java.text.ParseException;
 
 /**
  * The {@link DatabaseObjectParser} is an interface that defines how a {@link DatabaseObject} should be parsed

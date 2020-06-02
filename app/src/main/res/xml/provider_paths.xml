@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2018 Information and Computational Sciences,
   ~  The James Hutton Institute.
   ~
@@ -17,5 +16,7 @@
   -->
 
 <paths>
-	<external-path name="external_files" path="."/>
+	<external-path
+		name="external_files"
+		path="." />
 </paths>

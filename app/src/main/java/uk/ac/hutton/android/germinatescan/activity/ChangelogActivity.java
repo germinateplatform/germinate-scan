@@ -18,11 +18,11 @@
 package uk.ac.hutton.android.germinatescan.activity;
 
 import android.content.pm.*;
-import android.os.*;
-import android.view.*;
+import android.os.Bundle;
+import android.view.MenuItem;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.util.PreferenceUtils;
 
 /**
  * @author Sebastian Raubach

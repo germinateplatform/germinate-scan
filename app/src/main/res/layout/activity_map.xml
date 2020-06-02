@@ -15,20 +15,17 @@
   ~  limitations under the License.
   -->
 
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:map="http://schemas.android.com/apk/res-auto"
 	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
 	<!-- THIS HAS TO GO INTO ANY LAYOUT OF ANY ACTIVITY THAT HAS A TOOLBAR! -->
-	<include layout="@layout/helper_toolbar"/>
+	<include layout="@layout/helper_toolbar" />
 	<!-- END -->
 
 	<FrameLayout
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		xmlns:map="http://schemas.android.com/apk/res-auto"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
@@ -37,7 +34,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			class="com.google.android.gms.maps.SupportMapFragment"
-			map:mapType="hybrid"/>
+			map:mapType="hybrid" />
 	</FrameLayout>
 
 </LinearLayout>

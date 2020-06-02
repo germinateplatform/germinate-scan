@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~  Copyright 2018 Information and Computational Sciences,
   ~  The James Hutton Institute.
   ~
@@ -16,12 +15,11 @@
   ~  limitations under the License.
   -->
 
-<ImageView
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:background="#444"
 	android:contentDescription="@string/accessibility_germinate_mobile_logo"
 	android:padding="16dp"
 	android:scaleType="centerInside"
-	android:src="@drawable/germinatescan"/>
+	android:src="@drawable/germinatescan" />

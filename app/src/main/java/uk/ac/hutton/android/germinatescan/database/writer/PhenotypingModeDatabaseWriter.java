@@ -20,8 +20,8 @@ package uk.ac.hutton.android.germinatescan.database.writer;
 import java.io.*;
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.activity.*;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity;
 import uk.ac.hutton.android.germinatescan.database.*;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
 import uk.ac.hutton.android.germinatescan.util.*;
@@ -59,8 +59,6 @@ public class PhenotypingModeDatabaseWriter extends DatabaseWriter
 
 		File file = FileUtils.createFile(context, datasetId, FileUtils.ReferenceFolder.output, FileUtils.FileExtension.txt, datasetName);
 
-		boolean singleTimeGps = new PreferenceUtils(context).getBoolean(PreferenceUtils.PREFS_EXPORT_MATRIX_SINGLE_TIME_GPS_PERROW, true);
-
 		BufferedWriter bw = null;
 		try
 		{
@@ -87,41 +85,43 @@ public class PhenotypingModeDatabaseWriter extends DatabaseWriter
 
 			if (!CollectionUtils.isEmpty(barcodes))
 			{
-				String currentPlant = null;
-				int traitIndex = 0;
+				Barcode currentPlantBarcode = barcodes.get(0);
+				String currentPlant = currentPlantBarcode.getBarcode();
+				String currentTrait = null;
 				int col = 0;
 
-				for (Barcode barcode : barcodes)
+				Map<String, String> forPlant = new HashMap<>();
+				for (int i = 1; i < barcodes.size(); i++)
 				{
-					if (col == 0 && !barcode.getBarcode().equals(currentPlant))
-					{
-						bw.newLine();
-						currentPlant = barcode.getBarcode();
-						traitIndex = 0;
+					col = i % 3;
 
-						bw.write(currentPlant);
-						if (props.contains(Barcode.BarcodeProperty.TIMESTAMP))
-							bw.write(delimiter + barcode.getFormattedTimestamp());
-						if (props.contains(Barcode.BarcodeProperty.LATITUDE))
-							bw.write(delimiter + barcode.getLatitudeOrEmpty());
-						if (props.contains(Barcode.BarcodeProperty.LONGITUDE))
-							bw.write(delimiter + barcode.getLongitudeOrEmpty());
-						if (props.contains(Barcode.BarcodeProperty.ALTITUDE))
-							bw.write(delimiter + barcode.getAltitudeOrEmpty());
+					if (col == 0)
+					{
+						Barcode barcode = barcodes.get(i);
+						String plant = barcode.getBarcode();
+
+						if (!StringUtils.areEqual(plant, currentPlant) || forPlant.size() == preloadedPhenotypes.size())
+						{
+							writeForPlant(bw, currentPlantBarcode, props, preloadedPhenotypes, forPlant);
+							currentPlantBarcode = barcode;
+							currentPlant = plant;
+							forPlant = new HashMap<>();
+						}
 					}
 					else if (col == 1)
 					{
-						if (!barcode.getBarcode().equals(preloadedPhenotypes.get(traitIndex)))
-							throw new IOException("Mismatch between preloaded trait order and recorded data.");
+						currentTrait = barcodes.get(i).getBarcode();
 					}
 					else if (col == 2)
 					{
-						bw.write(delimiter + barcode.getBarcode());
-						traitIndex++;
-					}
+						String value = barcodes.get(i).getBarcode();
 
-					col = (col + 1) % 3;
+						forPlant.put(currentTrait, value);
+					}
 				}
+
+				if (forPlant.size() > 0)
+					writeForPlant(bw, currentPlantBarcode, props, preloadedPhenotypes, forPlant);
 			}
 
 			bw.close();
@@ -139,14 +139,36 @@ public class PhenotypingModeDatabaseWriter extends DatabaseWriter
 			}
 			catch (IOException e1)
 			{
-				GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_exception), e1.getLocalizedMessage());
 				e1.printStackTrace();
 			}
 
-			GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_exception), e.getLocalizedMessage());
 			e.printStackTrace();
 
 			throw e;
+		}
+	}
+
+	private void writeForPlant(BufferedWriter bw, Barcode currentPlant, List<Barcode.BarcodeProperty> props, List<String> preloadedPhenotypes, Map<String, String> traitToValue) throws IOException
+	{
+		bw.newLine();
+		bw.write(currentPlant.getBarcode());
+		if (props.contains(Barcode.BarcodeProperty.TIMESTAMP))
+			bw.write(delimiter + currentPlant.getFormattedTimestamp());
+		if (props.contains(Barcode.BarcodeProperty.LATITUDE))
+			bw.write(delimiter + currentPlant.getLatitudeOrEmpty());
+		if (props.contains(Barcode.BarcodeProperty.LONGITUDE))
+			bw.write(delimiter + currentPlant.getLongitudeOrEmpty());
+		if (props.contains(Barcode.BarcodeProperty.ALTITUDE))
+			bw.write(delimiter + currentPlant.getAltitudeOrEmpty());
+
+		for (String trait : preloadedPhenotypes)
+		{
+			String value = traitToValue.get(trait);
+
+			if (StringUtils.isEmpty(value))
+				bw.write(delimiter);
+			else
+				bw.write(delimiter + value);
 		}
 	}
 }

@@ -17,8 +17,8 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.content.*;
-import android.widget.*;
+import android.content.Context;
+import android.widget.Toast;
 
 /**
  * {@link uk.ac.hutton.android.germinatescan.util.ToastUtils} contains utility functions for showing {@link Toast}s. Calling one of these functions
@@ -48,7 +48,7 @@ public class ToastUtils
 			toast.cancel();
 		}
 
-        /* Create and show the toast */
+		/* Create and show the toast */
 		toast = Toast.makeText(context, text, duration);
 		toast.show();
 	}
@@ -68,7 +68,7 @@ public class ToastUtils
 			toast.cancel();
 		}
 
-        /* Create and show the toast */
+		/* Create and show the toast */
 		toast = Toast.makeText(context, text, duration);
 		toast.show();
 	}

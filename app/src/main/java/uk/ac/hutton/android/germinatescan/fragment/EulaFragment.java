@@ -17,21 +17,21 @@
 
 package uk.ac.hutton.android.germinatescan.fragment;
 
-import android.annotation.*;
+import android.annotation.TargetApi;
 import android.content.*;
-import android.net.*;
+import android.net.Uri;
 import android.os.*;
-import android.support.design.widget.*;
-import android.support.v4.app.*;
 import android.view.*;
 import android.webkit.*;
 import android.widget.*;
 
 import java.io.*;
 
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.Fragment;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
-import uk.ac.hutton.android.germinatescan.activity.*;
+import uk.ac.hutton.android.germinatescan.activity.IntroductionActivity;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -94,8 +94,6 @@ public class EulaFragment extends Fragment
 	@OnClick(R.id.eula_button_accept)
 	public void onAcceptClicked()
 	{
-		GoogleAnalyticsUtils.trackEvent(getActivity(), GerminateScanActivity.getTracker(getActivity(), GerminateScanActivity.TrackerName.APP_TRACKER), getActivity().getString(R.string.ga_event_category_eula), getActivity().getString(R.string.ga_event_action_eula_accepted), type.name());
-
 		prefs.putBoolean(PreferenceUtils.PREFS_EULA_ACCEPTED, true);
 		prefs.putString(PreferenceUtils.PREFS_EULA_TYPE, type.name());
 		((IntroductionActivity) getActivity()).nextSlide();
@@ -104,8 +102,6 @@ public class EulaFragment extends Fragment
 	@OnClick(R.id.eula_button_cancel)
 	public void onCancelClicked()
 	{
-		GoogleAnalyticsUtils.trackEvent(getActivity(), GerminateScanActivity.getTracker(getActivity(), GerminateScanActivity.TrackerName.APP_TRACKER), getActivity().getString(R.string.ga_event_category_eula), getActivity().getString(R.string.ga_event_action_eula_declined), type.name());
-
 		getActivity().finish();
 	}
 

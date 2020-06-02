@@ -17,18 +17,18 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.annotation.*;
-import android.app.*;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.*;
-import android.net.*;
-import android.os.*;
-import android.preference.*;
+import android.net.Uri;
+import android.os.Build;
+import android.preference.PreferenceManager;
 import android.webkit.*;
-import android.widget.*;
+import android.widget.ArrayAdapter;
 
 import java.io.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.activity.*;
 
 /**
@@ -42,22 +42,17 @@ public class EulaUtils
 
 		new AlertDialog.Builder(activity)
 				.setTitle(R.string.dialog_title_eula_type)
-				.setAdapter(new ArrayAdapter<>(activity, android.R.layout.select_dialog_item, licenseTypes), new DialogInterface.OnClickListener()
-				{
-					@Override
-					public void onClick(DialogInterface dialog, int which)
+				.setAdapter(new ArrayAdapter<>(activity, android.R.layout.select_dialog_item, licenseTypes), (dialog, which) -> {
+					switch (which)
 					{
-						switch (which)
-						{
-							case 0:
-								/* Consumer */
-								showEulaForType(activity, hasToAccept, EulaType.CONSUMER, callback);
-								break;
-							case 1:
-								/* Commercial */
-								showEulaForType(activity, hasToAccept, EulaType.COMMERCIAL, callback);
-								break;
-						}
+						case 0:
+							/* Consumer */
+							showEulaForType(activity, hasToAccept, EulaType.CONSUMER, callback);
+							break;
+						case 1:
+							/* Commercial */
+							showEulaForType(activity, hasToAccept, EulaType.COMMERCIAL, callback);
+							break;
 					}
 				})
 				.setCancelable(false)
@@ -171,51 +166,19 @@ public class EulaUtils
 
 		final long startTime = System.currentTimeMillis();
 		alert.setView(wv);
-		alert.setPositiveButton(hasToAccept ? R.string.general_accept : android.R.string.ok, new DialogInterface.OnClickListener()
-		{
-			@Override
-			public void onClick(DialogInterface dialogInterface, int i)
-			{
-				long finishTime = System.currentTimeMillis() - startTime;
+		alert.setPositiveButton(hasToAccept ? R.string.general_accept : android.R.string.ok, (dialogInterface, i) -> {
+			SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(BarcodeReader.INSTANCE).edit();
+			edit.putBoolean(PreferenceUtils.PREFS_EULA_ACCEPTED, true);
+			edit.apply();
 
-				/* Only track selection if it's the initial decision */
-				if (hasToAccept)
-				{
-					switch (type)
-					{
-						case COMMERCIAL:
-							GoogleAnalyticsUtils.trackEvent(activity, activity.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), activity.getString(R.string.ga_event_category_eula), activity.getString(R.string.ga_event_action_eula_type), activity.getString(R.string.ga_event_label_eula_type_commercial));
-							break;
-						case CONSUMER:
-							GoogleAnalyticsUtils.trackEvent(activity, activity.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), activity.getString(R.string.ga_event_category_eula), activity.getString(R.string.ga_event_action_eula_type), activity.getString(R.string.ga_event_label_eula_type_consumer));
-							break;
-					}
-				}
-
-				GoogleAnalyticsUtils.trackEvent(activity, activity.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), activity.getString(R.string.ga_event_category_eula), activity.getString(R.string.ga_event_action_accept), activity.getString(R.string.ga_event_unit_ms), finishTime);
-
-				SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(BarcodeReader.INSTANCE).edit();
-				edit.putBoolean(PreferenceUtils.PREFS_EULA_ACCEPTED, true);
-				edit.apply();
-
-				if (callback != null)
-					callback.onAccept();
-			}
+			if (callback != null)
+				callback.onAccept();
 		});
 
 		if (hasToAccept)
 		{
-			alert.setNegativeButton(R.string.general_cancel, new DialogInterface.OnClickListener()
-			{
-				@Override
-				public void onClick(DialogInterface dialogInterface, int i)
-				{
-					long finishTime = System.currentTimeMillis() - startTime;
-
-					GoogleAnalyticsUtils.trackEvent(activity, activity.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), activity.getString(R.string.ga_event_category_eula), activity.getString(R.string.ga_event_action_declined), activity.getString(R.string.ga_event_unit_ms), finishTime);
-
-					activity.finish();
-				}
+			alert.setNegativeButton(R.string.general_cancel, (dialogInterface, i) -> {
+				activity.finish();
 			});
 		}
 

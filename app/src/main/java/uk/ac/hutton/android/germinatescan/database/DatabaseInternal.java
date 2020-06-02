@@ -17,11 +17,11 @@
 
 package uk.ac.hutton.android.germinatescan.database;
 
-import android.content.*;
-import android.database.*;
+import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.*;
 
-import java.io.*;
+import java.io.File;
 
 /**
  * {@link DatabaseInternal} extends {@link SQLiteOpenHelper} and contains convenience methods for handling local sqlite files.

@@ -17,15 +17,15 @@
 
 package uk.ac.hutton.android.germinatescan.database;
 
-import android.content.*;
-import android.location.*;
-import android.preference.*;
+import android.content.SharedPreferences;
+import android.location.Location;
+import android.preference.PreferenceManager;
 
 import java.text.*;
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.activity.*;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.activity.BarcodeReader;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -107,8 +107,15 @@ public class Barcode extends DatabaseObject
 		}
 		else
 		{
-			long time = Long.parseLong(timestamp);
-			return DATE_FORMAT.format(new Date(time));
+			try
+			{
+				long time = Long.parseLong(timestamp);
+				return DATE_FORMAT.format(new Date(time));
+			}
+			catch (NumberFormatException | NullPointerException e)
+			{
+				return "";
+			}
 		}
 	}
 

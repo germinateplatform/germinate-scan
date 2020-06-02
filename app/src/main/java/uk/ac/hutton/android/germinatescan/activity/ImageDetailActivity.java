@@ -19,23 +19,23 @@ package uk.ac.hutton.android.germinatescan.activity;
 
 import android.app.*;
 import android.content.*;
-import android.database.*;
-import android.net.*;
-import android.os.*;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.*;
-import android.support.v4.view.*;
+import android.database.DataSetObserver;
+import android.net.Uri;
+import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.util.List;
 
+import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.*;
+import androidx.viewpager.widget.ViewPager;
 import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.database.manager.*;
-import uk.ac.hutton.android.germinatescan.fragment.*;
+import uk.ac.hutton.android.germinatescan.database.manager.ImageManager;
+import uk.ac.hutton.android.germinatescan.fragment.ImageDetailFragment;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**
@@ -86,10 +86,10 @@ public class ImageDetailActivity extends ThemedActivity
 				imageManager = new ImageManager(this, datasetId);
 		}
 
-		goAwayMessage = (TextView) findViewById(R.id.emptyAdapterMessage);
-		progressIndicator = (ProgressBar) findViewById(R.id.adapterBackgroundProgress);
+		goAwayMessage = findViewById(R.id.emptyAdapterMessage);
+		progressIndicator = findViewById(R.id.adapterBackgroundProgress);
 		adapter = new ImagePagerAdapter(getSupportFragmentManager(), barcode);
-		pager = (ViewPager) findViewById(R.id.pager);
+		pager = findViewById(R.id.pager);
 		pager.setAdapter(adapter);
 
 		adapter.registerDataSetObserver(new DataSetObserver()
@@ -162,18 +162,13 @@ public class ImageDetailActivity extends ThemedActivity
 			case R.id.menu_open_image:
 				/* Tell Android that you want to view the image */
 				Intent intent = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(Uri.parse("file://" + path), "image/*");
+				Uri uri = FileProvider.getUriForFile(ImageDetailActivity.this, BuildConfig.APPLICATION_ID + ".provider", new File(path));
+				intent.setDataAndType(uri, "image/*");
+				intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-				{
-					View view = pager.getChildAt(pager.getCurrentItem());
-					Bundle bundle = ActivityOptions.makeScaleUpAnimation(view, (int) view.getX(), (int) view.getY(), view.getWidth(), view.getHeight()).toBundle();
-					startActivity(intent, bundle);
-				}
-				else
-				{
-					startActivity(intent);
-				}
+				View view = pager.getChildAt(pager.getCurrentItem());
+				Bundle bundle = ActivityOptions.makeScaleUpAnimation(view, (int) view.getX(), (int) view.getY(), view.getWidth(), view.getHeight()).toBundle();
+				startActivity(intent, bundle);
 				break;
 
 			case R.id.menu_delete_image:
@@ -191,13 +186,13 @@ public class ImageDetailActivity extends ThemedActivity
 									file.delete();
 								}
 
-                                /* Delete the item from the database */
+								/* Delete the item from the database */
 								imageManager.delete(image);
 
-                                /* Delete the item from the adapter */
+								/* Delete the item from the adapter */
 								adapter.removeItem(pager.getCurrentItem());
 
-                                /* Remember that we changed stuff */
+								/* Remember that we changed stuff */
 								imagesEdited = true;
 							}
 						})
@@ -213,9 +208,9 @@ public class ImageDetailActivity extends ThemedActivity
 
 	public static class ImagePagerAdapter extends FragmentStatePagerAdapter
 	{
-		private List<Image> images = new ArrayList<>();
+		private List<Image> images;
 
-		public ImagePagerAdapter(FragmentManager fm, Barcode barcode)
+		public ImagePagerAdapter(androidx.fragment.app.FragmentManager fm, Barcode barcode)
 		{
 			super(fm);
 

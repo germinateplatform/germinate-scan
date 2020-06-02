@@ -17,13 +17,14 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.support.annotation.*;
-import android.support.design.widget.*;
-import android.support.v4.content.*;
-import android.view.*;
-import android.widget.*;
+import android.view.View;
+import android.widget.TextView;
 
-import uk.ac.hutton.android.germinatescan.*;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.ColorInt;
+import androidx.core.content.ContextCompat;
+import uk.ac.hutton.android.germinatescan.R;
 
 /**
  * @author Sebastian Raubach
@@ -47,7 +48,7 @@ public class SnackbarUtils
 	public static void setColors(Snackbar snackbar, @ColorInt int textColor, @ColorInt int backgroundColor)
 	{
 		View view = snackbar.getView();
-		TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+		TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
 		tv.setTextColor(textColor);
 		view.setBackgroundColor(backgroundColor);
 	}

@@ -18,17 +18,17 @@
 package uk.ac.hutton.android.germinatescan.util;
 
 import android.graphics.*;
-import android.os.*;
-import android.support.v4.content.*;
-import android.support.v4.util.*;
-import android.support.v7.graphics.*;
+import android.os.AsyncTask;
 import android.widget.*;
 
-import java.io.*;
-import java.lang.ref.*;
+import java.io.File;
+import java.lang.ref.WeakReference;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.database.*;
+import androidx.collection.LongSparseArray;
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.database.Image;
 
 public class BitmapWorkerTask extends AsyncTask<Image, Void, Bitmap>
 {
@@ -64,7 +64,7 @@ public class BitmapWorkerTask extends AsyncTask<Image, Void, Bitmap>
 			return null;
 		}
 
-        /* Decode image in background */
+		/* Decode image in background */
 		final BitmapFactory.Options options = new BitmapFactory.Options();
 		options.inSampleSize = 2;
 		return BitmapFactory.decodeFile(params[0].getPath(), options);
@@ -78,7 +78,7 @@ public class BitmapWorkerTask extends AsyncTask<Image, Void, Bitmap>
 			bitmap = null;
 		}
 
-        /* Once complete, see if ImageView is still around and set bitmap */
+		/* Once complete, see if ImageView is still around and set bitmap */
 		if (bitmap != null)
 		{
 			final ImageView imageView = imageViewReference.get();
@@ -92,7 +92,7 @@ public class BitmapWorkerTask extends AsyncTask<Image, Void, Bitmap>
 					Integer background = vibrantColorMap.get(image.getId());
 					Integer foreground = mutedColorMap.get(image.getId());
 
-                    /* If so, set them */
+					/* If so, set them */
 					if (background != null && foreground != null)
 					{
 						TextView textView = textViewReference.get();

@@ -1,5 +1,5 @@
 <!--
-  ~  Copyright 2018 Information and Computational Sciences,
+  ~  Copyright 2020 Information and Computational Sciences,
   ~  The James Hutton Institute.
   ~
   ~  Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +15,8 @@
   ~  limitations under the License.
   -->
 
-<vector android:height="24dp"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:width="24dp"
-	android:viewportWidth="24.0"
-	android:viewportHeight="24.0">
-	<path
-		android:fillColor="#FFa3cb38"
-		android:pathData="M9.41,13L12,15.59L14.59,13L16,14.41L13.41,17L16,19.59L14.59,21L12,18.41L9.41,21L8,19.59L10.59,17L8,14.41L9.41,13M22,9A2,2 0 0,1 20,11H4A2,2 0 0,1 2,9V6A2,2 0 0,1 4,4H20A2,2 0 0,1 22,6V9M4,9H8V6H4V9M10,9H14V6H10V9M16,9H20V6H16V9Z" />
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="24dp"
+    android:height="24dp" android:tint="#FFFFFF"
+    android:viewportWidth="24.0" android:viewportHeight="24.0">
+    <path android:fillColor="#FF000000" android:pathData="M19.81,14.99l1.19,-0.92 -1.43,-1.43 -1.19,0.92 1.43,1.43zM19.36,10.27L21,9l-9,-7 -2.91,2.27 7.87,7.88 2.4,-1.88zM3.27,1L2,2.27l4.22,4.22L3,9l1.63,1.27L12,16l2.1,-1.63 1.43,1.43L12,18.54l-7.37,-5.73L3,14.07l9,7 4.95,-3.85L20.73,21 22,19.73 3.27,1z"/>
 </vector>

@@ -17,22 +17,22 @@
 
 package uk.ac.hutton.android.germinatescan.adapter;
 
-import android.app.*;
-import android.content.*;
-import android.content.res.*;
-import android.graphics.drawable.*;
-import android.support.annotation.*;
-import android.support.v4.content.*;
-import android.support.v7.widget.*;
-import android.util.*;
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.util.TypedValue;
 import android.view.*;
 import android.widget.*;
 
+import androidx.annotation.*;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.activity.*;
-import uk.ac.hutton.android.germinatescan.fragment.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.fragment.BarcodeFragment;
+import uk.ac.hutton.android.germinatescan.util.PreferenceUtils;
 
 /**
  * The {@link BarcodeExampleAdapter} takes care of all the {@link BarcodeExample}s.

@@ -17,16 +17,16 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.*;
-import android.content.*;
-import android.os.*;
+import android.Manifest;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.heinrichreimersoftware.materialintro.app.*;
 import com.heinrichreimersoftware.materialintro.slide.*;
 
 import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.fragment.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.util.PreferenceUtils;
 
 /**
  * The {@link IntroductionActivity} is shown on first start. It guides the user though the initial data source selection and will show the EULA.
@@ -106,7 +106,7 @@ public class IntroductionActivity extends IntroActivity
 	{
 		Intent intent = new Intent();
 		intent.putExtra(BarcodeSelectionActivity.EXTRA_NR_OF_BARCODES, nrOfbarcodes);
-		return  intent;
+		return intent;
 	}
 
 	public void onBarcodeSelected(int value)

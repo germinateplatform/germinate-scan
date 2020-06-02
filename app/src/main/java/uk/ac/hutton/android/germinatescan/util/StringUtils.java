@@ -17,7 +17,7 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.os.*;
+import android.os.Build;
 import android.text.*;
 
 /**
@@ -112,7 +112,7 @@ public class StringUtils
 			}
 		}
 
-        /* Remove the last delimiter. We have to do it this way, because we
+		/* Remove the last delimiter. We have to do it this way, because we
 		 * don't know how many (of any) parts pass the check */
 		if (atLeastOne)
 		{

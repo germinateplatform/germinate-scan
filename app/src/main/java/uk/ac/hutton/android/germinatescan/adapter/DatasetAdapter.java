@@ -18,20 +18,20 @@
 package uk.ac.hutton.android.germinatescan.adapter;
 
 import android.app.*;
-import android.content.*;
-import android.support.v7.widget.*;
-import android.text.*;
+import android.content.DialogInterface;
+import android.text.InputType;
 import android.view.*;
 import android.widget.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
-import uk.ac.hutton.android.germinatescan.activity.*;
+import uk.ac.hutton.android.germinatescan.activity.DatasetActivity;
 import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.database.manager.*;
+import uk.ac.hutton.android.germinatescan.database.manager.DatasetManager;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**

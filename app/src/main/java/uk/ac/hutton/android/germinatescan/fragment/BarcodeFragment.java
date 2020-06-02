@@ -17,18 +17,18 @@
 
 package uk.ac.hutton.android.germinatescan.fragment;
 
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v4.content.*;
-import android.support.v7.widget.*;
+import android.os.Bundle;
 import android.view.*;
-import android.widget.*;
+import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.*;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.activity.*;
-import uk.ac.hutton.android.germinatescan.adapter.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.adapter.BarcodeExampleAdapter;
+import uk.ac.hutton.android.germinatescan.util.GridSpacingItemDecoration;
 
 /**
  * The {@link BarcodeFragment} shows information about all the libraries that are used by this app and their licenses.
@@ -73,9 +73,9 @@ public class BarcodeFragment extends Fragment
 
 	public void onBarcodeSelected(int value)
 	{
-		if(getActivity() instanceof BarcodeSelectionActivity)
+		if (getActivity() instanceof BarcodeSelectionActivity)
 			((BarcodeSelectionActivity) getActivity()).onBarcodeSelected(value);
-		else if(getActivity() instanceof IntroductionActivity)
+		else if (getActivity() instanceof IntroductionActivity)
 			((IntroductionActivity) getActivity()).onBarcodeSelected(value);
 	}
 }

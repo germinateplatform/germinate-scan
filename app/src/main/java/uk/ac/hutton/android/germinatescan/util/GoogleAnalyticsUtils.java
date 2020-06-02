@@ -17,9 +17,12 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.content.*;
+import android.content.Context;
+import android.os.Bundle;
 
-import com.google.android.gms.analytics.*;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import uk.ac.hutton.android.germinatescan.BuildConfig;
 
 /**
  * Utility class for Google Analytics. Contains methods to track events.
@@ -28,71 +31,20 @@ import com.google.android.gms.analytics.*;
  */
 public class GoogleAnalyticsUtils
 {
-	/**
-	 * Sends an event to the Google Analytics server
-	 *
-	 * @param context  The calling {@link Context}
-	 * @param tracker  The {@link Tracker}
-	 * @param category The category
-	 * @param action   The action
-	 */
-	public static void trackEvent(Context context, Tracker tracker, String category, String action)
-	{
-		trackEvent(context, tracker, category, action, null);
-	}
-
-	/**
-	 * Sends an event to the Google Analytics server
-	 *
-	 * @param context  The calling {@link Context}
-	 * @param tracker  The {@link Tracker}
-	 * @param category The category
-	 * @param action   The action
-	 * @param label    The label
-	 */
-	public static void trackEvent(Context context, Tracker tracker, String category, String action, String label)
-	{
-		trackEvent(context, tracker, category, action, label, null);
-	}
-
-	/**
-	 * Sends an event to the Google Analytics server
-	 *
-	 * @param context  The calling {@link Context}
-	 * @param tracker  The {@link Tracker}
-	 * @param category The category
-	 * @param action   The action
-	 * @param label    The label
-	 * @param value    The value
-	 */
-	public static void trackEvent(Context context, Tracker tracker, String category, String action, String label, Long value)
+	public static void track(Context context, FirebaseAnalytics tracker, String event, String category, String content)
 	{
 		if (tracker == null)
 		{
 			return;
 		}
 
-        /* If we're using the debug version, don't track to Google Analytics */
-		String packageName = context.getPackageName();
 		/* Also, if the user disabled tracking, we don't track to Google Analytics */
-		if (packageName != null && packageName.endsWith(".debug") || !new PreferenceUtils(context).getBoolean(PreferenceUtils.PREFS_GA_OPT_OUT, true))
-		{
+		if (BuildConfig.DEBUG || !new PreferenceUtils(context).getBoolean(PreferenceUtils.PREFS_GA_OPT_OUT, true))
 			return;
-		}
 
-		HitBuilders.EventBuilder builder = new HitBuilders.EventBuilder().setCategory(category).setAction(action);
-
-		if (!StringUtils.isEmpty(label))
-		{
-			builder.setLabel(label);
-		}
-
-		if (value != null)
-		{
-			builder.setValue(value);
-		}
-
-        /* Build and send an Event */
-		tracker.send(builder.build());
+		Bundle bundle = new Bundle();
+		bundle.putString(FirebaseAnalytics.Param.ITEM_CATEGORY, category);
+		bundle.putString(FirebaseAnalytics.Param.CONTENT, content);
+		tracker.logEvent(event, bundle);
 	}
 }

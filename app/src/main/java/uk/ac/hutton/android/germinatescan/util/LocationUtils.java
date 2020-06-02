@@ -17,13 +17,13 @@
 
 package uk.ac.hutton.android.germinatescan.util;
 
-import android.content.*;
+import android.content.Context;
 import android.location.*;
-import android.os.*;
+import android.os.Bundle;
 
 import java.util.*;
 
-import uk.ac.hutton.android.germinatescan.*;
+import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.activity.*;
 
 /**
@@ -67,7 +67,7 @@ public class LocationUtils
 			/* Acquire a reference to the system Location Manager */
 			locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
-            /* Define a listener that responds to location updates */
+			/* Define a listener that responds to location updates */
 			locationListener = new LocationListener()
 			{
 				@Override

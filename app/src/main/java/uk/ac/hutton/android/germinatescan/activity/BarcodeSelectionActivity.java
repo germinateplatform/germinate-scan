@@ -17,12 +17,12 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.content.*;
+import android.content.Intent;
 import android.os.*;
-import android.support.v4.content.*;
-import android.support.v7.widget.*;
-import android.view.*;
+import android.view.MenuItem;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
 

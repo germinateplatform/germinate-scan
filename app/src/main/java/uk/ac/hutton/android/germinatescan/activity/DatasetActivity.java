@@ -19,21 +19,21 @@ package uk.ac.hutton.android.germinatescan.activity;
 
 import android.app.*;
 import android.content.*;
-import android.os.*;
-import android.support.design.widget.*;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.*;
-import android.text.*;
+import android.os.Bundle;
+import android.text.InputType;
 import android.view.*;
-import android.widget.*;
+import android.widget.EditText;
 
-import java.util.*;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.List;
+
+import androidx.recyclerview.widget.*;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
-import uk.ac.hutton.android.germinatescan.adapter.*;
-import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.database.manager.*;
+import uk.ac.hutton.android.germinatescan.adapter.DatasetAdapter;
+import uk.ac.hutton.android.germinatescan.database.Dataset;
+import uk.ac.hutton.android.germinatescan.database.manager.DatasetManager;
 import uk.ac.hutton.android.germinatescan.util.*;
 
 /**

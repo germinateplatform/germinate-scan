@@ -18,9 +18,10 @@
 package uk.ac.hutton.android.germinatescan.database.manager;
 
 import android.content.*;
-import android.database.*;
+import android.database.Cursor;
+import android.util.LongSparseArray;
 
-import java.text.*;
+import java.text.ParseException;
 import java.util.*;
 
 import uk.ac.hutton.android.germinatescan.database.*;
@@ -49,8 +50,7 @@ public class ImageManager extends AbstractManager<Image>
 	}
 
 	/**
-	 * Inserts the given {@link Image} into the database associated with the given {@link
-	 * Barcode}
+	 * Inserts the given {@link Image} into the database associated with the given {@link Barcode}
 	 *
 	 * @param code  The associated {@link Barcode}
 	 * @param image The {@link Image}
@@ -75,6 +75,49 @@ public class ImageManager extends AbstractManager<Image>
 			long id = database.insert(getTableName(), null, values);
 
 			image.setId(id);
+		}
+		finally
+		{
+			close();
+		}
+	}
+
+	public LongSparseArray<List<Image>> getPerBarcode()
+	{
+		try
+		{
+			open();
+
+			LongSparseArray<List<Image>> result = new LongSparseArray<>();
+
+			Cursor cursor = database.query(getTableName(), new String[]{getTableName() + ".*"}, null, null, null, null, null);
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast())
+			{
+				try
+				{
+					Image item = getDefaultParser().parse(context, datasetId, new DatabaseInternal.AdvancedCursor(cursor));
+
+					Long barcodeId = item.getMainId();
+					List<Image> images = result.get(barcodeId);
+
+					if (images == null)
+						images = new ArrayList<>();
+
+					images.add(item);
+					result.put(barcodeId, images);
+				}
+				catch (ParseException e)
+				{
+					e.printStackTrace();
+				}
+
+				cursor.moveToNext();
+			}
+
+			cursor.close();
+
+			return result;
 		}
 		finally
 		{
@@ -122,6 +165,7 @@ public class ImageManager extends AbstractManager<Image>
 		public Image parse(Context context, long datasourceId, DatabaseInternal.AdvancedCursor cursor) throws ParseException
 		{
 			return new Image(cursor.getLong(Image.FIELD_ID))
+					.setMainId(cursor.getLong(Image.FIELD_MAIN_ID))
 					.setPath(cursor.getString(Image.FIELD_PATH));
 		}
 

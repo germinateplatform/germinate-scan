@@ -18,16 +18,16 @@
 package uk.ac.hutton.android.germinatescan.adapter;
 
 import android.content.*;
-import android.preference.*;
+import android.preference.PreferenceManager;
 import android.view.*;
 import android.widget.*;
 
-import java.util.*;
+import java.util.List;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.activity.*;
-import uk.ac.hutton.android.germinatescan.database.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.activity.BarcodeReader;
+import uk.ac.hutton.android.germinatescan.database.Barcode;
+import uk.ac.hutton.android.germinatescan.util.PreferenceUtils;
 
 /**
  * @author Sebastian Raubach
@@ -49,7 +49,7 @@ public class ExportSettingsAdapter extends ArrayAdapter<Barcode.BarcodeProperty>
 	{
 		LinearLayout theView = (LinearLayout) convertView;
 
-        /* Check if we have to create a new View */
+		/* Check if we have to create a new View */
 		boolean createNew = convertView == null;
 		if (createNew)
 		{

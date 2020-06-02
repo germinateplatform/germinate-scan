@@ -17,10 +17,11 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.os.*;
-import android.widget.*;
+import android.os.Bundle;
+import android.widget.TextView;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
@@ -46,7 +47,7 @@ public class ApacheLicenseActivity extends ThemedActivity
 		BufferedReader reader = null;
 		try
 		{
-			reader = new BufferedReader(new InputStreamReader(getAssets().open("LICENSE.txt"), "UTF-8"));
+			reader = new BufferedReader(new InputStreamReader(getAssets().open("LICENSE.txt"), StandardCharsets.UTF_8));
 
 			StringBuilder builder = new StringBuilder();
 			String mLine;

@@ -17,30 +17,29 @@
 
 package uk.ac.hutton.android.germinatescan.activity;
 
-import android.*;
-import android.content.*;
-import android.content.pm.*;
-import android.graphics.*;
-import android.os.*;
-import android.preference.*;
-import android.support.annotation.*;
-import android.support.design.widget.*;
-import android.support.v4.app.*;
-import android.support.v4.content.*;
-import android.support.v7.app.*;
-import android.support.v7.widget.Toolbar;
-import android.view.*;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.view.View;
 import android.widget.*;
 
-import com.google.android.gms.analytics.*;
 import com.google.android.gms.common.*;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.util.*;
-import uk.ac.hutton.android.germinatescan.util.LocationUtils.*;
+import uk.ac.hutton.android.germinatescan.util.LocationUtils.LocationChangeListener;
 
 /**
  * {@link uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity} is the main {@link android.app.Activity} type of Germinate Scan. All
@@ -53,36 +52,10 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 	private static final int REQUEST_CODE_LOCATION_PERMISSIONS = 1;
 	private static final int REQUEST_GOOGLE_PLAY_SERVICES      = 1001;
 
-	protected static Set<String> deniedPermissions = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>());
+	protected static Set<String> deniedPermissions = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
-	/**
-	 * The Google Analytics property id
-	 */
-	private static String PROPERTY_ID = null;
-	/**
-	 * The Trackers
-	 */
-	private static HashMap<TrackerName, Tracker> mTrackers = new HashMap<>();
-	private Snackbar snackbar;
-
-	/**
-	 * Returns the Tracker based on the tracker name
-	 *
-	 * @param trackerId The {@link uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity.TrackerName}
-	 * @return The Tracker
-	 */
-	public static synchronized Tracker getTracker(Context context, TrackerName trackerId)
-	{
-		if (!mTrackers.containsKey(trackerId))
-		{
-			GoogleAnalytics analytics = GoogleAnalytics.getInstance(context);
-			Tracker t = (trackerId == TrackerName.APP_TRACKER) ? analytics.newTracker(R.xml.app_tracker)
-					: analytics.newTracker(PROPERTY_ID);
-			mTrackers.put(trackerId, t);
-
-		}
-		return mTrackers.get(trackerId);
-	}
+	private FirebaseAnalytics mFirebaseAnalytics;
+	private Snackbar          snackbar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -90,10 +63,7 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 		/* Don't forget to call the parent class */
 		super.onCreate(savedInstanceState);
 
-        /* Get the property id */
-		PROPERTY_ID = getString(R.string.ga_tracking_id);
-
-        /* Get the layout id from sub-class */
+		/* Get the layout id from sub-class */
 		Integer layoutId = getLayoutId();
 		Integer toolbarId = getToolbarId();
 
@@ -104,20 +74,9 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 		}
 		if (toolbarId != null)
 		{
-			Toolbar toolbar = (Toolbar) findViewById(toolbarId);
+			androidx.appcompat.widget.Toolbar toolbar = findViewById(toolbarId);
 			setSupportActionBar(toolbar);
 		}
-	}
-
-	/**
-	 * Returns the Tracker based on the tracker name
-	 *
-	 * @param trackerId The {@link uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity.TrackerName}
-	 * @return The Tracker
-	 */
-	public synchronized Tracker getTracker(TrackerName trackerId)
-	{
-		return getTracker(this, trackerId);
 	}
 
 	@Override
@@ -125,38 +84,17 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 	{
 		super.onStart();
 
-        /* Handle uncaught exceptions */
-		if (!isDebugApplication())
+		/* Handle uncaught exceptions */
+		if (!BuildConfig.DEBUG)
 		{
-			Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler()
-			{
-				@Override
-				public void uncaughtException(Thread thread, Throwable ex)
-				{
-					ex.printStackTrace();
-
-					GoogleAnalyticsUtils.trackEvent(GerminateScanActivity.this, getTracker(TrackerName.APP_TRACKER), getString(R.string.ga_event_category_exception), ex.getLocalizedMessage());
-					ToastUtils.createToast(GerminateScanActivity.this, getString(R.string.toast_exception, ex.getLocalizedMessage()), ToastUtils.LENGTH_LONG);
-
-					System.exit(1);
-				}
-			});
-
-            /* Only log to Google Analytics, if this is the release version */
-			GoogleAnalytics.getInstance(this).reportActivityStart(this);
+			// Obtain the FirebaseAnalytics instance.
+			mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 		}
 	}
 
-	@Override
-	protected void onStop()
+	protected FirebaseAnalytics getTracker()
 	{
-		super.onStop();
-
-        /* Only log to Google Analytics, if this is the release version */
-		if (!isDebugApplication())
-		{
-			GoogleAnalytics.getInstance(this).reportActivityStop(this);
-		}
+		return mFirebaseAnalytics;
 	}
 
 	@Override
@@ -167,16 +105,7 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 		int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(this);
 
 		if (code != ConnectionResult.SUCCESS)
-		{
-			GoogleApiAvailability.getInstance().getErrorDialog(this, code, REQUEST_GOOGLE_PLAY_SERVICES, new DialogInterface.OnCancelListener()
-			{
-				@Override
-				public void onCancel(DialogInterface dialog)
-				{
-					GerminateScanActivity.this.finish();
-				}
-			});
-		}
+			GoogleApiAvailability.getInstance().getErrorDialog(this, code, REQUEST_GOOGLE_PLAY_SERVICES, dialog -> GerminateScanActivity.this.finish());
 
 		startLocationTracking();
 	}
@@ -247,7 +176,7 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 	protected void customizeSnackbar(Snackbar snackbar)
 	{
 		View view = snackbar.getView();
-		TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+		TextView tv = view.findViewById(com.google.android.material.R.id.snackbar_text);
 		tv.setTextColor(Color.WHITE);
 		view.setBackgroundColor(ContextCompat.getColor(this, R.color.snackbar_red));
 	}
@@ -264,8 +193,8 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 	protected abstract Integer getLayoutId();
 
 	/**
-	 * The {@link uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity} will call {@link #setSupportActionBar(Toolbar)} with the {@link
-	 * Toolbar} associated with the returned id.
+	 * The {@link uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity} will call {@link #setSupportActionBar(androidx.appcompat.widget.Toolbar)}
+	 * with the {@link Toolbar} associated with the returned id.
 	 * <p/>
 	 * If <code>null</code> is returned, not support action bar will be set up.
 	 *
@@ -288,12 +217,6 @@ public abstract class GerminateScanActivity extends AppCompatActivity
 			/* Release resources */
 			LocationUtils.unload(this);
 		}
-	}
-
-	protected boolean isDebugApplication()
-	{
-		String packageName = getPackageName();
-		return packageName != null && packageName.endsWith(".debug");
 	}
 
 	public enum TrackerName

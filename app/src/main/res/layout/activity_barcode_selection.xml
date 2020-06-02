@@ -17,8 +17,7 @@
   ~  limitations under the License.
   -->
 
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:layout_gravity="center"
@@ -26,7 +25,7 @@
 	android:orientation="vertical">
 
 	<!-- THIS HAS TO GO INTO ANY LAYOUT OF ANY ACTIVITY THAT HAS A TOOLBAR! -->
-	<include layout="@layout/helper_toolbar"/>
+	<include layout="@layout/helper_toolbar" />
 	<!-- END -->
 
 	<fragment
@@ -34,6 +33,6 @@
 		android:id="@+id/barcode_fragment"
 		android:fitsSystemWindows="true"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent"/>
+		android:layout_height="match_parent" />
 
 </LinearLayout>

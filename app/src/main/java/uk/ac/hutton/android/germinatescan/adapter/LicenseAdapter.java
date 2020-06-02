@@ -19,18 +19,18 @@ package uk.ac.hutton.android.germinatescan.adapter;
 
 import android.app.*;
 import android.content.*;
-import android.net.*;
-import android.support.v7.widget.*;
-import android.text.method.*;
+import android.net.Uri;
+import android.text.method.LinkMovementMethod;
 import android.view.*;
 import android.widget.*;
 
 import com.transitionseverywhere.*;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
-import uk.ac.hutton.android.germinatescan.activity.*;
-import uk.ac.hutton.android.germinatescan.util.*;
+import uk.ac.hutton.android.germinatescan.activity.ApacheLicenseActivity;
+import uk.ac.hutton.android.germinatescan.util.StringUtils;
 
 /**
  * The {@link LicenseAdapter} takes care of all the {@link License}s.

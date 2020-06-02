@@ -16,14 +16,14 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			  xmlns:app="http://schemas.android.com/apk/res-auto"
-			  android:layout_width="match_parent"
-			  android:layout_height="match_parent"
-			  android:orientation="vertical"
-			  android:background="?attr/drawerBackgroundColor">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="?attr/drawerBackgroundColor"
+	android:orientation="vertical">
 
 	<!-- THIS HAS TO GO INTO ANY LAYOUT OF ANY ACTIVITY THAT HAS A TOOLBAR! -->
-	<include layout="@layout/helper_toolbar"/>
+	<include layout="@layout/helper_toolbar" />
 	<!-- END -->
 
 	<LinearLayout
@@ -39,19 +39,20 @@
 			android:hint="@string/hint_phenotype_input"
 			android:layout_weight="100"
 			android:layout_gravity="center_vertical"
-			android:maxLines="1"/>
+			android:maxLines="1" />
+
 		<ImageButton
 			android:id="@+id/phenotype_add_button"
 			android:layout_width="50dp"
 			android:layout_height="50dp"
 			android:layout_weight="0"
 			android:layout_gravity="center_vertical"
-			app:srcCompat="@drawable/action_add"/>
+			app:srcCompat="@drawable/action_add" />
 	</LinearLayout>
 
-	<android.support.v7.widget.RecyclerView
+	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/phenotype_list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:scrollbars="vertical"/>
+		android:scrollbars="vertical" />
 </LinearLayout>

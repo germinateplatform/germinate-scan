@@ -18,11 +18,11 @@
 package uk.ac.hutton.android.germinatescan.database.writer;
 
 import java.io.*;
-import java.util.*;
+import java.util.List;
 
-import uk.ac.hutton.android.germinatescan.*;
-import uk.ac.hutton.android.germinatescan.activity.*;
-import uk.ac.hutton.android.germinatescan.database.*;
+import uk.ac.hutton.android.germinatescan.R;
+import uk.ac.hutton.android.germinatescan.activity.GerminateScanActivity;
+import uk.ac.hutton.android.germinatescan.database.Barcode;
 import uk.ac.hutton.android.germinatescan.database.manager.*;
 import uk.ac.hutton.android.germinatescan.util.*;
 
@@ -68,7 +68,7 @@ public class RowDatabaseWriter extends DatabaseWriter
 			FileWriter fw = new FileWriter(file.getAbsoluteFile());
 			bw = new BufferedWriter(fw);
 
-            /* Write the headers */
+			/* Write the headers */
 			bw.write(props.get(0).toString());
 			for (int i = 1; i < props.size(); i++)
 			{
@@ -77,7 +77,7 @@ public class RowDatabaseWriter extends DatabaseWriter
 
 			bw.newLine();
 
-            /* Write each Barcode */
+			/* Write each Barcode */
 			for (Barcode item : items)
 			{
 				bw.write(item.toStringForExport(false));
@@ -99,11 +99,9 @@ public class RowDatabaseWriter extends DatabaseWriter
 			}
 			catch (IOException e1)
 			{
-				GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_exception), e1.getLocalizedMessage());
 				e1.printStackTrace();
 			}
 
-			GoogleAnalyticsUtils.trackEvent(context, context.getTracker(GerminateScanActivity.TrackerName.APP_TRACKER), context.getString(R.string.ga_event_category_exception), e.getLocalizedMessage());
 			e.printStackTrace();
 		}
 

@@ -20,14 +20,13 @@ package uk.ac.hutton.android.germinatescan.activity;
 import android.app.Activity;
 import android.content.*;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.*;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.*;
 import android.widget.*;
 
 import java.util.*;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.*;
 import butterknife.*;
 import uk.ac.hutton.android.germinatescan.R;
 import uk.ac.hutton.android.germinatescan.adapter.StringReorderDeleteAdapter;
