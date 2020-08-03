@@ -17,6 +17,11 @@
 
 <changelog bulletedList="true">
 	<changelogversion
+		changeDate="03/08/2020"
+		versionName="1.20.08.03">
+		<changelogbug>Fehler behoben beim Löschen des ersten Barcodes eine Pflanze im Phänotypisierungsmodus wo der letzte Wert des vorherigen Merkmals gelöscht wurde.</changelogbug>
+	</changelogversion>
+	<changelogversion
 		changeDate="02/06/2020"
 		versionName="1.20.06.02">
 		<changelogimprovement>Checkbox hinzugefügt die es erlaubt Duplikate zu ignorieren wenn ein Barcode ausgewählt ist.</changelogimprovement>

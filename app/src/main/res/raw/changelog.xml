@@ -17,6 +17,11 @@
 
 <changelog bulletedList="true">
 	<changelogversion
+		changeDate="03/08/2020"
+		versionName="1.20.08.03">
+		<changelogbug>Fixed a bug where deleting the first barcode of a plant in phenotyping mode would delete the last recorded trait value of the previous plant.</changelogbug>
+	</changelogversion>
+	<changelogversion
 		changeDate="02/06/2020"
 		versionName="1.20.06.02">
 		<changelogimprovement>Added a checkbox to skip duplicates in single barcode mode.</changelogimprovement>

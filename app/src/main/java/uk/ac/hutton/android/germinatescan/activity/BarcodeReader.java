@@ -1028,13 +1028,17 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 						}
 						else if (index == 1)
 						{
-							// If it's a trait, remove everything including the value of the previous trait.
+							// If it's a trait, remove everything.
 							BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
 							BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
-							BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
-							if (adapter.getItemCount() > 0)
-								currentPhenotype--;
-							dataset.setCurrentPhenotype(currentPhenotype);
+							// If it's not the first one, remove the value of the previous trait.
+							if (currentPhenotype != 0)
+							{
+								BarcodeReader.this.deleteItem(adapter.getItem(adapter.getItemCount() - 1));
+								if (adapter.getItemCount() > 0)
+									currentPhenotype--;
+								dataset.setCurrentPhenotype(currentPhenotype);
+							}
 						}
 						else if (index == 0)
 						{

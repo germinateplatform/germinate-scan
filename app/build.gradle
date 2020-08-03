@@ -11,13 +11,13 @@ android {
         enabled = true
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "uk.ac.hutton.android.germinatescan"
         minSdkVersion 24
-        targetSdkVersion 28
-        versionCode 43
-        versionName "1.20.06.02"
+        targetSdkVersion 29
+        versionCode 45
+        versionName "1.20.08.03"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
