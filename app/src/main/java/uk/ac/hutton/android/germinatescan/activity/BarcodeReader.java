@@ -23,6 +23,7 @@ import android.content.*;
 import android.content.pm.*;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -44,6 +45,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.*;
 import androidx.core.content.*;
 import androidx.recyclerview.widget.*;
+
 import uk.ac.hutton.android.germinatescan.*;
 import uk.ac.hutton.android.germinatescan.adapter.RecyclerGridAdapter;
 import uk.ac.hutton.android.germinatescan.database.*;
@@ -408,10 +410,10 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 		getMenuInflater().inflate(R.menu.main_menu, menu);
 
 		menu.findItem(R.id.menu_load_phenotypes)
-			.setVisible(dataset != null && dataset.getBarcodesPerRow() == 3);
+				.setVisible(dataset != null && dataset.getBarcodesPerRow() == 3);
 		menu.findItem(R.id.menu_ignore_duplicates)
-			.setVisible(dataset != null && dataset.getBarcodesPerRow() == 1)
-			.setChecked(dataset.getIgnoreDuplicates());
+				.setVisible(dataset != null && dataset.getBarcodesPerRow() == 1)
+				.setChecked(dataset.getIgnoreDuplicates());
 
 		return true;
 	}
@@ -583,10 +585,10 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 					Uri uri = FileProvider.getUriForFile(BarcodeReader.this, providerName, exportedFile);
 
 					builder.setType("text/html")
-						   .setChooserTitle(R.string.intent_title_send_file)
-						   .setStream(uri)
-						   .setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
-						   .setText(BarcodeReader.this.getString(R.string.email_message_export));
+							.setChooserTitle(R.string.intent_title_send_file)
+							.setStream(uri)
+							.setSubject(BarcodeReader.this.getString(R.string.email_subject_export))
+							.setText(BarcodeReader.this.getString(R.string.email_message_export));
 
 					startActivity(builder.getIntent());
 					break;
@@ -612,6 +614,7 @@ public class BarcodeReader extends DrawerActivity implements LocationUtils.Locat
 
 		Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", photo);
 		takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+		takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
 		startActivityForResult(takePictureIntent, REQUEST_PHOTO);
 

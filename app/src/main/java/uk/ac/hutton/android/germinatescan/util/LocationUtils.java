@@ -102,20 +102,25 @@ public class LocationUtils
 			result = true;
 		}
 
-		/* Define the criteria how to select the location provider -> use
-		 * default */
-		Criteria criteria = new Criteria();
-		String provider = locationManager.getBestProvider(criteria, true);
+		try {
+			/* Define the criteria how to select the location provider -> use
+			 * default */
+			Criteria criteria = new Criteria();
+			String provider = locationManager.getBestProvider(criteria, true);
 
-		/* Register the listener with the Location Manager to receive
-		 * location updates */
-		locationManager.requestLocationUpdates(provider, 1000, 5, locationListener);
+			/* Register the listener with the Location Manager to receive
+			 * location updates */
+			locationManager.requestLocationUpdates(provider, 1000, 5, locationListener);
 
-		counter++;
+			counter++;
 
-		if (context instanceof LocationChangeListener)
-		{
-			register((LocationChangeListener) context);
+			if (context instanceof LocationChangeListener) {
+				register((LocationChangeListener) context);
+			}
+		}
+		catch (IllegalArgumentException e)
+        {
+			e.printStackTrace();
 		}
 
 		return result;

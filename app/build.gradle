@@ -16,8 +16,8 @@ android {
         applicationId "uk.ac.hutton.android.germinatescan"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 45
-        versionName "1.20.08.03"
+        versionCode 47
+        versionName "1.21.04.29"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }

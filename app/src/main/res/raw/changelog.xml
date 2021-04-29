@@ -17,6 +17,11 @@
 
 <changelog bulletedList="true">
 	<changelogversion
+		changeDate="29/04/2021"
+		versionName="1.21.04.29">
+		<changelogbug>Fixed an issue on newer versions of Android where exporting data and saving images was no longer possible.</changelogbug>
+	</changelogversion>
+	<changelogversion
 		changeDate="03/08/2020"
 		versionName="1.20.08.03">
 		<changelogbug>Fixed a bug where deleting the first barcode of a plant in phenotyping mode would delete the last recorded trait value of the previous plant.</changelogbug>
